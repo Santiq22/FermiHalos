@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: Martín Mestre
+@author: RAR collaboration
 RAR model.
 
 Metric convention:
