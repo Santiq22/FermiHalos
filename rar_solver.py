@@ -8,6 +8,7 @@ g_00 = e^(nu)
 g_11 = -e^(lambda)
 """
 
+# ================================================= Packages ==================================================== #
 from scipy.integrate import solve_ivp
 import numpy as np
 import scipy.integrate as integrate
@@ -17,7 +18,7 @@ import matplotlib.pyplot as plt
 import os
 import sys
 import time
-
+# =============================================================================================================== #
 
 """ The approach here is to define a function that defines subfunctions needed to compute the right 
 hand side of the RAR equations. Then, with a numerical solver, the equations are integrated. Before
