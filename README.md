@@ -1,5 +1,5 @@
 # Extended RAR model
-Repository containing the programs needed to solve the RAR model's equations and their applications.
+Repository containing the programs needed to solve the RAR model's equations.
 
 ## Files description
 
@@ -23,7 +23,7 @@ All the following attributes are *instance attributes*.
 
 - `parameter`: Array containing the 4 RAR's parameters, whose order is: $m$, $\theta_{0}$, $W_{0}$ and $\beta_{0}$. It is a numpy ndarray of shape (4,).
 - `r` [kpc]: Array of radius where the solution was computed. It is a numpy ndarray of shape (n,).
-- `m` [$M_{\odot}$]: Array of enclosed mass at the radius given in `r`. It is a numpy ndarray of shape (n,).
+- `m` [$`M_{\odot}`$]: Array of enclosed mass at the radius given in `r`. It is a numpy ndarray of shape (n,).
 - `nu`: Array of the metric potential at the radius given in `r`. It is a numpy ndarray of shape (n,).
 - `degeneracy`: Array of values of the degeneracy variable at the radius given in `r`. It is a numpy ndarray of shape (n,).
 - `deg_var`: Boolean variable that enables the computation of the degeneracy variable. Default value is `False`.
