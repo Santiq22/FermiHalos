@@ -22,7 +22,7 @@ The TOV equations are solved using the `solve_ivp` function from the *scipy.inte
 All the following attributes are *instance attributes*.
 
 - `parameter`: Array containing the 4 RAR's parameters, whose order is: $m$, $\theta_{0}$, $W_{0}$ and $\beta_{0}$. It is a numpy ndarray of shape (4,).
-- `r` [kpc]: Array of radius where the solution was computed. It is a numpy ndarray of shape (n,).
+- `r` [$`kpc`$]: Array of radius where the solution was computed. It is a numpy ndarray of shape (n,).
 - `m` [$`M_{\odot}`$]: Array of enclosed mass at the radius given in `r`. It is a numpy ndarray of shape (n,).
 - `nu`: Array of the metric potential at the radius given in `r`. It is a numpy ndarray of shape (n,).
 - `degeneracy`: Array of values of the degeneracy variable at the radius given in `r`. It is a numpy ndarray of shape (n,).
@@ -38,7 +38,7 @@ All the following attributes are *instance attributes*.
 - `W`: Cutoff variable. This functions takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `beta`: Temperature variable. This functions takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `mass` [$M_{\odot}$]: Enclosed mass of the distribution defined for all spherical radii. It is defined as a piecewise function of 2 parts, whose expresion is:
-$$ 
+```math
 \begin{equation}
   mass(r)=
       \begin{cases}
@@ -46,7 +46,7 @@ $$
           M(r_{\textrm{max}}) & \text{if } r \geq r_{\mathrm{max}}.
       \end{cases}
 \end{equation} 
-$$
+```
 It takes a number or a numpy ndarray as input of shape (n,) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `density` [$M_{\odot}/kpc^{3}$]: Mass density of the distribution defined for all galactocentric radii. It is defined as a piecewise function of 2 parts, whose expresion is:
 $$ $$
