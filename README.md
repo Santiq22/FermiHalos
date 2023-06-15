@@ -59,6 +59,7 @@ $`M(r)`$ is the integrated enclosed mass. It takes a number or a numpy ndarray a
 \end{equation} 
 ```
 It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
+- `pressure` [$`M_{\odot}/(kpc s^{2})`$]: Pressure of the fermionic distribution. It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `metric_potential`: Metric potential function of the fermionic distribution. It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `lambda_potential`: Lambda function used in the definition of the spacetime metric. It is defined for all the spherical radius as a piecewise function of 2 parts, whose expresion is:
 ```math
