@@ -25,6 +25,7 @@ All the following attributes are *instance attributes*.
 - `r` [$`kpc`$]: Array of radius where the solution was computed. It is a numpy ndarray of shape (n,).
 - `m` [$`M_{\odot}`$]: Array of enclosed mass at the radius given in `r`. It is a numpy ndarray of shape (n,).
 - `nu`: Array of the metric potential at the radius given in `r`. It is a numpy ndarray of shape (n,).
+- `P`: Array of pressure at the radius given in `r`. It is a numpy ndarray of shape (n,).
 - `degeneracy`: Array of values of the degeneracy variable at the radius given in `r`. It is a numpy ndarray of shape (n,).
 - `deg_var`: Boolean variable that enables the computation of the degeneracy variable. Default value is `False`.
 - `cutoff`: Array of values of the cutoff variable at the radius given in `r`. It is a numpy ndarray of shape (n,).
