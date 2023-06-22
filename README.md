@@ -82,7 +82,7 @@ It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) a
 - `lambda_potential`: Lambda function used in the definition of the spacetime metric. It is computed when `lambda_var=True`. It is defined for all the spherical radius as a piecewise function of 2 parts, whose expression is:
 ```math
 \begin{equation}
-  \lambda(r)=
+  lambda_potential(r)=
       \begin{cases}
           -\mathrm{ln}\left[1 - \frac{2GM(r)}{c^{2}r}\right] & \text{if } r < r_{\mathrm{max}}\\
           -\mathrm{ln}\left[1 - \frac{2GM(r_{\textrm{max}})}{c^{2}r}\right] & \text{if } r \geq r_{\mathrm{max}}.
