@@ -94,7 +94,7 @@ It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) a
 - `circular_velocity` [$`km/s`$]: General relativistic expression of the circular velocity of the mass distribution defined for all spherical radii. It is computed when `circ_vel_var=True`. It is defined as a piecewise function of 2 parts, whose expression is:
 ```math
 \begin{equation}
-  \v(r)=
+  circular_velocity(r)=
       \begin{cases}
           \sqrt{\frac{1}{2}c^{2}\left(\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r)}{c^{2}r}\right)^{-1} - 1\right)} & \text{if } r < r_{\mathrm{max}}\\
           \sqrt{\frac{1}{2}c^{2}\left(\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r_{\textrm{max}})}{c^{2}r}\right)^{-1} - 1\right)}& \text{if } r \geq r_{\mathrm{max}}.
