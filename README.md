@@ -96,8 +96,8 @@ It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) a
 \begin{equation}
   \v(r)=
       \begin{cases}
-           \sqrt{\frac{1}{2}c^{2}\left(\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r)}{c^{2}r}\right)^{-1} - 1\right)} & \text{if } r < r_{\mathrm{max}}\\
-           \sqrt{\frac{1}{2}c^{2}\left(\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r_{\textrm{max}})}{c^{2}r}\right)^{-1} - 1\right)}& \text{if } r \geq r_{\mathrm{max}}.
+          \sqrt{\frac{1}{2}c^{2}\left(\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r)}{c^{2}r}\right)^{-1} - 1\right)} & \text{if } r < r_{\mathrm{max}}\\
+          \sqrt{\frac{1}{2}c^{2}\left(\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r_{\textrm{max}})}{c^{2}r}\right)^{-1} - 1\right)}& \text{if } r \geq r_{\mathrm{max}}.
       \end{cases}
 \end{equation} 
 ```
@@ -112,7 +112,7 @@ It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) a
       \end{cases}
 \end{equation}
 ```
-Where $\vec{r} = (x, y, z)$. It returns a numpy ndarray of shape (3,). It is an object of the class `InterpolatedUnivariateSpline`.
+Where $\vec{r} = (x, y, z)$ and $r = ||\vec{r}||$. It returns a numpy ndarray of shape (3,). It is an object of the class `InterpolatedUnivariateSpline`.
 - `theta`: Degeneracy variable. It is computed when `deg_var=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `W`: Cutoff variable. It is computed when `cutoff_var=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `beta`: Temperature variable. It is computed when `temp_var=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
