@@ -96,8 +96,8 @@ It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) a
 \begin{equation}
   circular\_velocity(r)=
       \begin{cases}
-          \sqrt{\frac{1}{2}c^{2}\left(\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r)}{c^{2}r}\right)^{-1} - 1\right)} & \text{if } r < r_{\mathrm{max}}\\
-          \sqrt{\frac{1}{2}c^{2}\left(\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r_{\textrm{max}})}{c^{2}r}\right)^{-1} - 1\right)}& \text{if } r \geq r_{\mathrm{max}}.
+          \sqrt{\frac{1}{2}c^{2}\left[\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r)}{c^{2}r}\right)^{-1} - 1\right]} & \text{if } r < r_{\mathrm{max}}\\
+          \sqrt{\frac{1}{2}c^{2}\left[\left(\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\right)\left(1 - \frac{2GM(r_{\textrm{max}})}{c^{2}r}\right)^{-1} - 1\right]} & \text{if } r \geq r_{\mathrm{max}}.
       \end{cases}
 \end{equation} 
 ```
