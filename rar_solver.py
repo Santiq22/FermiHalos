@@ -22,7 +22,7 @@ hand side of the RAR equations. Then, with a numerical solver, the equations are
 the function gives back the output, the astrophysical quantities are reescaled so they have physical 
 meaning. The arguments are the four free parameters of the model. """
 
-def model(param):
+def model(param, maximum_r, relative_tolerance, number_of_steps):
     # dark matter particle mass: param[0] - It has to be given in keV
     # degeneracy parameter: param[1]
     # cutoff parameter: param[2]
@@ -145,10 +145,10 @@ def model(param):
     M = 4.0*pi*R**3*rho_rel                     # g
     a = 4.0*rho_rel/np.sqrt(pi)                 # g/cm^3
     b = a*c*c/3.0                               # g/(cm s^2)
-    n_eos = 2**10 + 1
+    n_eos = number_of_steps
     tau = 1.0e-16
     min_r = 1.0e-16                             # Minimum value of galactic radius to integrate - kpc
-    max_r = 1.0e3                               # Maximum value of galactic radius to integrate - kpc
+    max_r = maximum_r                           # Maximum value of galactic radius to integrate - kpc
     machine_eps = np.finfo(float).eps           # Machine epsilon
 
     # Set initial conditions
@@ -167,7 +167,7 @@ def model(param):
 
     # Solving the TOV system
     sol = solve_ivp(tov, [t_0, t_f], u_0, method='LSODA', events=(border_density),
-                    rtol=5.0e-12, atol=0.0)
+                    rtol=relative_tolerance, atol=0.0)
 
     # Defining physical variables
     r = np.exp(sol.t)*R                         # Spherical radius - cm
@@ -211,7 +211,8 @@ class Rar():
         computed. For more details see (web page)."""
     
     def __init__(self, param, dens_var=False, nu_var=False, lambda_var=False, press_var=False, circ_vel_var=False,
-                 accel_var=False, deg_var=False, cutoff_var=False, temp_var=False, core_var=False):
+                 accel_var=False, deg_var=False, cutoff_var=False, temp_var=False, core_var=False,
+                 maximum_r=1.0e3, relative_tolerance=5.0e-12, number_of_steps=2**10 + 1):
         # Individual parameters
         self.DM_mass, self.theta_0, self.W_0, self.beta_0 = param[0], param[1], param[2], param[3]
         
@@ -219,8 +220,12 @@ class Rar():
         if (self.DM_mass <= 0.0 or self.beta_0 <= 0.0):
             raise ValueError("The particle mass and the temperature parameter have to be non-zero positive values.")
             
+        # Checking if number_of_steps is greater than the suggested value
+        if (number_of_steps < 2**10 + 1):
+            raise ValueError("The number of steps of integration has to be greater than 2**10 + 1 to ensure precision. The value given is {}".format(number_of_steps))
+            
         # Call model to solve the RAR equations. The function model returns ndarrys of shape (n,).
-        self.r, self.m, self.nu, self.temperature, self.P = model(param)
+        self.r, self.m, self.nu, self.temperature, self.P = model(param, maximum_r, relative_tolerance, number_of_steps)
         
         # Define the cutoff variable array
         self.cutoff = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
