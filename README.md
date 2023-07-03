@@ -9,15 +9,16 @@ The code defines a class whose name is `Rar`. It has to be instantiated as:
 
 ```python
 halo_object = Rar(parameters, dens_var=False, nu_var=False, lambda_var=False, press_var=False, circ_vel_var=False,
-                 accel_var=False, deg_var=False, cutoff_var=False, temp_var=False, core_var=False)
+                 accel_var=False, deg_var=False, cutoff_var=False, temp_var=False, core_var=False, maximum_r=1.0e3,
+                 relative_tolerance=5.0e-12, number_of_steps=2**10 + 1)
 ```
 
 where the `parameters` variable is a numpy array object of shape (4,), whose components are (in this order): the dark matter particle mass in keV, the degeneracy parameter, the cutoff parameter, and the temperature parameter (the last three adimensional). `dens_var`, `nu_var`, `lambda_var`, `press_var`, `circ_vel_var`, `accel_var`, `deg_var`, `cutoff_var`, `temp_var` and `core_var` are default boolean variables whose values are those indicated above. They are used as flags to compute astrophysical and statistical mechanical variables. To do so, change `False` to `True`. Once the class `Rar` is instantiated, it automatically calls `model`, a function that solves the RAR model equations. This function is called:
 
 ```python
-model(parameters, optional_variables)
+model(parameters, maximum_r, relative_tolerance, number_of_steps)
 ```
-where `parameters` is the array used in the instance of the class and .....
+where `parameters` is the array used in the instance of the class and `maximum_r` is the maximum radii of integration, `relative_tolerance` is the relative tolerance used by the integrator to solve the equations, and `number_of_steps` is the number of points used to integrate the density and pressure used in the call of `model`. They are float variables whose default values are indicated in the box above. `maximum_r` has to be given in kpc. We strongly suggest that the value of `number_of_steps` is greater than the minimum value $`2^{10} + 1`$ to ensure precision at the time of computing the solutions.
 
 The `model` function defines several subfunctions needed to compute the right-hand side of the TOV equations. These subfunctions include a Fermi-Dirac-like distribution function, two integrands for computing the density and pressure, and two functions for computing the density and pressure themselves.
 
