@@ -201,18 +201,20 @@ def model(param, maximum_r, relative_tolerance, number_of_steps):
 
 # Constants
 G_u = 4.3009e-6          # (km/s)^2*kpc/M_sun
-c = 2.99792458e+5       # Light speed - km/s
+c = 2.99792458e+5        # Light speed - km/s
+k = 8.617333262e-8       # Boltzmann constant - keV/K
 
 class Rar():
     """ RAR mass distribution object.
     
         This kind of objects has to be instantiated as Rar(parameters, boolean_variables). These parameters are 
         the four RAR parameters and the boolean variables indicate if additional physical variables have to be 
-        computed. For more details see (web page)."""
+        computed. For more details see (https://github.com/Santiq22/rar-model)."""
     
-    def __init__(self, param, dens_var=False, nu_var=False, lambda_var=False, press_var=False, circ_vel_var=False,
-                 accel_var=False, deg_var=False, cutoff_var=False, temp_var=False, core_var=False,
-                 maximum_r=1.0e3, relative_tolerance=5.0e-12, number_of_steps=2**10 + 1):
+    def __init__(self, param, dens_func=False, nu_func=False, lambda_func=False, press_func=False, circ_vel_func=False,
+                 accel_func=False, deg_var=False, cutoff_var=False, temp_var=False, chemical_func=False, cutoff_func=False,
+                 temperature_func=False, core_func=False, maximum_r=1.0e3, relative_tolerance=5.0e-12, number_of_steps=2**10 + 1):
+        
         # Individual parameters
         self.DM_mass, self.theta_0, self.W_0, self.beta_0 = param[0], param[1], param[2], param[3]
         
@@ -225,60 +227,131 @@ class Rar():
             raise ValueError("The number of steps of integration has to be greater than 2**10 + 1 to ensure precision. The value given is {}".format(number_of_steps))
             
         # Call model to solve the RAR equations. The function model returns ndarrys of shape (n,).
-        self.r, self.m, self.nu, self.temperature, self.P = model(param, maximum_r, relative_tolerance, number_of_steps)
-        
-        # Define the cutoff variable array
-        self.cutoff = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
-        
-        # Define the degeneracy variable array
-        self.degeneracy = self.theta_0 - self.W_0 + self.cutoff
+        self.r, self.m, self.nu, self.temperature_variable, self.P = model(param, maximum_r, relative_tolerance, number_of_steps)
         
         # Continous mass function. Allows easy computation of derivatives
         self.mass_spline = InterpolatedUnivariateSpline(self.r, self.m, k=4)
         
         # ============================================= Boolean attributes ============================================== #
-        self.dens_var = dens_var                   # Density
-        self.nu_var = nu_var                       # Metric potential
-        self.lambda_var = lambda_var               # Lambda function
-        self.press_var = press_var                 # Pressure
-        self.circ_vel_var = circ_vel_var           # General relativistic circular velocity
-        self.accel_var = accel_var                 # Newtonian gravitational field
-        self.deg_var = deg_var                     # Degeneracy variable
-        self.cutoff_var = cutoff_var               # Cutoff variable
-        self.temp_var = temp_var                   # Temperature variable
-        self.core_var = core_var                   # DM core
+        self.dens_func = dens_func                           # Density
+        self.nu_func = nu_func                               # Metric potential
+        self.lambda_func = lambda_func                       # Lambda function
+        self.press_func = press_func                         # Pressure
+        self.circ_vel_func = circ_vel_func                   # General relativistic circular velocity
+        self.accel_func = accel_func                         # Newtonian gravitational field
+        self.deg_var = deg_var                               # Degeneracy variable
+        self.cutoff_var = cutoff_var                         # Cutoff variable
+        self.temp_var = temp_var                             # Temperature variable
+        self.chemical_func = chemical_func                   # Chemical potential
+        self.cutoff_func = cutoff_func                       # Cutoff function
+        self.temperature_func = temperature_func             # Temperature function
+        self.core_func = core_func                           # DM core
         # =============================================================================================================== #
         
         # ===================================== Interpolation of optional variables ===================================== #
-        if self.dens_var:
+        # --- Density
+        if self.dens_func:
             # Continous density function. Allows easy computation of derivatives
             self.density_spline = (self.mass_spline).derivative(1)
         
-        if self.nu_var:
+        # --- Metric potential
+        if self.nu_func:
             # Continous metric potential function. Allows easy computation of derivatives
             self.nu_spline = InterpolatedUnivariateSpline(self.r, self.nu, k=4)
         
-        if (self.press_var or self.circ_vel_var or self.core_var):
+        # --- Pressure
+        if (self.press_func or self.circ_vel_func or self.core_func):
             # Continous pressure function. Allows easy computation of derivatives
             self.P_spline = InterpolatedUnivariateSpline(self.r, self.P, k=4)
         
+        # --- Degeneracy variable
         if self.deg_var:
-            # Continous degeneracy function. Allows easy computation of derivatives
-            self.degeneracy_spline = InterpolatedUnivariateSpline(self.r, self.degeneracy, k=4)
+            # Define the cutoff variable array
+            self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
             
+            # Define the degeneracy variable array
+            self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
+            
+            # Continous degeneracy variable function. Allows easy computation of derivatives
+            self.degeneracy_variable_spline = InterpolatedUnivariateSpline(self.r, self.degeneracy_variable, k=4)
+            
+        # --- Cutoff variable
         if self.cutoff_var:
-            # Continous cutoff function. Allows easy computation of derivatives
-            self.cutoff_spline = InterpolatedUnivariateSpline(self.r, self.cutoff, k=4)
+            # Define the cutoff variable array
+            self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
             
+            # Continous cutoff variable function. Allows easy computation of derivatives
+            self.cutoff_variable_spline = InterpolatedUnivariateSpline(self.r, self.cutoff_variable, k=4)
+            
+        # --- Temperature variable
         if self.temp_var:
+            # Continous temperature variable function. Allows easy computation of derivatives
+            self.temperature_variable_spline = InterpolatedUnivariateSpline(self.r, self.temperature_variable, k=4)
+            
+        # --- Chemical potential
+        if self.chemical_func:
+            if not self.deg_var:
+                # Define the cutoff variable array
+                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+                
+                # Define the degeneracy variable array
+                self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
+                
+                # Define the temperature array
+                self.temperature = self.DM_mass*self.temperature_variable/k               # in K ----------------------------------------------------------------------------------
+                
+                # Define the chemical potential array
+                self.chemical_potential = k*self.degeneracy_variable*self.temperature     # in keV ----------------------------------------------------------------------------------
+                
+                # Continous chemical potential function. Allows easy computation of derivatives
+                self.mu_spline = InterpolatedUnivariateSpline(self.r, self.chemical_potential, k=4)
+            else:
+                # Define the temperature array
+                self.temperature = self.DM_mass*self.temperature_variable/k
+                
+                # Define the chemical potential array
+                self.chemical_potential = k*self.degeneracy_variable*self.temperature
+                
+                # Continous chemical potential function. Allows easy computation of derivatives
+                self.mu_spline = InterpolatedUnivariateSpline(self.r, self.chemical_potential, k=4)
+                
+        # --- Cutoff function
+        if self.cutoff_func:
+            if not self.deg_var:
+                # Define the cutoff variable array
+                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+                
+                # Define the temperature array
+                self.temperature = self.DM_mass*self.temperature_variable/k       # in K ----------------------------------------------------------------------------------
+                
+                # Define the cutoff function array
+                self.cutoff = k*self.cutoff_variable*self.temperature             # in keV ----------------------------------------------------------------------------------
+                
+                # Continous cutoff function. Allows easy computation of derivatives
+                self.e_c_spline = InterpolatedUnivariateSpline(self.r, self.cutoff, k=4)
+            else:
+                # Define the temperature array
+                self.temperature = self.DM_mass*self.temperature_variable/k
+                
+                # Define the cutoff function array
+                self.cutoff = k*self.cutoff_variable*self.temperature
+                
+                # Continous cutoff function. Allows easy computation of derivatives
+                self.e_c_spline = InterpolatedUnivariateSpline(self.r, self.cutoff, k=4)
+        
+        # --- Temperature
+        if self.temperature_func:
+            # Define the temperature array
+            self.temperature = self.DM_mass*self.temperature_variable/k
+            
             # Continous temperature function. Allows easy computation of derivatives
-            self.temperature_spline = InterpolatedUnivariateSpline(self.r, self.temperature, k=4)
+            self.T_spline = InterpolatedUnivariateSpline(self.r, self.temperature, k=4)
         # =============================================================================================================== #
         
     # =============================================== Static methods ================================================ #
     @staticmethod
     def _mass(self, r):
-        if not (self.circ_vel_var or self.lambda_var or self.accel_var or self.core_var):
+        if not (self.circ_vel_func or self.lambda_func or self.accel_func or self.core_func):
             raise NameError("The 'circular_velocity' or the 'lambda_potential' method are not defined.")
         else:
             r_max = self.r[-1]
@@ -286,21 +359,21 @@ class Rar():
     
     @staticmethod
     def _pressure(self, r):
-        if not (self.circ_vel_var or self.core_var):
+        if not (self.circ_vel_func or self.core_func):
             raise NameError("The 'circular_velocity' method is not defined.")
         else:
             return self.P_spline(r)
     
     @staticmethod
     def _dnu_dr(self, r):
-        if not (self.circ_vel_var or self.core_var):
+        if not (self.circ_vel_func or self.core_func):
             raise NameError("The 'circular_velocity' method is not defined.")
         else:
             return 1.0/r*((8.0*np.pi*G_u/c**4*self._pressure(self, r)*r**2 + 1.0)/(1.0 - 2.0*G_u*self._mass(self, r)/(c**2*r)) - 1.0)
     
     @staticmethod
     def _circular_velocity(self, r):
-        if not (self.circ_vel_var or self.core_var):
+        if not (self.circ_vel_func or self.core_func):
             raise NameError("The 'circular_velocity' method is not defined.")
         else:
             return np.sqrt(0.5*c*c*r*self._dnu_dr(self, r))
@@ -312,26 +385,26 @@ class Rar():
         return np.where(r < r_max, self.mass_spline(r), self.mass_spline(r_max))
     
     def density(self, r):
-        if not self.dens_var:
+        if not self.dens_func:
             raise NameError("The 'density' method is not defined.")
         else:
             r_max = self.r[-1]
             return np.where(r < r_max, self.density_spline(r)/(4.0*np.pi*r*r), 0.0)
     
     def metric_potential(self, r):
-        if not self.nu_var:
+        if not self.nu_func:
             raise NameError("The 'metric_potential' method is not defined.")
         else:
             return self.nu_spline(r)
     
     def lambda_potential(self, r):
-        if not self.lambda_var:
+        if not self.lambda_func:
             raise NameError("The 'lambda_potential' method is not defined.")
         else:
             return -np.log(1.0 - 2.0*G_u*self._mass(self, r)/(c*c*r))
         
     def pressure(self, r):
-        if not self.press_var:
+        if not self.press_func:
             raise NameError("The 'pressure' method is not defined.")
         else:
             return self.P_spline(r)
@@ -344,13 +417,13 @@ class Rar():
     #### ======================================================================
     
     def circular_velocity_RG(self, r):
-        if not self.circ_vel_var:
+        if not self.circ_vel_func:
             raise NameError("The 'circular_velocity' method is not defined.")
         else:
             return np.sqrt(0.5*c*c*r*self._dnu_dr(self, r))
 
     def acceleration(self, x, y, z):
-        if not self.accel_var:
+        if not self.accel_func:
             raise NameError("The 'acceleration' method is not defined.")
         else:
             r = np.sqrt(x*x + y*y + z*z)
@@ -360,22 +433,40 @@ class Rar():
         if not self.deg_var:
             raise NameError("The 'theta' method is not defined.")
         else:
-            return self.degeneracy_spline(r)
+            return self.degeneracy_variable_spline(r)
         
     def W(self, r):
         if not self.cutoff_var:
             raise NameError("The 'W' method is not defined.")
         else:
-            return self.cutoff_spline(r)
+            return self.cutoff_variable_spline(r)
         
     def beta(self, r):
         if not self.temp_var:
             raise NameError("The 'beta' method is not defined.")
         else:
-            return self.temperature_spline(r)
+            return self.temperature_variable_spline(r)
+        
+    def mu(self, r):
+        if not self.chemical_func:
+            raise NameError("The 'mu' method is not defined.")
+        else:
+            return self.mu_spline(r)
+        
+    def e_c(self, r):
+        if not self.cutoff_func:
+            raise NameError("The 'e_c' method is not defined.")
+        else:
+            return self.e_c_spline(r)
+        
+    def T(self, r):
+        if not self.temperature_func:
+            raise NameError("The 'T' method is not defined.")
+        else:
+            return self.T_spline(r)
         
     def core(self):
-        if not self.core_var:
+        if not self.core_func:
             raise NameError("The 'core' method is not defined.")
         else:
             v = self._circular_velocity(self, self.r)

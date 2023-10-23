@@ -8,12 +8,13 @@ Repository containing the programs needed to solve the RAR model's equations.
 The code defines a class whose name is `Rar`. It has to be instantiated as:
 
 ```python
-halo_object = Rar(parameters, dens_var=False, nu_var=False, lambda_var=False, press_var=False, circ_vel_var=False,
-                 accel_var=False, deg_var=False, cutoff_var=False, temp_var=False, core_var=False, maximum_r=1.0e3,
-                 relative_tolerance=5.0e-12, number_of_steps=2**10 + 1)
+halo_object = Rar(parameters, dens_var=False, nu_var=False, lambda_var=False, press_var=False, 
+                 circ_vel_var=False, accel_var=False, deg_var=False, cutoff_var=False, 
+                 temp_var=False, chemical=False, cutoff=False, temperature=False, core_var=False, 
+                 maximum_r=1.0e3, relative_tolerance=5.0e-12, number_of_steps=2**10 + 1)
 ```
 
-where the `parameters` variable is a numpy array object of shape (4,), whose components are (in this order): the dark matter particle mass in keV, the degeneracy parameter, the cutoff parameter, and the temperature parameter (the last three adimensional). `dens_var`, `nu_var`, `lambda_var`, `press_var`, `circ_vel_var`, `accel_var`, `deg_var`, `cutoff_var`, `temp_var` and `core_var` are default boolean variables whose values are those indicated above. They are used as flags to compute astrophysical and statistical mechanical variables. To do so, change `False` to `True`. Regarding the other three variables, `maximum_r` is the maximum radii of integration, `relative_tolerance` is the relative tolerance used by the integrator to solve the equations, and `number_of_steps` is the number of points used to integrate the density and pressure used to compute the right-hand side of the differential equations. They are float variables whose default values are indicated in the box above. `maximum_r` has to be given in kpc. We strongly suggest that the value of `number_of_steps` is greater than the minimum value $`2^{10} + 1`$ to ensure precision at the time of computing the solutions. Once the class `Rar` is instantiated, it automatically calls `model`, a function that solves the RAR model equations. This function is called as:
+where the `parameters` variable is a numpy array object of shape (4,), whose components are (in this order): the dark matter particle mass in keV, the degeneracy parameter, the cutoff parameter, and the temperature parameter (the last three adimensional). `dens_var`, `nu_var`, `lambda_var`, `press_var`, `circ_vel_var`, `accel_var`, `deg_var`, `cutoff_var`, `temp_var`, `chemical`, `cutoff`, `temperature` and `core_var` are default boolean variables whose values are those indicated above. They are used as flags to compute astrophysical and statistical mechanical variables. To do so, change `False` to `True`. Regarding the other three variables, `maximum_r` is the maximum radii of integration, `relative_tolerance` is the relative tolerance used by the integrator to solve the equations, and `number_of_steps` is the number of points used to integrate the density and pressure used to compute the right-hand side of the differential equations. They are float variables whose default values are indicated in the box above. `maximum_r` has to be given in kpc. We strongly suggest that the value of `number_of_steps` is greater than the minimum value $`2^{10} + 1`$ to ensure precision at the time of computing the solutions. Once the class `Rar` is instantiated, it automatically calls `model`, a function that solves the RAR model equations. This function is called as:
 
 ```python
 model(parameters, maximum_r, relative_tolerance, number_of_steps)
@@ -26,21 +27,7 @@ The TOV equations are solved using the `solve_ivp` function from the *scipy.inte
 
 #### Rar's attributes
 
-All the following attributes are *instance attributes*.
-
-- `DM_mass`: Dark matter particle mass.
-- `theta_0`: Degeneracy parameter $\theta_{0}$ of the system.
-- `W_0`: Cutoff parameter $W_{0}$ of the system.
-- `beta_0`: Temperature parameter $\beta_{0}$ of the system.
-- `r` [$`kpc`$]: Array of the radius where the solution was computed. It is a numpy ndarray of shape (n,).
-- `m` [$`M_{\odot}`$]: Array of enclosed mass at the radius given in `r`. It is a numpy ndarray of shape (n,).
-- `nu`: Array of the metric potential at the radius given in `r`. It is a numpy ndarray of shape (n,).
-- `P`: Array of pressure at the radius given in `r`. It is a numpy ndarray of shape (n,).
-- `degeneracy`: Array of values of the degeneracy variable at the radius given in `r`. It is a numpy ndarray of shape (n,).
-- `cutoff`: Array of values of the cutoff variable at the radius given in `r`. It is a numpy ndarray of shape (n,).
-- `temperature`: Array of values of the temperature variable at the radius given in `r`. It is a numpy ndarray of shape (n,).
-
-In addition, there are some boolean instance attributes, which are:
+All the following attributes are *boolean instance attributes*.
 
 - `dens_var`: Boolean variable that enables the computation of the density profile of the distribution. The default value is `False`.
 - `nu_var`: Boolean variable that enables the computation of the metric potential. The default value is `False`.
@@ -51,7 +38,24 @@ In addition, there are some boolean instance attributes, which are:
 - `deg_var`: Boolean variable that enables the computation of the degeneracy variable. The default value is `False`.
 - `cutoff_var`: Boolean variable that enables the computation of the cutoff variable. The default value is `False`.
 - `temp_var`: Boolean variable that enables the computation of the temperature variable. The default value is `False`.
+- `chemical`: Boolean variable that enables the computation of the chemical potential. The default value is `False`.
+- `cutoff`: Boolean variable that enables the computation of the cutoff function. The default value is `False`.
+- `temperature`: Boolean variable that enables the computation of the temperature function. The default value is `False`.
 - `core_var`: Boolean variable that enables the computation of the radii of the dark matter core and its mass. The default value is `False`.
+
+In addition, there are some instance attributes representing physical quantities, which are:
+
+- `DM_mass`: Dark matter particle mass.
+- `theta_0`: Degeneracy parameter $\theta_{0}$ of the system.
+- `W_0`: Cutoff parameter $W_{0}$ of the system.
+- `beta_0`: Temperature parameter $\beta_{0}$ of the system.
+- `r` [$`kpc`$]: Array of the radius where the solution was computed. It is a numpy ndarray of shape (n,). Available by default.
+- `m` [$`M_{\odot}`$]: Array of enclosed mass at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
+- `nu`: Array of the metric potential at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
+- `P`: Array of pressure at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
+- `degeneracy_variable`: Array of values of the degeneracy variable at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `deg_var` is `True`.
+- `cutoff_variable`: Array of values of the cutoff variable at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `deg_var` or `cutoff_var` is `True`.
+- `temperature_variable`: Array of values of the temperature variable at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
 
 #### Rar's methods
 
@@ -117,6 +121,9 @@ where $\vec{r} = (x, y, z)$ and $r = ||\vec{r}||$. It returns a numpy ndarray of
 - `theta`: Degeneracy variable. It is computed when `deg_var=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `W`: Cutoff variable. It is computed when `cutoff_var=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `beta`: Temperature variable. It is computed when `temp_var=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
+- `mu` [$`keV`$]: Chemical potential. It is computed when `chemical_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
+- `e_c` [$`keV`$]: Cutoff energy function. It is computed when `cutoff_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
+- `T` [$`K`$]: Temperature function. It is computed when `temperature_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `core`: It is computed when `core_var=True`. When this function with no argument is called, it returns the *core radius* (in $`kpc`$) and the *mass of the core* (in $`M_{\odot}`$) of the distribution, as two separate floating numbers, in this order.
 
 ## Dependencies
