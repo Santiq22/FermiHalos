@@ -38,17 +38,19 @@ plt.rcParams['ytick.minor.size']= 3.0
 h = Rar(np.array([5.480880070125579806e+01,
                   3.780867927802387385e+01,
                   6.644915273597560201e+01,
-                  1.113903337971913738e-05]), dens_var=True)
+                  1.113903337971913738e-05]), circ_vel_func=True)
 r = np.logspace(-10, 2, 10**5)
-
 
 fig, ax = plt.subplots(1, 1, figsize=(6,6), dpi=380)
 plt.xscale('log')
 plt.yscale('log')
-ax.plot(r, h.density(r), lw=1, color='#91430e', label='Best fit model')
+ax.plot(r, h.circular_velocity(r), lw=3, ls=':', color='#91430e', label='Clasical')
+ax.plot(r, h.circular_velocity_RG(r), lw=1, color='black', label='GR')
 ax.set_xlim(1e-10, 1e2)
-ax.set_ylim(1e2, 1e28)
+#ax.set_ylim(1e-2, 1e-1)
 ax.set_xlabel("r [kpc]")
-ax.set_ylabel(r'$\rho(r)\ [M_{\odot}/kpc^{3}]$')
+#ax.set_ylabel(r'$\rho(r)\ [M_{\odot}/kpc^{3}]$')
+#ax.set_ylabel(r'$T(r)$ [K]')
+#ax.set_ylabel(r'$\beta(r)$')
 ax.legend()
 plt.show()

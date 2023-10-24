@@ -20,7 +20,9 @@ from scipy import optimize
 """ The approach here is to define a function that defines subfunctions needed to compute the right 
 hand side of the RAR equations. Then, with a numerical solver, the equations are integrated. Before
 the function gives back the output, the astrophysical quantities are reescaled so they have physical 
-meaning. The arguments are the four free parameters of the model. """
+meaning. The arguments are the four free parameters of the model, the maximum radii of integration, 
+the relative tolerance used by the solver and the number of steps used in the computation of the 
+density and pressure as integrals. """
 
 def model(param, maximum_r, relative_tolerance, number_of_steps):
     # dark matter particle mass: param[0] - It has to be given in keV
@@ -409,14 +411,7 @@ class Rar():
         else:
             return self.P_spline(r)
     
-    #### ======================================================================
     def circular_velocity(self, r):
-        r_max = self.r[-1]
-        return np.where(r < r_max, np.sqrt(G_u*self.mass_spline(r)/r), 
-                        np.sqrt(G_u*self.mass_spline(r_max)/r))
-    #### ======================================================================
-    
-    def circular_velocity_RG(self, r):
         if not self.circ_vel_func:
             raise NameError("The 'circular_velocity' method is not defined.")
         else:
