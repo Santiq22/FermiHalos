@@ -298,10 +298,10 @@ class Rar():
                 self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
                 
                 # Define the temperature array
-                self.temperature = self.DM_mass*self.temperature_variable/k               # in K ----------------------------------------------------------------------------------
+                self.temperature = self.DM_mass*self.temperature_variable/k
                 
                 # Define the chemical potential array
-                self.chemical_potential = k*self.degeneracy_variable*self.temperature     # in keV ----------------------------------------------------------------------------------
+                self.chemical_potential = k*self.degeneracy_variable*self.temperature
                 
                 # Continous chemical potential function. Allows easy computation of derivatives
                 self.mu_spline = InterpolatedUnivariateSpline(self.r, self.chemical_potential, k=4)
@@ -322,10 +322,10 @@ class Rar():
                 self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
                 
                 # Define the temperature array
-                self.temperature = self.DM_mass*self.temperature_variable/k       # in K ----------------------------------------------------------------------------------
+                self.temperature = self.DM_mass*self.temperature_variable/k
                 
                 # Define the cutoff function array
-                self.cutoff = k*self.cutoff_variable*self.temperature             # in keV ----------------------------------------------------------------------------------
+                self.cutoff = k*self.cutoff_variable*self.temperature
                 
                 # Continous cutoff function. Allows easy computation of derivatives
                 self.e_c_spline = InterpolatedUnivariateSpline(self.r, self.cutoff, k=4)
