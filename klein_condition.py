@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Jun 15 14:32:25 2023
-
 @author: Santiago Collazo
 """
 
@@ -9,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from rar_solver import Rar
 
-# ----------- Plot features -----------
+# ============================= Plot features ================================= #
 # Properties to decorate the plots.
 plt.rcParams['axes.linewidth'] = 0.5
 plt.rcParams['text.usetex'] = False
@@ -34,29 +33,35 @@ plt.rcParams['ytick.major.width']= 0.5
 plt.rcParams['ytick.major.size']= 5.0
 plt.rcParams['ytick.minor.width']= 0.5
 plt.rcParams['ytick.minor.size']= 3.0
+# ============================================================================= #
 
+# ========================= Solving the RAR model ============================= #
 beta_0 = 1.113903337971913738e-05
 theta_0 = 3.780867927802387385e+01
+W_0 = 6.644915273597560201e+01
 m_DM = 5.480880070125579806e+01   # keV
+G_u = 4.3009e-6          # (km/s)^2*kpc/M_sun
+c = 2.99792458e+5        # Light speed - km/s
 
 h = Rar(np.array([m_DM,
                   theta_0,
-                  6.644915273597560201e+01,
+                  W_0,
                   beta_0]), nu_func=True, chemical_func=True)
-r = np.logspace(-10, np.log10(h.r[-1]), 10**5, endpoint=False)
+r = np.logspace(np.log10(h.r[0]), np.log10(h.r[-1]), 10**6, endpoint=False)
 
-#%%
+nu_0 = 2.0*np.log(np.sqrt(1.0 - 2.0*G_u*h.m[-1]/(c**2*h.r[-1]))*1.0/(1.0 + beta_0*W_0))
+print((h.mu(r[0]) + m_DM)/(m_DM*(1.0 + beta_0*theta_0)))
+# ============================================================================= #
+
+# ================================== Plot ===================================== #
 fig, ax = plt.subplots(1, 1, figsize=(6,6), dpi=380)
 plt.xscale('log')
-#plt.yscale('log')
-ax.plot(r, np.exp((h.metric_potential(r))/2)*(h.mu(r) + m_DM)/m_DM*(1.0 + beta_0*theta_0), lw=3, ls=':', color='#91430e', label=r'$\frac{\mathrm{e}^{\nu(r)/2}(\mu(r) + mc^{2})}{mc^{2}(1.0 + \beta_{0}\theta_{0})}$')
+ax.plot(r, np.exp((h.metric_potential(r) - nu_0)/2)*(h.mu(r) + m_DM)/(m_DM*(1.0 + beta_0*theta_0)), lw=3, ls=':', color='#91430e', label=r'$\frac{\mathrm{e}^{(\nu(r) - \nu_{0})/2}(\mu(r) + mc^{2})}{mc^{2}(1.0 + \beta_{0}\theta_{0})}$')
 ax.axhline(1, lw=1, color='black')
 ax.axvline(h.r[-1], lw=1, color='darkblue', ls='-.', label=r'$r_{\mathrm{max}}$')
 ax.set_xlim(1.0e-10, 80)
 ax.set_ylim(0.99975, 1.00150)
 ax.set_xlabel("r [kpc]")
-#ax.set_ylabel(r'$\rho(r)\ [M_{\odot}/kpc^{3}]$')
-#ax.set_ylabel(r'$T(r)$ [K]')
-#ax.set_ylabel(r'$\beta(r)$')
 ax.legend()
 plt.show()
+# ============================================================================= #

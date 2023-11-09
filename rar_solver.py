@@ -184,10 +184,10 @@ def model(param, maximum_r, relative_tolerance, number_of_steps):
     alpha = alpha_0*exponential
     eps = eps_0*exponential
     P = _pressure(n_eos, alpha, beta, eps)
-        
+    
     # Shift the metric:
     nu_origin = 2.0*np.log(np.sqrt(1.0 - psi[-1])*beta[-1]/beta[0])
-    nu = nu + nu_origin*np.ones(len(nu))
+    nu = nu + nu_origin
 
     # In astrophysical units
     r = r*cm2kpc                                # kpc
@@ -269,7 +269,7 @@ class Rar():
         # --- Degeneracy variable
         if self.deg_var:
             # Define the cutoff variable array
-            self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+            self.cutoff_variable = (1.0 + self.beta_0*self.W_0)/self.beta_0*(1.0 - (1.0 - 2.0*G_u*self.m[-1]/(c**2*self.r[-1]))**(-0.5)*np.exp(self.nu/2.0))
             
             # Define the degeneracy variable array
             self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
@@ -280,7 +280,7 @@ class Rar():
         # --- Cutoff variable
         if self.cutoff_var:
             # Define the cutoff variable array
-            self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+            self.cutoff_variable = (1.0 + self.beta_0*self.W_0)/self.beta_0*(1.0 - (1.0 - 2.0*G_u*self.m[-1]/(c**2*self.r[-1]))**(-0.5)*np.exp(self.nu/2.0))
             
             # Continous cutoff variable function. Allows easy computation of derivatives
             self.cutoff_variable_spline = InterpolatedUnivariateSpline(self.r, self.cutoff_variable, k=4)
@@ -294,7 +294,7 @@ class Rar():
         if self.chemical_func:
             if not self.deg_var:
                 # Define the cutoff variable array
-                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+                self.cutoff_variable = (1.0 + self.beta_0*self.W_0)/self.beta_0*(1.0 - (1.0 - 2.0*G_u*self.m[-1]/(c**2*self.r[-1]))**(-0.5)*np.exp(self.nu/2.0))
                 
                 # Define the degeneracy variable array
                 self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
@@ -321,7 +321,7 @@ class Rar():
         if self.cutoff_func:
             if not self.deg_var:
                 # Define the cutoff variable array
-                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+                self.cutoff_variable = (1.0 + self.beta_0*self.W_0)/self.beta_0*(1.0 - (1.0 - 2.0*G_u*self.m[-1]/(c**2*self.r[-1]))**(-0.5)*np.exp(self.nu/2.0))
                 
                 # Define the temperature array
                 self.temperature = self.DM_mass*self.temperature_variable/k
@@ -353,32 +353,48 @@ class Rar():
     # =============================================== Static methods ================================================ #
     @staticmethod
     def _mass(self, r):
-        if not (self.circ_vel_func or self.lambda_func or self.accel_func or self.core_func):
-            raise NameError("The 'circular_velocity' or the 'lambda_potential' method are not defined.")
+        if not (self.circ_vel_func or self.lambda_func or self.accel_func or self.core_func or self.nu_func):
+            raise NameError("The 'circular_velocity', or 'lambda_potential', or 'acceleration', or 'core', or 'metric_potential' method are not defined.")
         else:
             r_max = self.r[-1]
             return np.where(r < r_max, self.mass_spline(r), self.mass_spline(r_max))
+        
+    @staticmethod
+    def _lambda_potential(self, r):
+        if not (self.nu_func or self.circ_vel_func or self.core_func):
+            raise NameError("The 'metric_potential', or 'circular_velocity', or 'core' method is not defined.")
+        else:
+            return -np.log(1.0 - 2.0*G_u*self._mass(self, r)/(c*c*r))
+        
+    @staticmethod
+    def _metric_potential(self, r):
+        if not self.circ_vel_func:
+            raise NameError("The 'circular_velocity' method is not defined.")
+        else:
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.nu_spline(r), -self._lambda_potential(self, r))
     
     @staticmethod
     def _pressure(self, r):
         if not (self.circ_vel_func or self.core_func):
-            raise NameError("The 'circular_velocity' method is not defined.")
+            raise NameError("The 'circular_velocity' or 'core' method is not defined.")
         else:
-            return self.P_spline(r)
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.P_spline(r), 0.0)
     
     @staticmethod
     def _dnu_dr(self, r):
         if not (self.circ_vel_func or self.core_func):
-            raise NameError("The 'circular_velocity' method is not defined.")
+            raise NameError("The 'circular_velocity' or 'core' method is not defined.")
         else:
             return 1.0/r*((8.0*np.pi*G_u/c**4*self._pressure(self, r)*r**2 + 1.0)/(1.0 - 2.0*G_u*self._mass(self, r)/(c**2*r)) - 1.0)
     
     @staticmethod
     def _circular_velocity(self, r):
         if not (self.circ_vel_func or self.core_func):
-            raise NameError("The 'circular_velocity' method is not defined.")
+            raise NameError("The 'circular_velocity' or 'core' method is not defined.")
         else:
-            return np.sqrt(0.5*c*c*r*self._dnu_dr(self, r))
+            return np.sqrt(0.5*c*c*r*np.exp(self._metric_potential(self, r))*self._dnu_dr(self, r))
     # =============================================================================================================== #
     
     # ============================================== Instance methods =============================================== #
@@ -397,8 +413,9 @@ class Rar():
         if not self.nu_func:
             raise NameError("The 'metric_potential' method is not defined.")
         else:
-            return self.nu_spline(r)
-    
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.nu_spline(r), -self._lambda_potential(self, r))
+            
     def lambda_potential(self, r):
         if not self.lambda_func:
             raise NameError("The 'lambda_potential' method is not defined.")
@@ -409,13 +426,14 @@ class Rar():
         if not self.press_func:
             raise NameError("The 'pressure' method is not defined.")
         else:
-            return self.P_spline(r)
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.P_spline(r), 0.0)
     
     def circular_velocity(self, r):
         if not self.circ_vel_func:
             raise NameError("The 'circular_velocity' method is not defined.")
         else:
-            return np.sqrt(0.5*c*c*r*self._dnu_dr(self, r))
+            return np.sqrt(0.5*c*c*r*np.exp(self._metric_potential(self, r))*self._dnu_dr(self, r))
 
     def acceleration(self, x, y, z):
         if not self.accel_func:
@@ -428,37 +446,43 @@ class Rar():
         if not self.deg_var:
             raise NameError("The 'theta' method is not defined.")
         else:
-            return self.degeneracy_variable_spline(r)
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.degeneracy_variable_spline(r), 0.0)
         
     def W(self, r):
         if not self.cutoff_var:
             raise NameError("The 'W' method is not defined.")
         else:
-            return self.cutoff_variable_spline(r)
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.cutoff_variable_spline(r), 0.0)
         
     def beta(self, r):
         if not self.temp_var:
             raise NameError("The 'beta' method is not defined.")
         else:
-            return self.temperature_variable_spline(r)
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.temperature_variable_spline(r), 0.0)
         
     def mu(self, r):
         if not self.chemical_func:
             raise NameError("The 'mu' method is not defined.")
         else:
-            return self.mu_spline(r)
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.mu_spline(r), 0.0)
         
     def e_c(self, r):
         if not self.cutoff_func:
             raise NameError("The 'e_c' method is not defined.")
         else:
-            return self.e_c_spline(r)
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.e_c_spline(r), 0.0)
         
     def T(self, r):
         if not self.temperature_func:
             raise NameError("The 'T' method is not defined.")
         else:
-            return self.T_spline(r)
+            r_max = self.r[-1]
+            return np.where(r < r_max, self.T_spline(r), 0.0)
         
     def core(self):
         if not self.core_func:
@@ -466,8 +490,7 @@ class Rar():
         else:
             v = self._circular_velocity(self, self.r)
             arg_max = argrelextrema(v, np.greater)
-            arg_first_max = arg_max[0][0]
-            r_cand = self.r[arg_first_max]
+            r_cand = self.r[arg_max[0][0]]
             bounds = np.array([r_cand*0.5, r_cand*1.5])
             r_core = optimize.fminbound(lambda r : -self._circular_velocity(self, r), bounds[0],
                                         bounds[1], xtol=0.5e-12, maxfun=1000)
