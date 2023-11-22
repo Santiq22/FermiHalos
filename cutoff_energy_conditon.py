@@ -54,10 +54,12 @@ nu_0 = 2.0*np.log(np.sqrt(1.0 - 2.0*G_u*h.m[-1]/(c**2*h.r[-1]))*1.0/(1.0 + beta_
 
 # ================================== Plot ===================================== #
 fig, ax = plt.subplots(1, 1, figsize=(6,6), dpi=380)
-plt.xscale('log')
-ax.plot(r, np.exp((h.metric_potential(r) - nu_0)/2)*(h.e_c(r) + m_DM)/(m_DM*(1.0 + beta_0*W_0)), lw=3, ls=':', color='#91430e', label=r'$\frac{\mathrm{e}^{(\nu(r) - \nu_{0})/2}(\epsilon_{c}(r) + mc^{2})}{mc^{2}(1.0 + \beta_{0}W_{0})}$')
+ax.plot(r, np.exp((h.metric_potential(r) - nu_0)/2)*(h.e_c(r) + m_DM)/(m_DM*(1.0 + beta_0*W_0)), 
+        lw=3, ls=':', color='#91430e', 
+        label=r'$\frac{\mathrm{e}^{(\nu(r) - \nu_{0})/2}(\epsilon_{c}(r) + mc^{2})}{mc^{2}(1.0 + \beta_{0}W_{0})}$')
 ax.axhline(1, lw=1, color='black')
 ax.axvline(h.r[-1], lw=1, color='darkblue', ls='-.', label=r'$r_{\mathrm{max}}$')
+plt.xscale('log')
 ax.set_xlim(1.0e-10, 80)
 ax.set_ylim(0.99975, 1.00150)
 ax.set_xlabel("r [kpc]")

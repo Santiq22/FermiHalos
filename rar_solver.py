@@ -210,8 +210,9 @@ class Rar():
     """ RAR mass distribution object.
     
         This kind of objects has to be instantiated as Rar(parameters, boolean_variables). These parameters are 
-        the four RAR parameters and the boolean variables indicate if additional physical variables have to be 
-        computed. For more details see (https://github.com/Santiq22/rar-model)."""
+        the four RAR parameters, the boolean variables indicating if additional physical variables have to be 
+        computed, and the parameters related with the integration of the equations. For more details see 
+        (https://github.com/Santiq22/rar-model)."""
     
     def __init__(self, param, dens_func=False, nu_func=False, lambda_func=False, press_func=False, circ_vel_func=False,
                  accel_func=False, deg_var=False, cutoff_var=False, temp_var=False, chemical_func=False, cutoff_func=False,
@@ -226,7 +227,7 @@ class Rar():
             
         # Checking if number_of_steps is greater than the suggested value
         if (number_of_steps < 2**10 + 1):
-            raise ValueError("The number of steps of integration has to be greater than 2**10 + 1 to ensure precision. The value given is {}".format(number_of_steps))
+            raise ValueError("The number of steps of integration has to be greater than 2^10 + 1 to ensure precision. The value given is {}".format(number_of_steps))
             
         # Call model to solve the RAR equations. The function model returns ndarrys of shape (n,).
         self.r, self.m, self.nu, self.temperature_variable, self.P = model(param, maximum_r, relative_tolerance, number_of_steps)
@@ -361,18 +362,10 @@ class Rar():
         
     @staticmethod
     def _lambda_potential(self, r):
-        if not (self.nu_func or self.circ_vel_func or self.core_func):
+        if not self.nu_func:
             raise NameError("The 'metric_potential', or 'circular_velocity', or 'core' method is not defined.")
         else:
             return -np.log(1.0 - 2.0*G_u*self._mass(self, r)/(c*c*r))
-        
-    @staticmethod
-    def _metric_potential(self, r):
-        if not self.circ_vel_func:
-            raise NameError("The 'circular_velocity' method is not defined.")
-        else:
-            r_max = self.r[-1]
-            return np.where(r < r_max, self.nu_spline(r), -self._lambda_potential(self, r))
     
     @staticmethod
     def _pressure(self, r):
@@ -391,10 +384,10 @@ class Rar():
     
     @staticmethod
     def _circular_velocity(self, r):
-        if not (self.circ_vel_func or self.core_func):
+        if not self.core_func:
             raise NameError("The 'circular_velocity' or 'core' method is not defined.")
         else:
-            return np.sqrt(0.5*c*c*r*np.exp(self._metric_potential(self, r))*self._dnu_dr(self, r))
+            return np.sqrt(0.5*c*c*r*self._dnu_dr(self, r))
     # =============================================================================================================== #
     
     # ============================================== Instance methods =============================================== #
@@ -433,7 +426,7 @@ class Rar():
         if not self.circ_vel_func:
             raise NameError("The 'circular_velocity' method is not defined.")
         else:
-            return np.sqrt(0.5*c*c*r*np.exp(self._metric_potential(self, r))*self._dnu_dr(self, r))
+            return np.sqrt(0.5*c*c*r*self._dnu_dr(self, r))
 
     def acceleration(self, x, y, z):
         if not self.accel_func:
