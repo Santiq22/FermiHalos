@@ -13,7 +13,6 @@ import numpy as np
 from scipy.integrate import solve_ivp
 import scipy.integrate as integrate
 from scipy.interpolate import InterpolatedUnivariateSpline
-from scipy.signal import argrelextrema
 from scipy import optimize
 # =============================================================================================================== #
 
@@ -216,7 +215,8 @@ class Rar():
     
     def __init__(self, param, dens_func=False, nu_func=False, lambda_func=False, press_func=False, circ_vel_func=False,
                  accel_func=False, deg_var=False, cutoff_var=False, temp_var=False, chemical_func=False, cutoff_func=False,
-                 temperature_func=False, core_func=False, maximum_r=1.0e3, relative_tolerance=5.0e-12, number_of_steps=2**10 + 1):
+                 temperature_func=False, log_dens_slope_func=False, core_func=False, plateau_func=False, maximum_r=1.0e3, 
+                 relative_tolerance=5.0e-12, number_of_steps=2**10 + 1):
         
         # Individual parameters
         self.DM_mass, self.theta_0, self.W_0, self.beta_0 = param[0], param[1], param[2], param[3]
@@ -248,12 +248,14 @@ class Rar():
         self.chemical_func = chemical_func                   # Chemical potential
         self.cutoff_func = cutoff_func                       # Cutoff function
         self.temperature_func = temperature_func             # Temperature function
+        self.log_dens_slope_func = log_dens_slope_func       # Logarithmic slope of the density profile
         self.core_func = core_func                           # DM core
+        self.plateau_func = plateau_func                     # DM plateau
         # =============================================================================================================== #
         
         # ===================================== Interpolation of optional variables ===================================== #
         # --- Density
-        if self.dens_func:
+        if (self.dens_func or self.log_dens_slope_func or self.plateau_func):
             # Continous density function. Allows easy computation of derivatives
             self.density_spline = (self.mass_spline).derivative(1)
         
@@ -263,7 +265,7 @@ class Rar():
             self.nu_spline = InterpolatedUnivariateSpline(self.r, self.nu, k=4)
         
         # --- Pressure
-        if (self.press_func or self.circ_vel_func or self.core_func):
+        if (self.press_func or self.circ_vel_func or self.core_func or self.plateau_func):
             # Continous pressure function. Allows easy computation of derivatives
             self.P_spline = InterpolatedUnivariateSpline(self.r, self.P, k=4)
         
@@ -349,45 +351,40 @@ class Rar():
             
             # Continous temperature function. Allows easy computation of derivatives
             self.T_spline = InterpolatedUnivariateSpline(self.r, self.temperature, k=4)
+            
+        # --- Logarithmic slope of the density profile
+        if self.log_dens_slope_func:
+            # Continous second derivative function. Allows easy computation of derivatives
+            self.second_derivative_of_mass = (self.mass_spline).derivative(2)
         # =============================================================================================================== #
         
     # =============================================== Static methods ================================================ #
     @staticmethod
     def _mass(self, r):
-        if not (self.circ_vel_func or self.lambda_func or self.accel_func or self.core_func or self.nu_func):
-            raise NameError("The 'circular_velocity', or 'lambda_potential', or 'acceleration', or 'core', or 'metric_potential' method are not defined.")
-        else:
-            r_max = self.r[-1]
-            return np.where(r < r_max, self.mass_spline(r), self.mass_spline(r_max))
+        r_max = self.r[-1]
+        return np.where(r < r_max, self.mass_spline(r), self.mass_spline(r_max))
+        
+    @staticmethod
+    def _density(self, r):
+        r_max = self.r[-1]
+        return np.where(r < r_max, self.density_spline(r)/(4.0*np.pi*r*r), 0.0)
         
     @staticmethod
     def _lambda_potential(self, r):
-        if not self.nu_func:
-            raise NameError("The 'metric_potential', or 'circular_velocity', or 'core' method is not defined.")
-        else:
-            return -np.log(1.0 - 2.0*G_u*self._mass(self, r)/(c*c*r))
+        return -np.log(1.0 - 2.0*G_u*self._mass(self, r)/(c*c*r))
     
     @staticmethod
     def _pressure(self, r):
-        if not (self.circ_vel_func or self.core_func):
-            raise NameError("The 'circular_velocity' or 'core' method is not defined.")
-        else:
-            r_max = self.r[-1]
-            return np.where(r < r_max, self.P_spline(r), 0.0)
+        r_max = self.r[-1]
+        return np.where(r < r_max, self.P_spline(r), 0.0)
     
     @staticmethod
     def _dnu_dr(self, r):
-        if not (self.circ_vel_func or self.core_func):
-            raise NameError("The 'circular_velocity' or 'core' method is not defined.")
-        else:
-            return 1.0/r*((8.0*np.pi*G_u/c**4*self._pressure(self, r)*r**2 + 1.0)/(1.0 - 2.0*G_u*self._mass(self, r)/(c**2*r)) - 1.0)
+        return 1.0/r*((8.0*np.pi*G_u/c**4*self._pressure(self, r)*r**2 + 1.0)/(1.0 - 2.0*G_u*self._mass(self, r)/(c**2*r)) - 1.0)
     
     @staticmethod
     def _circular_velocity(self, r):
-        if not self.core_func:
-            raise NameError("The 'circular_velocity' or 'core' method is not defined.")
-        else:
-            return np.sqrt(0.5*c*c*r*self._dnu_dr(self, r))
+        return np.sqrt(0.5*c*c*r*self._dnu_dr(self, r))
     # =============================================================================================================== #
     
     # ============================================== Instance methods =============================================== #
@@ -477,16 +474,42 @@ class Rar():
             r_max = self.r[-1]
             return np.where(r < r_max, self.T_spline(r), 0.0)
         
+    def logarithmic_density_slope(self, r):
+        if not self.log_dens_slope_func:
+            raise NameError("The 'logarithmic_density_slope' method is not defined.")
+        else:
+            return 2.0 - 1.0/(4.0*np.pi*r*self._density(self, r))*self.second_derivative_of_mass(r)
+    
     def core(self):
         if not self.core_func:
             raise NameError("The 'core' method is not defined.")
         else:
             v = self._circular_velocity(self, self.r)
+            """ Old way of doing it:
+            from scipy.signal import argrelextrema
             arg_max = argrelextrema(v, np.greater)
-            r_cand = self.r[arg_max[0][0]]
+            r_cand = self.r[arg_max[0][0]]"""
+            arg_max = np.argmax(v)
+            r_cand = self.r[arg_max]
             bounds = np.array([r_cand*0.5, r_cand*1.5])
             r_core = optimize.fminbound(lambda r : -self._circular_velocity(self, r), bounds[0],
                                         bounds[1], xtol=0.5e-12, maxfun=1000)
             m_core = self._mass(self, r_core)
             return r_core, m_core
+        
+    def plateau(self):
+        if not self.plateau_func:
+            raise NameError("The 'plateau' method is not defined.")
+        else:
+            v = self._circular_velocity(self, self.r)
+            arg_max = np.argmax(v)
+            r_new = self.r[arg_max:]
+            v_new = self._circular_velocity(self, r_new)
+            arg_min = np.argmin(v_new)
+            r_cand = r_new[arg_min]
+            bounds = np.array([r_cand*0.5, r_cand*1.5])
+            r_plateau = optimize.fminbound(lambda r : self._circular_velocity(self, r), bounds[0],
+                                        bounds[1], xtol=0.5e-12, maxfun=1000)
+            rho_plateau = self._density(self, r_plateau)
+            return r_plateau, rho_plateau
     # =============================================================================================================== #

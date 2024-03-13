@@ -11,7 +11,8 @@ The code defines a class whose name is `Rar`. It has to be instantiated as:
 halo_object = Rar(parameters, dens_func=False, nu_func=False, lambda_func=False, press_func=False, 
                  circ_vel_func=False, accel_func=False, deg_var=False, cutoff_var=False, 
                  temp_var=False, chemical_func=False, cutoff_func=False, temperature_func=False, 
-                 core_func=False, maximum_r=1.0e3, relative_tolerance=5.0e-12, number_of_steps=2**10 + 1)
+                 log_dens_slope_func=False, core_func=False, plateau_func=False, maximum_r=1.0e3, 
+                 relative_tolerance=5.0e-12, number_of_steps=2**10 + 1)
 ```
 
 where the `parameters` variable is a numpy array object of shape (4,), whose components are (in this order): the dark matter particle mass in keV, the degeneracy parameter, the cutoff parameter, and the temperature parameter (the last three adimensional). `dens_func`, `nu_func`, `lambda_func`, `press_func`, `circ_vel_func`, `accel_func`, `deg_var`, `cutoff_var`, `temp_var`, `chemical_func`, `cutoff_func`, `temperature_func` and `core_func` are default boolean variables whose values are those indicated above. They are used as flags to compute astrophysical and statistical mechanical variables. To do so, change `False` to `True`. Regarding the other three variables, `maximum_r` is the maximum radii of integration in [$`kpc`$], `relative_tolerance` is the relative tolerance used by the integrator to solve the equations, and `number_of_steps` is the number of points used to integrate the density and pressure used to compute the right-hand side of the differential equations. They are float variables whose default values are indicated in the box above. We strongly suggest that the value of `number_of_steps` is greater than the minimum value $`2^{10} + 1`$ to ensure precision at the time of computing the solutions. Once the class `Rar` is instantiated, it automatically calls `model`, a function that solves the RAR model equations. This function is called as:
@@ -41,7 +42,9 @@ All the following attributes are *boolean instance attributes*.
 - `chemical_func`: Boolean variable that enables the computation of the chemical potential. The default value is `False`.
 - `cutoff_func`: Boolean variable that enables the computation of the cutoff energy function. The default value is `False`.
 - `temperature_func`: Boolean variable that enables the computation of the temperature function. The default value is `False`.
+- `log_dens_slope_func`: Boolean variable that enables the computation of the logarithmic density slope function. The default value is `False`.
 - `core_func`: Boolean variable that enables the computation of the radii of the dark matter core and its mass. The default value is `False`.
+- `plateau_func`: Boolean variable that enables the computation of the radii of the dark matter plateau and its density. The default value is `False`.
 
 In addition, there are some instance attributes representing physical quantities, which are:
 
@@ -127,7 +130,14 @@ where $\vec{r} = (x, y, z)$ and $r = ||\vec{r}||$. It returns a numpy ndarray of
 - `mu` [$`keV`$]: Chemical potential. It is computed when `chemical_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `e_c` [$`keV`$]: Cutoff energy function. It is computed when `cutoff_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
 - `T` [$`K`$]: Temperature function. It is computed when `temperature_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`.
+- `logarithmic_density_slope`: Logarithmic slope of the density profile. This dimensionless quantity is computed when `log_dens_slope_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `InterpolatedUnivariateSpline`. It is computed up to the maximum radii of integration, which can be computed by doing `self.r[-1]`.
+```math
+\begin{equation}
+  \gamma(r)= -\frac{d\mathrm{ln}\rho(r)}{d\mathrm{ln}r} = 2 - \frac{1}{4\pi r\rho(r)}\frac{d^{2}M(r)}{dr^{2}}
+\end{equation}
+```
 - `core`: It is computed when `core_func=True`. When this function with no argument is called, it returns the *core radius* (in [$`kpc`$]) and the *mass of the core* (in [$`M_{\odot}`$]) of the distribution, as two separate floating numbers, in this order.
+- `plateau`: It is computed when `plateau_func=True`. When this function with no argument is called, it returns the *plateau radius* (in [$`kpc`$]) and the *density of the plateau* (in [$`M_{\odot}kpc^{-3}`$]) of the distribution, as two separate floating numbers, in this order.
 
 ## Dependencies
 

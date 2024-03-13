@@ -35,27 +35,30 @@ plt.rcParams['ytick.major.size']= 5.0
 plt.rcParams['ytick.minor.width']= 0.5
 plt.rcParams['ytick.minor.size']= 3.0
 
-beta_0 = 1.113903337971913738e-05
-theta_0 = 3.780867927802387385e+01
-m_DM = 5.480880070125579806e+01   # keV
+param_pwr = np.array([20.0,
+                      3.441729863769217701e+01,
+                      2.0*3.441729863769217701e+01,
+                      1.274212705635805845e-07])
 
-h = Rar(np.array([m_DM,
-                  theta_0,
-                  6.644915273597560201e+01,
-                  beta_0]), nu_func=True, chemical_func=True)
-r = np.logspace(-10, np.log10(h.r[-1]), 10**5, endpoint=False)
+param_bec = np.array([56.0,
+                      37.765595,
+                      66.34067,
+                      1.1977342e-05])
 
-#%%
+h_pwr = Rar(param_pwr, dens_func=True)
+h_bec = Rar(param_bec, dens_func=True)
+
+r = np.logspace(-10, np.log10(h_pwr.r[-1]), 10**5, endpoint=False)
+
 fig, ax = plt.subplots(1, 1, figsize=(6,6), dpi=380)
+
+ax.plot(r, r*r*h_pwr.density(r), lw=2, color='#91430e', label='RAR 2')
+ax.plot(r, r*r*h_bec.density(r), lw=2, color='black', label='Becerra et al.')
+ax.set_xlim(5.0e-3, 60)
 plt.xscale('log')
-#plt.yscale('log')
-ax.plot(r, np.exp((h.metric_potential(r))/2)*(h.mu(r) + m_DM)/m_DM*(1.0 + beta_0*theta_0), lw=3, ls=':', color='#91430e', label=r'$\frac{\mathrm{e}^{\nu(r)/2}(\mu(r) + mc^{2})}{mc^{2}(1.0 + \beta_{0}\theta_{0})}$')
-ax.axhline(1, lw=1, color='black')
-ax.axvline(h.r[-1], lw=1, color='darkblue', ls='-.', label=r'$r_{\mathrm{max}}$')
-ax.set_xlim(1.0e-10, 80)
-ax.set_ylim(0.99975, 1.00150)
+plt.yscale('log')
 ax.set_xlabel("r [kpc]")
-#ax.set_ylabel(r'$\rho(r)\ [M_{\odot}/kpc^{3}]$')
+ax.set_ylabel(r'$r^{2}\rho(r)\ [M_{\odot}/kpc]$')
 #ax.set_ylabel(r'$T(r)$ [K]')
 #ax.set_ylabel(r'$\beta(r)$')
 ax.legend()
