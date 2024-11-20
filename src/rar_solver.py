@@ -163,7 +163,7 @@ def model(param, maximum_r, relative_tolerance, number_of_steps):
     eps_0 = 1.0 + beta_0*W_0
     rho_0 = density(n_eos, alpha_0, beta_0, eps_0) # Central density
     u_0 = [z_0, nu_0]
-    t_0 = np.log(np.sqrt(6.0*tau*rho_rel/rho_0))
+    t_0 = 0.5*np.log(6.0*tau*rho_rel/rho_0)
     t_f = np.log(max_r/cm2kpc/R)
 
     # Solving the TOV system

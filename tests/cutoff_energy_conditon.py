@@ -6,7 +6,7 @@ Created on Thu Jun 15 14:32:25 2023
 
 import matplotlib.pyplot as plt
 import numpy as np
-from rar_solver import Rar
+from rar_class import Rar
 
 # ============================= Plot features ================================= #
 # Properties to decorate the plots.
