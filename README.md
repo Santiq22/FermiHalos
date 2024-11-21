@@ -57,22 +57,22 @@ In addition, there are some instance attributes representing physical quantities
 - `theta_0`: Degeneracy parameter $\theta_{0}$ of the system.
 - `W_0`: Cutoff parameter $W_{0}$ of the system.
 - `beta_0`: Temperature parameter $\beta_{0}$ of the system.
-- `r` [$kpc$]: Array of the radius where the solution was computed. It is a numpy ndarray of shape (n,). Available by default.
-- `m` [$M_{\odot}$]: Array of enclosed masses at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
+- `r` [$`kpc`$]: Array of the radius where the solution was computed. It is a numpy ndarray of shape (n,). Available by default.
+- `m` [$`M_{\odot}`$]: Array of enclosed masses at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
 - `nu`: Array of the metric potentials (dimensionless) at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
-- `P` [$M_{\odot}/(kpc\ s^{2})$]: Array of pressures at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `press_func` is `True`.
+- `P` [$`M_{\odot}/(kpc\ s^{2})`$]: Array of pressures at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `press_func` is `True`.
 - `degeneracy_variable`: Array of values of the degeneracy variable at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `deg_var` or `chemical_func` is `True`.
 - `cutoff_variable`: Array of values of the cutoff variable at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `deg_var`, `cutoff_var`, `chemical_func` or `cutoff_func` is `True`.
 - `temperature_variable`: Array of values of the temperature variable at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
-- `chemical_potential` [$keV$]: Array of values of the chemical potential at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `chemical_func` is `True`.
-- `cutoff` [$keV$]: Array of values of the cutoff energy function at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `cutoff_func` is `True`.
-- `temperature` [$K$]: Array of values of the temperature function at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `chemical_func`, `cutoff_func` or `temperature_func` is `True`.
+- `chemical_potential` [$`keV`$]: Array of values of the chemical potential at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `chemical_func` is `True`.
+- `cutoff` [$`keV`$]: Array of values of the cutoff energy function at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `cutoff_func` is `True`.
+- `temperature` [$`K`$]: Array of values of the temperature function at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `chemical_func`, `cutoff_func` or `temperature_func` is `True`.
 
 #### Rar's methods
 
 The only one method that is computed by default is the enclosed mass of the dark matter distribution. To enable the computation of other astrophysical and statistical mechanical variables just change the boolean attributes to `True` while instantiating the object. The methods defined in the class `Rar` are:
 
-- `mass` [$M_{\odot}$]: Enclosed mass of the distribution defined for all spherical radii. It is defined as a piecewise function of 2 parts, whose expression is:
+- `mass` [$`M_{\odot}`$]: Enclosed mass of the distribution defined for all spherical radii. It is defined as a piecewise function of 2 parts, whose expression is:
 ```math
 \begin{equation}
   mass(r)=
@@ -83,7 +83,7 @@ The only one method that is computed by default is the enclosed mass of the dark
 \end{equation} 
 ```
 $`M(r)`$ is the integrated enclosed mass. It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
-- `density` [$M_{\odot}/kpc^{3}$]: Mass density of the distribution defined for all spherical radii. It is computed when `dens_func=True`. It is defined as a piecewise function of 2 parts, whose expression is:
+- `density` [$`M_{\odot}/kpc^{3}`$]: Mass density of the distribution defined for all spherical radii. It is computed when `dens_func=True`. It is defined as a piecewise function of 2 parts, whose expression is:
 ```math
 \begin{equation}
   density(r)=
@@ -106,8 +106,8 @@ It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) a
 \end{equation} 
 ```
 It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
-- `pressure` [$M_{\odot}/(kpc\ s^{2})$]: Pressure of the fermionic distribution. It is computed when `press_func=True`. It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
-- `circular_velocity` [$km/s$]: General relativistic expression of the circular velocity of the mass distribution defined for all spherical radii. It is computed when `circ_vel_func=True`. It is defined as a piecewise function of 2 parts, whose expression is:
+- `pressure` [$`M_{\odot}/(kpc\ s^{2})`$]: Pressure of the fermionic distribution. It is computed when `press_func=True`. It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
+- `circular_velocity` [$`km/s`$]: General relativistic expression of the circular velocity of the mass distribution defined for all spherical radii. It is computed when `circ_vel_func=True`. It is defined as a piecewise function of 2 parts, whose expression is:
 ```math
 \begin{equation}
   circular\_velocity(r)=
@@ -118,7 +118,7 @@ It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) a
 \end{equation} 
 ```
 It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
-- `acceleration` [$(km/s)^{2}kpc^{-1}$]: Newtonian gravitational field of the distribution, defined for all the spherical radius. It is computed when `accel_func=True`. It takes as input three floating numbers, the cartesian coordinates of the reference system. They have to be given as three separate variables. It is defined as a piecewise function of 2 parts, whose expression is (supposing the center of mass of the distribution is in the origin):
+- `acceleration` [$`(km/s)^{2}kpc^{-1}`$]: Newtonian gravitational field of the distribution, defined for all the spherical radius. It is computed when `accel_func=True`. It takes as input three floating numbers, the cartesian coordinates of the reference system. They have to be given as three separate variables. It is defined as a piecewise function of 2 parts, whose expression is (supposing the center of mass of the distribution is in the origin):
 ```math
 \begin{equation}
   acceleration(x, y, z)=
@@ -132,17 +132,17 @@ where $\vec{r} = (x, y, z)$ and $r = ||\vec{r}||$. It returns a numpy ndarray of
 - `theta`: Degeneracy variable (dimensionless). It is computed when `deg_var=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
 - `W`: Cutoff variable (dimensionless). It is computed when `cutoff_var=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
 - `beta`: Temperature variable (dimensionless). It is computed when `temp_var=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
-- `mu` [$keV$]: Chemical potential. It is computed when `chemical_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
-- `e_c` [$keV$]: Cutoff energy function. It is computed when `cutoff_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
-- `T` [$K$]: Temperature function. It is computed when `temperature_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
+- `mu` [$`keV`$]: Chemical potential. It is computed when `chemical_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
+- `e_c` [$`keV`$]: Cutoff energy function. It is computed when `cutoff_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
+- `T` [$`K`$]: Temperature function. It is computed when `temperature_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`.
 - `logarithmic_density_slope`: Logarithmic slope of the density profile (dimensionless). This dimensionless quantity is computed when `log_dens_slope_func=True`. This function takes a number or a numpy ndarray of shape (n,) as input (spherical radius) and returns a value or a numpy ndarray of shape (n,), respectively. It is an object of the class `scipy.interpolate.InterpolatedUnivariateSpline`. It is computed up to the maximum radii of integration, which can be computed by doing `halo_object.r[-1]`. Its mathematical expression is:
 ```math
 \begin{equation}
   \gamma(r)= -\frac{d\mathrm{ln}\rho(r)}{d\mathrm{ln}r} = 2 - \frac{1}{4\pi r\rho(r)}\frac{d^{2}M(r)}{dr^{2}}
 \end{equation}
 ```
-- `core`: It is computed when `core_func=True`. When this function with no argument is called, it returns the *core radius* $r_{\mathrm{core}}$ (in $kpc$) and the *mass of the core* (in $M_{\odot}$) of the distribution, computed as $M(r_{\mathrm{core}})$. They are returned as two separate floating numbers in a tuple ($r_{\mathrm{core}}$, $M(r_{\mathrm{core}})$).
-- `plateau`: It is computed when `plateau_func=True`. When this function with no argument is called, it returns the *plateau radius* $r_{\mathrm{plateau}}$ (in $kpc$) and the *density of the plateau* (in $M_{\odot}/kpc^{3}$) of the distribution, computed as $\rho(r_{\mathrm{plateau}})$. They are returned as two separate floating numbers in a tuple ($r_{\mathrm{plateau}}$, $\rho(r_{\mathrm{plateau}})$).
+- `core`: It is computed when `core_func=True`. When this function with no argument is called, it returns the *core radius* $r_{\mathrm{core}}$ (in $kpc$) and the *mass of the core* (in $M_{\odot}$) of the distribution, computed as $M(r_{\mathrm{core}})$. They are returned as two separate floating numbers in a tuple ($r_{\mathrm{core}}$, $`M(r_{\mathrm{core}})`$).
+- `plateau`: It is computed when `plateau_func=True`. When this function with no argument is called, it returns the *plateau radius* $r_{\mathrm{plateau}}$ (in $kpc$) and the *density of the plateau* (in $M_{\odot}/kpc^{3}$) of the distribution, computed as $\rho(r_{\mathrm{plateau}})$. They are returned as two separate floating numbers in a tuple ($r_{\mathrm{plateau}}$, $`\rho(r_{\mathrm{plateau}})`$).
 
 ## Dependencies
 
