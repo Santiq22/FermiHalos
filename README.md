@@ -53,7 +53,7 @@ All the following attributes are *boolean instance attributes* and *set up insta
 
 In addition, there are some instance attributes representing physical quantities, which are:
 
-- `DM_mass` [$keV$]: Dark matter particle mass.
+- `DM_mass` [$`keV`$]: Dark matter particle mass.
 - `theta_0`: Degeneracy parameter $\theta_{0}$ of the system.
 - `W_0`: Cutoff parameter $W_{0}$ of the system.
 - `beta_0`: Temperature parameter $\beta_{0}$ of the system.
