@@ -317,9 +317,12 @@ print("The best fit parameters are: ", best_fit_parameters)
 
 This code will generate a dark matter mass distribution with a radial profile as follows:
 
-![alt text](https://github.com/Santiq22/rar-model/tree/main/figures/density_profile.png)
+![density_profile](https://github.com/user-attachments/assets/76dddc0f-0bed-4ed8-b391-25ba37d0d584)
+
+![circular_velocity_profile](https://github.com/user-attachments/assets/f34c125f-0bc8-4210-8867-6ef4a460639a)
 
 ## License
+
 
 This code is subject to MIT License. In addition, it is asked the following conditions in order to use the code:
 
