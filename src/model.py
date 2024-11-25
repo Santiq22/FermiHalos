@@ -202,7 +202,7 @@ def model(param, maximum_r, relative_tolerance, number_of_steps, press_func):
         P = _pressure(n_eos, alpha, beta, eps)
         beta = beta[bool_r]
         P = P[bool_r]/Msun2g*kpc2cm                 # Msun/(kpc s^2)
-        return r, mass, nu, beta, P
+        return r, mass, nu, beta, nu_origin, P
     else:
         beta = beta[bool_r]
-        return r, mass, nu, beta
+        return r, mass, nu, beta, nu_origin

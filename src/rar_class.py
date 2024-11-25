@@ -74,11 +74,11 @@ class Rar:
         # ========================================= Computation of the solutions ======================================== #    
         # Call model to solve the RAR equations. The function model returns ndarrys of shape (n,).
         if not (self.press_func or self.circ_vel_func or self.core_func or self.plateau_func):
-            self.r, self.m, self.nu, self.temperature_variable = model(param, maximum_r=self.maximum_r, relative_tolerance=self.relative_tolerance, 
-                                                                       number_of_steps=self.number_of_steps, press_func=False)
+            self.r, self.m, self.nu, self.temperature_variable, self.nu_0 = model(param, maximum_r=self.maximum_r, relative_tolerance=self.relative_tolerance, 
+                                                                                  number_of_steps=self.number_of_steps, press_func=False)
         else:
-            self.r, self.m, self.nu, self.temperature_variable, self.P = model(param, maximum_r=self.maximum_r, relative_tolerance=self.relative_tolerance, 
-                                                                               number_of_steps=self.number_of_steps, press_func=True)
+            self.r, self.m, self.nu, self.temperature_variable, self.nu_0, self.P = model(param, maximum_r=self.maximum_r, relative_tolerance=self.relative_tolerance, 
+                                                                                          number_of_steps=self.number_of_steps, press_func=True)
         
         # Continous mass function. Allows easy computation of derivatives
         self.__mass_spline = InterpolatedUnivariateSpline(self.r, self.m, k=4)
@@ -103,28 +103,23 @@ class Rar:
         # --- Cutoff variable
         if self.cutoff_var:
             # Define the cutoff variable array
-            self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+            self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp((self.nu - self.nu_0)/2.0))/self.beta_0
             
             # Continous cutoff variable function. Allows easy computation of derivatives
             self.__cutoff_variable_spline = InterpolatedUnivariateSpline(self.r, self.cutoff_variable, k=4)
         
         # --- Degeneracy variable
         if self.deg_var:
+            # Check if the cut-off variable was computed before
             if not self.cutoff_var:
                 # Define the cutoff variable array
-                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp((self.nu - self.nu_0)/2.0))/self.beta_0
+                
+            # Define the degeneracy variable array
+            self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
             
-                # Define the degeneracy variable array
-                self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
-            
-                # Continous degeneracy variable function. Allows easy computation of derivatives
-                self.__degeneracy_variable_spline = InterpolatedUnivariateSpline(self.r, self.degeneracy_variable, k=4)
-            else:
-                # Define the degeneracy variable array
-                self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
-            
-                # Continous degeneracy variable function. Allows easy computation of derivatives
-                self.__degeneracy_variable_spline = InterpolatedUnivariateSpline(self.r, self.degeneracy_variable, k=4)
+            # Continous degeneracy variable function. Allows easy computation of derivatives
+            self.__degeneracy_variable_spline = InterpolatedUnivariateSpline(self.r, self.degeneracy_variable, k=4)
             
         # --- Temperature variable
         if self.temp_var:
@@ -133,71 +128,49 @@ class Rar:
             
         # --- Cutoff function
         if self.cutoff_func:
+            # Define the temperature array
+            self.temperature = self.DM_mass*self.temperature_variable/k
+            
+            # Check if the cut-off variable was computed before
             if not (self.cutoff_var or self.deg_var):
                 # Define the cutoff variable array
-                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp((self.nu - self.nu_0)/2.0))/self.beta_0
                 
-                # Define the temperature array
-                self.temperature = self.DM_mass*self.temperature_variable/k
+            # Define the cutoff function array
+            self.cutoff = k*self.cutoff_variable*self.temperature
                 
-                # Define the cutoff function array
-                self.cutoff = k*self.cutoff_variable*self.temperature
-                
-                # Continous cutoff function. Allows easy computation of derivatives
-                self.__e_c_spline = InterpolatedUnivariateSpline(self.r, self.cutoff, k=4)
-            else:
-                # Define the temperature array
-                self.temperature = self.DM_mass*self.temperature_variable/k
-                
-                # Define the cutoff function array
-                self.cutoff = k*self.cutoff_variable*self.temperature
-                
-                # Continous cutoff function. Allows easy computation of derivatives
-                self.__e_c_spline = InterpolatedUnivariateSpline(self.r, self.cutoff, k=4)
+            # Continous cutoff function. Allows easy computation of derivatives
+            self.__e_c_spline = InterpolatedUnivariateSpline(self.r, self.cutoff, k=4)
             
         # --- Chemical potential
         if self.chemical_func:
+            # Check if the cut-off variable was computed before
             if not (self.cutoff_var or self.deg_var or self.cutoff_func):
                 # Define the cutoff variable array
-                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp(self.nu/2.0))/self.beta_0
+                self.cutoff_variable = (1.0 + self.beta_0*self.W_0 - np.exp((self.nu - self.nu_0)/2.0))/self.beta_0
                 
+            # Check if the degeneracy variable was computed before
+            if not self.deg_var:
                 # Define the degeneracy variable array
                 self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
                 
+            # Check if the temperature function was computed before
+            if not self.cutoff_func:
                 # Define the temperature array
                 self.temperature = self.DM_mass*self.temperature_variable/k
                 
-                # Define the chemical potential array
-                self.chemical_potential = k*self.degeneracy_variable*self.temperature
+            # Define the chemical potential array
+            self.chemical_potential = k*self.degeneracy_variable*self.temperature
                 
-                # Continous chemical potential function. Allows easy computation of derivatives
-                self.__mu_spline = InterpolatedUnivariateSpline(self.r, self.chemical_potential, k=4)
-            elif not (self.deg_var):
-                # Define the degeneracy variable array
-                self.degeneracy_variable = self.theta_0 - self.W_0 + self.cutoff_variable
-                
-                # Define the temperature array
-                self.temperature = self.DM_mass*self.temperature_variable/k
-                
-                # Define the chemical potential array
-                self.chemical_potential = k*self.degeneracy_variable*self.temperature
-                
-                # Continous chemical potential function. Allows easy computation of derivatives
-                self.__mu_spline = InterpolatedUnivariateSpline(self.r, self.chemical_potential, k=4)
-            else:
-                # Define the temperature array
-                self.temperature = self.DM_mass*self.temperature_variable/k
-                
-                # Define the chemical potential array
-                self.chemical_potential = k*self.degeneracy_variable*self.temperature
-                
-                # Continous chemical potential function. Allows easy computation of derivatives
-                self.__mu_spline = InterpolatedUnivariateSpline(self.r, self.chemical_potential, k=4)
+            # Continous chemical potential function. Allows easy computation of derivatives
+            self.__mu_spline = InterpolatedUnivariateSpline(self.r, self.chemical_potential, k=4)
         
         # --- Temperature
         if self.temperature_func:
-            # Define the temperature array
-            self.temperature = self.DM_mass*self.temperature_variable/k
+            # Check if the temperature function was computed before
+            if not self.cutoff_func:
+                # Define the temperature array
+                self.temperature = self.DM_mass*self.temperature_variable/k
             
             # Continous temperature function. Allows easy computation of derivatives
             self.__T_spline = InterpolatedUnivariateSpline(self.r, self.temperature, k=4)

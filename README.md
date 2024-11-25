@@ -60,6 +60,7 @@ In addition, there are some instance attributes representing physical quantities
 - `r` [$`kpc`$]: Array of the radius where the solution was computed. It is a numpy ndarray of shape (n,). Available by default.
 - `m` [$`M_{\odot}`$]: Array of enclosed masses at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
 - `nu`: Array of the metric potentials (dimensionless) at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
+- `nu_0`: Value of the metric potential at the center of the distribution. Available by default.
 - `P` [$`M_{\odot}/(kpc\ s^{2})`$]: Array of pressures at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `press_func` is `True`.
 - `degeneracy_variable`: Array of values of the degeneracy variable at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `deg_var` or `chemical_func` is `True`.
 - `cutoff_variable`: Array of values of the cutoff variable at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `deg_var`, `cutoff_var`, `chemical_func` or `cutoff_func` is `True`.
@@ -313,6 +314,10 @@ print("Fitting procedure completed\n")
 print("The best fit parameters are: ", best_fit_parameters)
 # ============================================================================ #
 ```
+
+This code will generate a dark matter mass distribution with a radial profile as follows:
+
+![alt text](https://github.com/Santiq22/rar-model/tree/main/figures/density_profile.png)
 
 ## License
 
