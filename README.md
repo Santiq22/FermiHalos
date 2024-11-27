@@ -204,9 +204,9 @@ There are plenty of aplications where a RAR dark matter halo can play a role (se
 ```python
 # =============================== Packages =================================== #
 import numpy as np
-from scipy import optimize
+from scipy.optimize import differential_evolution
 import os
-from rar_solver import Rar
+from rar_class import Rar
 
 # Module containing two classes representing an arbitrary disk and an arbitrary bulge
 from mass_dist import ExponentialDisk, deVaucouleurs
@@ -221,7 +221,7 @@ velocities = observations[:,1]
 deviations = observations[:,2]
 
 # The first value of deviations is 0 on the list
-deviations[0] = deviations[0] + 4.0
+deviations[0] = deviations[0] + 4.0          # km/s
 
 # Maximum radii to work with
 r_gal_max = 250.0                            # kpc
@@ -296,10 +296,10 @@ def chi_2_red(p):
 
 # ============================ Fitting function ============================== #
 def fit(cores):
-    opt = optimize.differential_evolution(chi_2_red, bounds, strategy='best1bin', maxiter=150, 
-                                          popsize=75, recombination=0.4, mutation=(0.2, 0.5),
-                                          tol=1.0e-10, atol=0.0, disp=True, polish=True, 
-                                          x0=p_0, seed=10, workers=cores)
+    opt = differential_evolution(chi_2_red, bounds, strategy='best1bin', maxiter=150, 
+                                 popsize=75, recombination=0.4, mutation=(0.2, 0.5),
+                                 tol=1.0e-10, atol=0.0, disp=True, polish=True, 
+                                 x0=p_0, seed=10, workers=cores)
     
     solution = opt.x
     np.savetxt('best_fit_parameters_for_M31_70kev.txt', solution)
@@ -318,6 +318,8 @@ print("The best fit parameters are: ", best_fit_parameters)
 This code will generate a dark matter mass distribution with a radial profile as follows:
 
 ![density_profile](https://github.com/user-attachments/assets/76dddc0f-0bed-4ed8-b391-25ba37d0d584)
+
+and a total circular velocity profile as:
 
 ![circular_velocity_profile](https://github.com/user-attachments/assets/f34c125f-0bc8-4210-8867-6ef4a460639a)
 

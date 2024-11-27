@@ -7,6 +7,14 @@ Created on Thu Jun 15 14:32:25 2023
 
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
+import os
+
+# Real path from the root directory to where rar_class.py is
+path_rar = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'src'))
+
+# Insert the path location of rar_class.py into the list of folders giving by sys.path
+sys.path.insert(0, path_rar)
 from rar_class import Rar
 
 # ============================= Plot features ================================= #
@@ -40,25 +48,22 @@ plt.rcParams['ytick.minor.size']= 3.0
 beta_0 = 1.113903337971913738e-05
 theta_0 = 3.780867927802387385e+01
 W_0 = 6.644915273597560201e+01
-m_DM = 5.480880070125579806e+01   # keV
-G_u = 4.3009e-6          # (km/s)^2*kpc/M_sun
-c = 2.99792458e+5        # Light speed - km/s
+m_DM = 5.480880070125579806e+01                          # keV
+G_u = 4.3009e-6                                          # (km/s)^2*kpc/M_sun
+c = 2.99792458e+5                                        # Light speed - km/s
 
-h = Rar(np.array([m_DM,
-                  theta_0,
-                  W_0,
-                  beta_0]), nu_func=True, temp_var=True)
-r = np.logspace(np.log10(h.r[0]), np.log10(h.r[-1]), 10**6, endpoint=False)
+halo = Rar(np.array([m_DM, theta_0, W_0, beta_0]), nu_func=True, temp_var=True)
+r = np.logspace(np.log10(halo.r[0]), np.log10(halo.r[-1]), 10**6, endpoint=False)
 
-nu_0 = 2.0*np.log(np.sqrt(1.0 - 2.0*G_u*h.m[-1]/(c**2*h.r[-1]))*1.0/(1.0 + beta_0*W_0))
+nu_0 = halo.nu_0
 # ============================================================================= #
 
 # ================================== Plot ===================================== #
-fig, ax = plt.subplots(1, 1, figsize=(6,6), dpi=380)
+fig, ax = plt.subplots(1, 1, figsize=(6, 6), dpi=380)
 plt.xscale('log')
-ax.plot(r, np.exp((h.metric_potential(r) - nu_0)/2)*h.beta(r)/beta_0, lw=3, ls=':', color='#91430e', label=r'$\frac{\beta(r)}{\beta_{0}}\mathrm{e}^{(\nu(r) - \nu_{0})/2}$')
+ax.plot(r, np.exp((halo.metric_potential(r) - nu_0)/2.0)*halo.beta(r)/beta_0, lw=3, ls=':', color='#91430e', label=r'$\frac{\beta(r)}{\beta_{0}}\mathrm{e}^{(\nu(r) - \nu_{0})/2}$')
 ax.axhline(1, lw=1, color='black')
-ax.axvline(h.r[-1], lw=1, color='darkblue', ls='-.', label=r'$r_{\mathrm{max}}$')
+ax.axvline(halo.r[-1], lw=1, color='darkblue', ls='-.', label=r'$r_{\mathrm{max}}$')
 ax.set_xlim(1.0e-10, 80)
 ax.set_ylim(0.99975, 1.00150)
 ax.set_xlabel("r [kpc]")
