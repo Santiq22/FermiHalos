@@ -1,0 +1,107 @@
+# -------------------------
+# Python cache & build files
+# -------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# -------------------------
+# Jupyter / IPython
+# -------------------------
+.ipynb_checkpoints
+*.nbconvert.ipynb
+
+# -------------------------
+# Test / coverage reports
+# -------------------------
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# -------------------------
+# Documentation builds
+# -------------------------
+docs/_build/
+docs/build/
+site/
+*.doctree
+*.linkcheck/
+__latexindent_temp.tex
+
+# -------------------------
+# IDE / editor junk
+# -------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.bak
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Cython / numba / compiled extensions
+# -------------------------
+*.c
+*.cpp
+*.pyd
+*.so
+*.dylib
+*.dll
+
+# -------------------------
+# Profiling / benchmarking outputs
+# -------------------------
+.prof
+*.prof
+*.lprof
+*.pstats
+benchmarks/results/
+
+# -------------------------
+# Conda / environment files (auto-generated)
+# -------------------------
+*.conda-build/
+*.conda/
+*.lock

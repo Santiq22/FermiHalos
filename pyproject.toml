@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rarmodel"
+version = "0.1.0"
+description = "An extended RAR model for dark matter halo astrophysics."
+readme = "README.md"
+authors = [
+  {name="Santiago Collazo", email="scollazo@fcaglp.unlp.edu.ar"},
+  {name="Martín Federico Mestre Citrinovitz", email="mmestre@fcaglp.unlp.edu.ar"}
+]
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["astrophysics", "dark matter", "halo", "RAR"]
+requires-python = ">=3.9"
+dependencies = [
+  "numpy>=1.22",
+  "scipy>=1.15.0"
+]
+
+[project.urls]
+homepage = "https://github.com/Santiq22/rar-model"
+documentation = "https://github.com/Santiq22/rar-model/README.md"
+issues = "https://github.com/Santiq22/rar-model/issues"
+
+[tool.setuptools.packages.find]
+include = ["rarmodel"]

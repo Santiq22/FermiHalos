@@ -47,7 +47,7 @@ All the following attributes are *boolean instance attributes* and *set up insta
 - `log_dens_slope_func`: Boolean variable that enables the computation of the logarithmic density slope function. The default value is `False`.
 - `core_func`: Boolean variable that enables the computation of the radii of the dark matter core and its mass. The default value is `False`.
 - `plateau_func`: Boolean variable that enables the computation of the radii of the dark matter plateau and its density. The default value is `False`.
-- `maximum_r`: _(float)_ Maximum radii of integration in $kpc$.
+- `maximum_r`: _(float)_ Maximum radius of integration in $kpc$.
 - `relative_tolerance`: _(float)_ Relative tolerance used by the integrator to solve the equations.
 - `number_of_steps`: _(int)_ Number of steps used to integrate the density and pressure used to compute the right-hand side of the differential equations. We strongly suggest that the value of `number_of_steps` is greater than the minimum value $`2^{10} + 1`$ to ensure precision at the time of computing the solutions.
 
@@ -317,11 +317,11 @@ print("The best fit parameters are: ", best_fit_parameters)
 
 This code will generate a dark matter mass distribution with a radial profile as follows:
 
-![density_profile](https://github.com/user-attachments/assets/76dddc0f-0bed-4ed8-b391-25ba37d0d584)
+![density_profile](figures/density_profile.png)
 
 and a total circular velocity profile as:
 
-![circular_velocity_profile](https://github.com/user-attachments/assets/f34c125f-0bc8-4210-8867-6ef4a460639a)
+![circular_velocity_profile](figures/circular_velocity_profile.png)
 
 ## License
 

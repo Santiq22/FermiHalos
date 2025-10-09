@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Jun 15 14:32:25 2023
-@author: Santiago Collazo
+File: plots.py
+Created on 2025-09-12 11:38:02
+Author: Santiago Collazo
 """
 
 import matplotlib.pyplot as plt
@@ -48,38 +48,58 @@ machine_eps = np.finfo(float).eps                      # Machine epsilon
 # =============================================================================================== #
 
 # ==================================== Solving the RAR model ==================================== #
-beta_0 = 1.113903337971913738e-05
+"""beta_0 = 1.113903337971913738e-05
 theta_0 = 3.780867927802387385e+01
 W_0 = 6.644915273597560201e+01
-m_DM = 5.480880070125579806e+01                        # keV
+m_DM = 5.480880070125579806e+01                          # keV"""
+theta_0 = 37.765595
+W_0 = 66.34067
+beta_0 = 1.1977342e-05
+m_DM = 56.0
+c = 9.7156140203724e-12                                  # kpc/s
 
 halo = Rar(np.array([m_DM, theta_0, W_0, beta_0]), 
            nu_func = True, 
-           cutoff_func = True,
+           dens_func = True,
+           press_func = True,
            core_func = True,
-           plateau_func = True)
+           plateau_func = True,
+           number_of_steps = 20000)
 
-r = np.logspace(np.log10(halo.r[0]), np.log10(halo.r[-1]), 10**6, endpoint = False)
+r = np.logspace(np.log10(halo.r[0]), np.log10(halo.r[-1]), 10**7, endpoint = False)
 
-nu_0 = halo.nu_0
+# Gradient of metric potential - Accessing using the mangled name
+dnu_dr = halo._Rar__dnu_dr(r)
+
+# Density and pressure factor
+rho_P = halo.density(r)*c*c + halo.pressure(r)
+
+# Gradient of pressure - Accessing using the mangled name
+dP_dr = (halo._Rar__P_spline).derivative(1)
+dP_dr = dP_dr(r)
 # =============================================================================================== #
 
 # ============================================ Plot ============================================= #
 fig, ax = plt.subplots(1, 1, figsize = (6, 6), dpi = 380)
-ax.plot(r, np.exp((halo.metric_potential(r) - nu_0)/2.0)*(halo.e_c(r) + m_DM)/(m_DM*(1.0 + beta_0*W_0)) - 1.0, 
-        lw = 0.5, ls = ':', color = '#91430e') 
-        #label = r'$\frac{\mathrm{e}^{(\nu(r) - \nu_{0})/2}(\epsilon_{c}(r) + mc^{2})}{mc^{2}(1 + \beta_{0}W_{0})} - 1$')
+ax.plot(r, dP_dr/rho_P*halo.core()[0], lw = 2.0, label = 'P', color = "#064980")
+ax.plot(r, 0.5*dnu_dr*halo.core()[0], lw = 2.0, label = r'$\nu$', color = "#367A12")
+ax.plot(r, 0.5*dnu_dr*halo.core()[0] + dP_dr/rho_P*halo.core()[0], 
+        lw = 1.0, color = "#3D3F3C")
+ax.hlines(y = min(dP_dr/rho_P*halo.core()[0]), xmin = 1.0e-10, xmax = 80.0, lw = 1.0, color = 'grey')
+ax.hlines(y = -min(dP_dr/rho_P*halo.core()[0]), xmin = 1.0e-10, xmax = 80.0, lw = 1.0, color = 'grey')
 ax.axvline(halo.core()[0], lw = 3, color = 'black', label = r'$r_{\mathrm{core}}$')
 ax.axvline(halo.plateau()[0], lw = 3, color = 'violet', ls = '--', label = r'$r_{\mathrm{plateau}}$')
 ax.axvline(halo.r[-1], lw = 3, color = 'darkblue', ls = '-.', label = r'$r_{\mathrm{max}}$')
 plt.xscale('log')
-ax.set_xlim(1.0e-10, 80)
-ax.set_ylim(-7.0*machine_eps, 7.0*machine_eps)
-ax.set_yticks([-6.0*machine_eps, -4.0*machine_eps, -2.0*machine_eps, 0.0, 
-               2.0*machine_eps, 4.0*machine_eps, 6.0*machine_eps])
-ax.set_yticklabels([r'-6$\epsilon$', r'-4$\epsilon$', r'-2$\epsilon$', '0', 
-                    r'2$\epsilon$', r'4$\epsilon$', r'6$\epsilon$'])
+ax.set_xlim(1.0e-10, 80.0)
+#ax.set_xlim(halo.core()[0], 80.0)
+ax.set_ylim(-1.0e-6, 1.0e-6)
+#ax.set_ylim(-1 - 9.0*machine_eps, -1 + 9.0*machine_eps)
+#ax.set_yticks([-8.0*machine_eps, -6.0*machine_eps, -4.0*machine_eps, -2.0*machine_eps, 0.0, 
+#               2.0*machine_eps, 4.0*machine_eps, 6.0*machine_eps, 8.0*machine_eps])
+#ax.set_yticklabels([r'-8$\epsilon$', r'-6$\epsilon$', r'-4$\epsilon$', r'-2$\epsilon$', '0', 
+#                    r'2$\epsilon$', r'4$\epsilon$', r'6$\epsilon$', r'8$\epsilon$'])
 ax.set_xlabel("r [kpc]")
 ax.legend(loc = 'upper left')
-fig.savefig('../figures/cutoff_energy_condition.png', bbox_inches = 'tight')
+fig.savefig('../figures/grad_P_vs_grad_nu.png', bbox_inches = 'tight')
 # =============================================================================================== #
