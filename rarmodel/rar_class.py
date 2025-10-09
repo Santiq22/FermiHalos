@@ -266,6 +266,9 @@ class Rar:
             # Continous second derivative function. Allows easy computation of derivatives
             self.__second_derivative_of_mass = (self.__mass_spline).derivative(2)
         # =============================================================================================================== #
+        
+    def __repr__(self):
+        return f'<{type(self).__name__} object at 0x{id(self):x}>'
 
     # ============================================ Instance private methods ============================================= #
     def __mass(self, r: float | np.ndarray) -> np.ndarray:
