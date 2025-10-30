@@ -103,7 +103,7 @@ class Rar:
         
         See also
         --------
-        For more details see https://github.com/Santiq22/rar-model/README.md.
+        For more details see https://github.com/Santiq22/FermiHalos/README.md.
         """
         
         # ======================================== Numerical instance attributes ======================================== #
@@ -341,7 +341,7 @@ class Rar:
         Raises
         ------
         NameError
-            If Rar.dens_func is False
+            If self.dens_func is False
         """
         
         if not self.dens_func:
@@ -369,6 +369,11 @@ class Rar:
         -------
         ndarray
             Metric potential at r
+            
+        Raises
+        ------
+        NameError
+            If self.nu_func is False
         """
         
         if not self.nu_func:
@@ -396,6 +401,11 @@ class Rar:
         -------
         ndarray
             Enclosed particle number at r
+            
+        Raises
+        ------
+        NameError
+            If self.particles_func is False
         """
         
         if not self.particles_func:
@@ -422,6 +432,11 @@ class Rar:
         -------
         ndarray
             Lambda potential at r
+            
+        Raises
+        ------
+        NameError
+            If self.lambda_func is False
         """
         
         if not self.lambda_func:
@@ -447,6 +462,11 @@ class Rar:
         -------
         ndarray
             Pressure profile at r
+            
+        Raises
+        ------
+        NameError
+            If self.press_func is False
         """
         
         if not self.press_func:
@@ -473,6 +493,11 @@ class Rar:
         -------
         ndarray
             Particle number density at r
+            
+        Raises
+        ------
+        NameError
+            If self.n_func is False
         """
         
         if not self.n_func:
@@ -498,6 +523,11 @@ class Rar:
         -------
         ndarray
             Circular velocity profile density at r
+            
+        Raises
+        ------
+        NameError
+            If self.circ_vel_func is False
         """
         
         if not self.circ_vel_func:
@@ -529,6 +559,11 @@ class Rar:
         -------
         ndarray
             Acceleration field for a given position vector (x, y, z)
+            
+        Raises
+        ------
+        NameError
+            If self.accel_func is False
         """
         
         if not self.accel_func:
@@ -555,6 +590,11 @@ class Rar:
         -------
         ndarray
             Degeneracy variable at r
+            
+        Raises
+        ------
+        NameError
+            If self.deg_var is False
         """
         
         if not self.deg_var:
@@ -581,6 +621,11 @@ class Rar:
         -------
         ndarray
             Cutoff variable at r
+            
+        Raises
+        ------
+        NameError
+            If self.cutoff_var is False
         """
         
         if not self.cutoff_var:
@@ -607,6 +652,11 @@ class Rar:
         -------
         ndarray
             Temperature variable at r
+            
+        Raises
+        ------
+        NameError
+            If self.temp_var is False
         """
         
         if not self.temp_var:
@@ -633,6 +683,11 @@ class Rar:
         -------
         ndarray
             Chemical potential function at r
+            
+        Raises
+        ------
+        NameError
+            If self.chemical_func is False
         """
         
         if not self.chemical_func:
@@ -659,6 +714,11 @@ class Rar:
         -------
         ndarray
             Cutoff energy function at r
+            
+        Raises
+        ------
+        NameError
+            If self.cutoff_func is False
         """
         
         if not self.cutoff_func:
@@ -685,6 +745,11 @@ class Rar:
         -------
         ndarray
             Temperature function at r
+            
+        Raises
+        ------
+        NameError
+            If self.temperature_func is False
         """
         
         if not self.temperature_func:
@@ -711,6 +776,11 @@ class Rar:
         -------
         ndarray
             Logarithmic density slope function at r
+            
+        Raises
+        ------
+        NameError
+            If self.log_dens_slope_func is False
         """
         
         if not self.log_dens_slope_func:
@@ -734,6 +804,11 @@ class Rar:
         -------
         tuple(ndarray, ndarray)
             Core radius and core mass, respectively
+            
+        Raises
+        ------
+        NameError
+            If self.core_func is False
         """
         
         if not self.core_func:
@@ -772,6 +847,11 @@ class Rar:
         -------
         tuple(ndarray, ndarray)
             Radius and density of the plateau, respectively
+            
+        Raises
+        ------
+        NameError
+            If self.plateau_func is False
         """
         
         if not self.plateau_func:
