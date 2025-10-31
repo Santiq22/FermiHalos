@@ -9,7 +9,7 @@ g_11 = -e^(lambda)
 """
 
 # ================================================= Packages ==================================================== #
-from model import model
+from fermihalos.model import model
 import numpy as np
 from scipy.interpolate import InterpolatedUnivariateSpline
 from scipy.optimize import fminbound
@@ -765,7 +765,7 @@ class Rar:
         
         This function computes the logarithmic density slope function of the fermionic dark matter distribution which is the 
         solution of the differential equations for the given free parameters of the model. It is defined for every r > 0. 
-        #!For r >= R, being R the radial size of the halo, this function takes a constant value that is 0.
+        Warning: for r >= R, being R the radial size of the halo, this function takes value arbitrarily large.
         
         Parameters
         ----------

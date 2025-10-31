@@ -11,11 +11,12 @@ import sys
 import os
 
 # Real path from the root directory to where rar_class.py is
-path_rar = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'fermihalos'))
+#path_rar = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'fermihalos'))
 
 # Insert the path location of rar_class.py into the list of folders giving by sys.path
-sys.path.insert(0, path_rar)
-from rar_class import Rar
+#sys.path.insert(0, path_rar)
+#from rar_class import Rar
+from fermihalos import Rar
 
 # ======================================== Plot features ======================================== #
 # Properties to decorate the plots.

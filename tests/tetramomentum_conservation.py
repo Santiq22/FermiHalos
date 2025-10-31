@@ -10,11 +10,12 @@ import sys
 import os
 
 # Real path from the root directory to where rar_class.py is
-path_rar = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'fermihalos'))
+#path_rar = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'fermihalos'))
 
 # Insert the path location of rar_class.py into the list of folders giving by sys.path
-sys.path.insert(0, path_rar)
-from rar_class import Rar
+#sys.path.insert(0, path_rar)
+# from rar_class import Rar
+from fermihalos import Rar
 
 # ======================================== Plot features ======================================== #
 # Properties to decorate the plots.
@@ -64,7 +65,7 @@ halo = Rar(np.array([m_DM, theta_0, W_0, beta_0]),
            press_func = True,
            core_func = True,
            plateau_func = True,
-           number_of_steps = 20000)
+           number_of_steps = 100000)
 
 r = np.logspace(np.log10(halo.r[0]), np.log10(halo.r[-1]), 10**6, endpoint = False)
 
@@ -79,7 +80,7 @@ dP_dr = (halo._Rar__P_spline).derivative(1)
 dP_dr = dP_dr(r)
 
 # Definition of left-hand side
-Q = 0.5*dnu_dr*rho_P + dP_dr
+Q = 0.5*dnu_dr*rho_P/dP_dr + 1
 # =============================================================================================== #
 
 # =========================================== Prints ============================================ #
@@ -91,22 +92,21 @@ print('rho_plat =', halo.plateau()[1])
 
 # ============================================ Plot ============================================= #
 fig, ax = plt.subplots(1, 1, figsize = (6, 6), dpi = 380)
-ax.plot(r, Q, lw = 2.0, ls = ':', color = '#91430e')
+ax.plot(r, Q, lw = 2, color = '#91430e')
 ax.axvline(halo.core()[0], lw = 3, color = 'black', label = r'$r_{\mathrm{core}}$')
 ax.axvline(halo.plateau()[0], lw = 3, color = 'violet', ls = '--', label = r'$r_{\mathrm{plateau}}$')
 ax.axvline(halo.r[-1], lw = 3, color = 'darkblue', ls = '-.', label = r'$r_{\mathrm{max}}$')
 plt.xscale('log')
 ax.set_xlim(1.0e-10, 80.0)
-#ax.set_xlim(halo.core()[0], 80.0)
-#ax.set_ylim(-1 -2.0e-3, -1 + 2.5e-3)
-ax.set_ylim(-1000.0, 1000.0)
-#ax.set_ylim(-1 - 9.0*machine_eps, -1 + 9.0*machine_eps)
+#ax.set_xlim(1.0e-2, 80.0)
+ax.set_ylim(-2.5e-3, 2.5e-3)
+#ax.set_ylim(-9.0*machine_eps, 9.0*machine_eps)
 #ax.set_yticks([-8.0*machine_eps, -6.0*machine_eps, -4.0*machine_eps, -2.0*machine_eps, 0.0, 
 #               2.0*machine_eps, 4.0*machine_eps, 6.0*machine_eps, 8.0*machine_eps])
 #ax.set_yticklabels([r'-8$\epsilon$', r'-6$\epsilon$', r'-4$\epsilon$', r'-2$\epsilon$', '0', 
 #                    r'2$\epsilon$', r'4$\epsilon$', r'6$\epsilon$', r'8$\epsilon$'])
 ax.set_xlabel("r [kpc]")
-ax.set_ylabel(r"$\nabla_{\mu} T^{\mu\nu}\ [M_{\odot}\ kpc^{-2}\ s^{-2}]$")
+#ax.set_ylabel(r"$\nabla_{\mu} T^{\mu\nu}\ [M_{\odot}\ kpc^{-2}\ s^{-2}]$")
 ax.legend(loc = 'upper left')
-#fig.savefig('../figures/tetramomentum_conservation.png', bbox_inches = 'tight')
+fig.savefig('../figures/tetramomentum_conservation_a_tol_0_100000_points.png', bbox_inches = 'tight')
 # =============================================================================================== #
