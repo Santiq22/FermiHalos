@@ -1,0 +1,66 @@
+# .github/workflows/docs.yml
+
+name: Deploy Documentation
+
+# Run on pushes to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+      # Use 'master' if that's your default branch name
+
+# Grant permissions for the job to write to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Check out your repository's code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x' # Use the Python version you prefer
+
+      # 3. Install documentation dependencies
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-docs.txt
+          pip install .  # Installs your *own* package so autodoc can find it
+
+      # 4. Build the Sphinx documentation
+      - name: Build Sphinx docs
+        run: |
+          sphinx-build -b html docs/source docs/build
+          # '-b html': build HTML
+          # 'docs/source': location of your .rst files and conf.py
+          # 'docs/build': where to put the final HTML files
+
+      # 5. Upload the built HTML site as an artifact
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs/build' # The folder Sphinx just built
+
+  deploy:
+    # This job 'deploy' depends on the 'build' job to finish first
+    needs: build
+    runs-on: ubuntu-latest
+    
+    # Specify the deployment environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # 6. Deploy the artifact to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
