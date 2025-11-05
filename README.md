@@ -1,9 +1,9 @@
-# Extended RAR model
-Repository containing the programs needed to solve the RAR model's equations.
+# FermiHalos
+Repository containing the programs needed to solve the extended RAR model's equations modeling fermionic dark matter halos.
 
-## Files description
+---
 
-### `rar_class.py`:
+## Content
 
 The code defines a class whose name is `Rar`. It has to be instantiated as:
 
