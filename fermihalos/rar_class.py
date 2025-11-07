@@ -24,6 +24,108 @@ k = 8.617333262e-8       # Boltzmann's constant - keV/K
 class Rar:
     """ 
     Extended RAR mass distribution object.
+    
+    This class instantiates an object of the ``Rar`` class, which represents a fermionic dark matter halo 
+    following the extended RAR model. The constructor of this class will integrate the differential equations 
+    defining the halo, based on the input free parameters stated below.
+    
+    Parameters
+    ----------
+    param: ndarray
+        Array containing the dark matter particle mass, the degeneracy parameter, the cutoff variable and the
+        temperature variable, respectively 
+    dens_func: bool, optional, default=False
+        Flag allowing the computation of the density profile. The default value is False.
+    nu_func: bool, optional, default=False
+        Flag allowing the computation of the metric potential. The default value is False.
+    particles_func: bool, optional, default=False
+        Flag allowing the computation of the enclosed particle number. The default value is False.
+    lambda_func: bool, optional, default=False
+        Flag allowing the computation of the lambda potential. The default value is False.
+    press_func: bool, optional, default=False
+        Flag allowing the computation of the pressure profile. The default value is False.
+    n_func: bool, optional, default=False
+        Flag allowing the computation of the particle number density. The default value is False.
+    circ_vel_func: bool, optional, default=False
+        Flag allowing the computation of the circular velocity profile. The default value is False.
+    accel_func: bool, optional, default=False
+        Flag allowing the computation of the acceleration field. The default value is False.
+    deg_var: bool, optional, default=False
+        Flag allowing the computation of the degeneracy variable. The default value is False.
+    cutoff_var: bool, optional, default=False
+        Flag allowing the computation of the cutoff variable. The default value is False.
+    temp_var: bool, optional, default=False
+        Flag allowing the computation of the temperature variable. The default value is False.
+    chemical_func: bool, optional, default=False
+        Flag allowing the computation of the chemical potential function. The default value is False.
+    cutoff_func: bool, optional, default=False
+        Flag allowing the computation of the cutoff function. The default value is False.
+    temperature_func: bool, optional, default=False
+        Flag allowing the computation of the temperature function. The default value is False.
+    log_dens_slope_func: bool, optional, default=False
+        Flag allowing the computation of the logarithmic density slope function. The default value is False.
+    core_func: bool, optional, default=False
+        Flag allowing the computation of the core function. The default value is False.
+    plateau_func: bool, optional, default=False
+        Flag allowing the computation of the plateau function. The default value is False.
+    maximum_r: float, optional, default=1.0e3
+        Maximum radius of integration in kpc
+    relative_tolerance: float, optional, default=5.0e-12
+        Relative tolerance used by the integrator to solve the equations
+    number_of_steps: int, optional, default=2**10 + 1
+        Number of steps used to integrate the density and pressure used to compute the right-hand side of the
+        differential equations. We strongly suggest that the value of `number_of_steps` is greater than the 
+        minimum value 2**10 + 1 to ensure precision at the time of computing the solutions.
+        
+    Attributes
+    ----------
+
+    All the following attributes are *boolean instance attributes* and *set up instance attributes*. They must be accessed as: ``self.attribute``.
+
+    - ``dens_func``: Boolean variable that enables the computation of the density profile of the distribution. The default value is ``False``.
+    - ``nu_func``: Boolean variable that enables the computation of the metric potential. The default value is ``False``.
+    - ``particles_func``: Boolean variable that enables the computation of the enclosed particle number. The default value is ``False``.
+    - ``lambda_func``: Boolean variable that enables the computation of the lambda potential. The default value is ``False``.
+    - ``press_func``: Boolean variable that enables the computation of the pressure profile. The default value is ``False``.
+    - ``n_func``: Boolean variable that enables the computation of the particle number density. The default value is ``False``.
+    - ``circ_vel_func``: Boolean variable that enables the computation of the circular velocity profile. The default value is ``False``.
+    - ``accel_func``: Boolean variable that enables the computation of the Newtonian gravitational field exerted by the dark matter halo. The default value is ``False``.
+    - ``deg_var``: Boolean variable that enables the computation of the degeneracy variable. The default value is ``False``.
+    - ``cutoff_var``: Boolean variable that enables the computation of the cutoff variable. The default value is ``False``.
+    - ``temp_var``: Boolean variable that enables the computation of the temperature variable. The default value is ``False``.
+    - ``chemical_func``: Boolean variable that enables the computation of the chemical potential. The default value is ``False``.
+    - ``cutoff_func``: Boolean variable that enables the computation of the cutoff energy function. The default value is ``False``.
+    - ``temperature_func``: Boolean variable that enables the computation of the temperature function. The default value is ``False``.
+    - ``log_dens_slope_func``: Boolean variable that enables the computation of the logarithmic density slope function. The default value is ``False``.
+    - ``core_func``: Boolean variable that enables the computation of the radii of the dark matter core and its mass. The default value is ``False``.
+    - ``plateau_func``: Boolean variable that enables the computation of the radii of the dark matter plateau and its density. The default value is ``False``.
+    - ``maximum_r``: (*float*) Maximum radius of integration in :math:`kpc`.
+    - ``relative_tolerance``: (*float*) Relative tolerance used by the integrator to solve the equations.
+    - ``number_of_steps``: (*int*) Number of steps used to integrate the density and pressure used to compute the right-hand side of the differential equations. We strongly suggest that the value of ``number_of_steps`` is greater than the minimum value :math:`2^{10} + 1` to ensure precision at the time of computing the solutions.
+
+    In addition, there are some instance attributes representing physical quantities, which are:
+
+    - ``DM_mass`` :math:`keV/c^{2}`: Dark matter particle mass.
+    - ``theta_0``: Degeneracy parameter :math:`\theta_{0}` of the system.
+    - ``W_0``: Cutoff parameter :math:`W_{0}` of the system.
+    - ``beta_0``: Temperature parameter :math:`\beta_{0}` of the system.
+    - ``r`` :math:`kpc`: Array of the radius where the solution was computed. It is a numpy ndarray of shape (n,). Available by default.
+    - ``m`` :math:`M_{\odot}`: Array of enclosed masses at the radius given in ``r``. It is a numpy ndarray of shape (n,). Available by default.
+    - ``nu``: Array of metric potentials (dimensionless) at the radius given in ``r``. It is a numpy ndarray of shape (n,). Available by default.
+    - ``N``: Array of enclosed particle numbers at the radius given in ``r``. It is a numpy ndarray of shape (n,). Available by default. 
+    - ``nu_0``: Value of the metric potential at the center of the distribution, :math:`\nu_{0}`. Available by default.
+    - ``P`` :math:`M_{\odot}/(kpc\ s^{2})`: Array of pressures at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``press_func`` is ``True``.
+    - ``n`` :math:`kpc^{-3}`: Array of particle number densities at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``n_func`` is ``True``.
+    - ``degeneracy_variable``: Array of values of the degeneracy variable at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``deg_var`` or ``chemical_func`` is ``True``.
+    - ``cutoff_variable``: Array of values of the cutoff variable at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``deg_var``, ``cutoff_var``, ``chemical_func`` or ``cutoff_func`` is ``True``.
+    - ``temperature_variable``: Array of values of the temperature variable at the radius given in ``r``. It is a numpy ndarray of shape (n,). Available by default.
+    - ``chemical_potential`` :math:`keV`: Array of values of the chemical potential at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``chemical_func`` is ``True``.
+    - ``cutoff`` :math:`keV`: Array of values of the cutoff energy function at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``cutoff_func`` is ``True``.
+    - ``temperature`` :math:`K`: Array of values of the temperature function at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``chemical_func``, ``cutoff_func`` or ``temperature_func`` is ``True``.
+        
+    See also
+    --------
+    For more details see `README <https://github.com/Santiq22/FermiHalos/README.md>`_.
     """
     
     def __init__(self, param: np.ndarray, 
@@ -47,64 +149,6 @@ class Rar:
                  maximum_r: float = 1.0e3, 
                  relative_tolerance: float = 5.0e-12, 
                  number_of_steps: int = 2**10 + 1):
-        
-        """
-        A Rar object has to be instantiated as Rar(parameters, boolean_variables). These parameters are 
-        the four RAR parameters, the boolean variables indicating if additional physical variables have to be 
-        computed, and the parameters related with the integration of the equations.
-        
-        Parameters
-        ----------
-        param: ndarray
-            Array containing the dark matter particle mass, the degeneracy parameter, the cutoff variable and the
-            temperature variable, respectively 
-        dens_func: bool, optional
-            Flag allowing the computation of the density profile. The default value is False.
-        nu_func: bool, optional
-            Flag allowing the computation of the metric potential. The default value is False.
-        particles_func: bool, optional
-            Flag allowing the computation of the enclosed particle number. The default value is False.
-        lambda_func: bool, optional
-            Flag allowing the computation of the lambda potential. The default value is False.
-        press_func: bool, optional
-            Flag allowing the computation of the pressure profile. The default value is False.
-        n_func: bool, optional
-            Flag allowing the computation of the particle number density. The default value is False.
-        circ_vel_func: bool, optional
-            Flag allowing the computation of the circular velocity profile. The default value is False.
-        accel_func: bool, optional
-            Flag allowing the computation of the acceleration field. The default value is False.
-        deg_var: bool, optional
-            Flag allowing the computation of the degeneracy variable. The default value is False.
-        cutoff_var: bool, optional
-            Flag allowing the computation of the cutoff variable. The default value is False.
-        temp_var: bool, optional
-            Flag allowing the computation of the temperature variable. The default value is False.
-        chemical_func: bool, optional
-            Flag allowing the computation of the chemical potential function. The default value is False.
-        cutoff_func: bool, optional
-            Flag allowing the computation of the cutoff function. The default value is False.
-        temperature_func: bool, optional
-            Flag allowing the computation of the temperature function. The default value is False.
-        log_dens_slope_func: bool, optional
-            Flag allowing the computation of the logarithmic density slope function. The default value is False.
-        core_func: bool, optional
-            Flag allowing the computation of the core function. The default value is False.
-        plateau_func: bool, optional
-            Flag allowing the computation of the plateau function. The default value is False.
-        maximum_r: float, optional
-            Maximum radius of integration in kpc
-        relative_tolerance: float, optional
-            Relative tolerance used by the integrator to solve the equations
-        number_of_steps: int, optional
-            Number of steps used to integrate the density and pressure used to compute the right-hand side of the
-            differential equations. We strongly suggest that the value of `number_of_steps` is greater than the 
-            minimum value 2**10 + 1 to ensure precision at the time of computing the solutions.
-        
-        See also
-        --------
-        For more details see https://github.com/Santiq22/FermiHalos/README.md.
-        """
         
         # ======================================== Numerical instance attributes ======================================== #
         self.DM_mass = param[0]                              # Dark matter particle mass - keV/c^2
@@ -297,12 +341,30 @@ class Rar:
     def mass(self, 
              r: float | np.ndarray) -> np.ndarray:
         """
-        Enclosed mass profile. 
+        Enclosed mass profile in :math:`M_{\odot}`.
         
         This function computes the enclosed mass profile of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
         being R the radial size of the halo, this function takes a constant value that is the mass of the self-gravtiating 
         system.
+        
+        Setting:
+        
+        .. math::
+            \begin{equation*}
+                M(r) = \int_{0}^{r}4\pi r'^{\ 2}\rho(r')dr',
+            \end{equation*}
+            
+        where :math:`\rho(r)` is the density of the distribution, the method is defined as a piecewise function of 2 parts, whose expression is:
+        
+        .. math::
+            \begin{equation*}
+            mass(r)=
+                \begin{cases}
+                    M(r) & \text{if } r < r_{\mathrm{max}},\\
+                    M(r_{\textrm{max}}) & \text{if } r \geq r_{\mathrm{max}}.
+                \end{cases}
+            \end{equation*}
         
         Parameters
         ----------

@@ -23,3 +23,5 @@ where ``parameters`` is the array used in the instance of the class.
 The ``model`` function defines several subfunctions needed to compute the right-hand side of the Tolman-Oppenheimer-Volkoff (TOV) equations. These subfunctions include a Fermi-Dirac-like distribution function, three integrands for computing the density, pressure, and particle number density, and three functions for computing the density, pressure, and particle number density themselves.
 
 The TOV equations are solved using the ``solve_ivp`` function from the ``scipy.integrate`` module. The right-hand side of the TOV equations is computed using the function called ``tov``. The solution of the TOV equations is then re-scaled to obtain the physical quantities, including the radius, enclosed mass, metric potential, pressure, particle number density, the metric potential at the origin of the distribution, the temperature variable, and the enclosed particle number of the dark matter halo. The optional attributes of the ``Rar`` class then enable the computation of the other physical variables using the outputs of the ``model`` function.
+
+See :ref:`rar-class` for further details on this class.
