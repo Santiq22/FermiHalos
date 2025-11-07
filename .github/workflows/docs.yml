@@ -6,8 +6,7 @@ name: Deploy Documentation
 on:
   push:
     branches:
-      - main
-      # Use 'master' if that's your default branch name
+      - main # Use 'master' if that's your default branch name
 
 # Grant permissions for the job to write to GitHub Pages
 permissions:
@@ -21,13 +20,13 @@ jobs:
     steps:
       # 1. Check out your repository's code
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # 2. Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.x' # Use the Python version you prefer
+          python-version: '3.13' # Use the Python version you prefer
 
       # 3. Install documentation dependencies
       - name: Install dependencies
@@ -45,7 +44,7 @@ jobs:
 
       # 5. Upload the built HTML site as an artifact
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: 'docs/build' # The folder Sphinx just built
 
