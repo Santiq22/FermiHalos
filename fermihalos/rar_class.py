@@ -124,7 +124,7 @@ class Rar:
         
     See also
     --------
-    For more details see `README <https://github.com/Santiq22/FermiHalos/README.md>`_.
+        For more details see `README <https://github.com/Santiq22/FermiHalos/README.md>`_.
     """
     
     def __init__(self, param: np.ndarray, 
