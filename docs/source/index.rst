@@ -3,11 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-FermiHalos documentation
-========================
+FermiHalos
+==========
 
 This package contains the code needed to solve the extended RAR model's equations modeling fermionic dark matter halos.
 
+Visit the GitHub repo here: `<FermiHalos https://github.com/Santiq22/FermiHalos>`_
 
 .. toctree::
    :numbered:
@@ -16,3 +17,4 @@ This package contains the code needed to solve the extended RAR model's equation
 
    installation.rst
    intro.rst
+   rar_class.rst

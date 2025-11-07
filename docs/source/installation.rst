@@ -16,7 +16,7 @@ Using ``pip``
 
 To install ``fermihalos`` using the ``pip`` package manager simply run:
 
-.. code_block:: shell
+.. code-block:: bash
 
     pip install fermihalos
 
@@ -27,7 +27,7 @@ Using ``conda``
 
 To install ``fermihalos`` using the ``conda`` package manager simply run:
 
-.. code_block:: shell
+.. code-block:: bash
 
     conda install fermihalos
 
@@ -38,19 +38,19 @@ Using the setup.py
 
 In case a manual installation is required, the first step is to clone the GitHub repository to the installation folder:
 
-.. code_block:: shell
+.. code-block:: bash
 
     git clone https://github.com/Santiq22/FermiHalos.git
 
 Then, since it is needed to have ``setuptools`` installed, it is recomended to have it updated. To do this, run:
 
-.. code_block:: shell
+.. code-block:: bash
 
     python -m pip install --upgrade setuptools
 
 Then, to install the package in your computer, run on the root directory of the cloned repository:
 
-.. code_block:: shell
+.. code-block:: bash
 
     python setup.py install
 
