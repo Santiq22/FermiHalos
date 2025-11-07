@@ -105,17 +105,17 @@ class Rar:
 
     In addition, there are some instance attributes representing physical quantities, which are:
 
-    - ``DM_mass`` :math:`keV/c^{2}`: Dark matter particle mass.
-    - ``theta_0``: Degeneracy parameter :math:`\theta_{0}` of the system.
+    - ``DM_mass`` [:math:`keV/c^{2}`]: Dark matter particle mass.
+    - ``theta_0``: Degeneracy parameter :math:`{\theta_{0}}` of the system.
     - ``W_0``: Cutoff parameter :math:`W_{0}` of the system.
-    - ``beta_0``: Temperature parameter :math:`\beta_{0}` of the system.
-    - ``r`` :math:`kpc`: Array of the radius where the solution was computed. It is a numpy ndarray of shape (n,). Available by default.
-    - ``m`` :math:`M_{\odot}`: Array of enclosed masses at the radius given in ``r``. It is a numpy ndarray of shape (n,). Available by default.
+    - ``beta_0``: Temperature parameter :math:`{\beta_{0}}` of the system.
+    - ``r`` [:math:`kpc`]: Array of the radius where the solution was computed. It is a numpy ndarray of shape (n,). Available by default.
+    - ``m`` [:math:`M_{\odot}`]: Array of enclosed masses at the radius given in ``r``. It is a numpy ndarray of shape (n,). Available by default.
     - ``nu``: Array of metric potentials (dimensionless) at the radius given in ``r``. It is a numpy ndarray of shape (n,). Available by default.
     - ``N``: Array of enclosed particle numbers at the radius given in ``r``. It is a numpy ndarray of shape (n,). Available by default. 
-    - ``nu_0``: Value of the metric potential at the center of the distribution, :math:`\nu_{0}`. Available by default.
-    - ``P`` :math:`M_{\odot}/(kpc\ s^{2})`: Array of pressures at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``press_func`` is ``True``.
-    - ``n`` :math:`kpc^{-3}`: Array of particle number densities at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``n_func`` is ``True``.
+    - ``nu_0``: Value of the metric potential at the center of the distribution, :math:`{\nu_{0}}`. Available by default.
+    - ``P`` [:math:`M_{\odot}/(kpc\ s^{2})`]: Array of pressures at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``press_func`` is ``True``.
+    - ``n`` [:math:`kpc^{-3}`]: Array of particle number densities at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``n_func`` is ``True``.
     - ``degeneracy_variable``: Array of values of the degeneracy variable at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``deg_var`` or ``chemical_func`` is ``True``.
     - ``cutoff_variable``: Array of values of the cutoff variable at the radius given in ``r``. It is a numpy ndarray of shape (n,). Only available if ``deg_var``, ``cutoff_var``, ``chemical_func`` or ``cutoff_func`` is ``True``.
     - ``temperature_variable``: Array of values of the temperature variable at the radius given in ``r``. It is a numpy ndarray of shape (n,). Available by default.
@@ -344,27 +344,9 @@ class Rar:
         Enclosed mass profile in :math:`M_{\odot}`.
         
         This function computes the enclosed mass profile of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is the mass of the self-gravtiating 
-        system.
-        
-        Setting:
-        
-        .. math::
-            \begin{equation*}
-                M(r) = \int_{0}^{r}4\pi r'^{\ 2}\rho(r')dr',
-            \end{equation*}
-            
-        where :math:`\rho(r)` is the density of the distribution, the method is defined as a piecewise function of 2 parts, whose expression is:
-        
-        .. math::
-            \begin{equation*}
-            mass(r)=
-                \begin{cases}
-                    M(r) & \text{if } r < r_{\mathrm{max}},\\
-                    M(r_{\textrm{max}}) & \text{if } r \geq r_{\mathrm{max}}.
-                \end{cases}
-            \end{equation*}
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. For 
+        :math:`r >= R`, being :math:`R` the radial size of the halo, this function takes a constant value that is the mass 
+        of the self-gravtiating system.
         
         Parameters
         ----------
@@ -375,6 +357,26 @@ class Rar:
         -------
         ndarray
             Enclosed mass at r
+            
+        Notes
+        -----
+        Setting:
+        
+        .. math::
+            \begin{equation}
+                M(r) = \int_{0}^{r}4\pi r'^{\ 2}\rho(r')dr',
+            \end{equation}
+            
+        where :math:`{\rho}(r)` is the density of the distribution, the method is defined as a piecewise function of 2 parts, whose expression is:
+        
+        .. math::
+            \begin{equation}
+                mass(r)=
+                    \begin{cases}
+                        M(r) & \text{if } r < r_{\mathrm{max}},\\
+                        M(r_{\textrm{max}}) & \text{if } r \geq r_{\mathrm{max}}.
+                    \end{cases}
+            \end{equation}
         """
         
         r_max = self.r[-1]
