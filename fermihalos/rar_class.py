@@ -372,8 +372,8 @@ class Rar:
         
             mass(r)=
                 \\begin{cases}
-                    M(r) & \text{if } r < r_{\mathrm{max}},\\
-                    M(r_{\textrm{max}}) & \text{if } r \geq r_{\mathrm{max}}.
+                    M(r) & \\text{if } r < r_{\mathrm{max}},\\\\
+                    M(r_{\mathrm{max}}) & \\text{if } r \geq r_{\mathrm{max}}.
                 \\end{cases}
         """
         
