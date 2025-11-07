@@ -79,7 +79,6 @@ class Rar:
         
     Attributes
     ----------
-
     All the following attributes are *boolean instance attributes* and *set up instance attributes*. They must be accessed as: ``self.attribute``.
 
     - ``dens_func``: Boolean variable that enables the computation of the density profile of the distribution. The default value is ``False``.
