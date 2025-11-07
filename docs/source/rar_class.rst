@@ -3,6 +3,6 @@
 Rar class
 =========
 
-.. autoclass:: Rar
+.. autoclass:: fermihalos.Rar
 
-.. automethod:: mass
+.. automethod:: fermihalos.Rar.mass
