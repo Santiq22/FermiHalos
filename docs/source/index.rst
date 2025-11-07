@@ -6,9 +6,7 @@
 FermiHalos documentation
 ========================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+This package contains the code needed to solve the extended RAR model's equations modeling fermionic dark matter halos.
 
 
 .. toctree::

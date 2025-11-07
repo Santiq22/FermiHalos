@@ -4,7 +4,7 @@ Installation instructions
 Dependencies
 ------------
 
-The ``fermihalos`` package requires the use of `NumPy <https://numpy.org/>` and `SciPy <https://scipy.org/>` for its correct functionality.
+The ``fermihalos`` package requires the use of `NumPy <https://numpy.org/>`_ and `SciPy <https://scipy.org/>`_ for its correct functionality.
 
 Installation
 ------------
@@ -16,7 +16,7 @@ Using ``pip``
 
 To install ``fermihalos`` using the ``pip`` package manager simply run:
 
-.. code_block:: bash
+.. code_block:: shell
 
     pip install fermihalos
 
@@ -27,7 +27,7 @@ Using ``conda``
 
 To install ``fermihalos`` using the ``conda`` package manager simply run:
 
-.. code_block:: bash
+.. code_block:: shell
 
     conda install fermihalos
 
@@ -38,20 +38,20 @@ Using the setup.py
 
 In case a manual installation is required, the first step is to clone the GitHub repository to the installation folder:
 
-.. code_block:: bash
+.. code_block:: shell
 
     git clone https://github.com/Santiq22/FermiHalos.git
 
 Then, since it is needed to have ``setuptools`` installed, it is recomended to have it updated. To do this, run:
 
-.. code_block:: bash
+.. code_block:: shell
 
     python -m pip install --upgrade setuptools
 
 Then, to install the package in your computer, run on the root directory of the cloned repository:
 
-.. code_block:: bash
+.. code_block:: shell
 
     python setup.py install
 
-This command will install the package and its required dependencies into the corresponding Python environment. The package will then be available for import and use. For more details on how to clone a GitHub repository or how to install a python package see `Cloning a repository <https://docs.github.com/es/repositories/creating-and-managing-repositories/cloning-a-repository>` and `Setuptools Documentation <https://setuptools.pypa.io/en/latest/index.html>`.
+This command will install the package and its required dependencies into the corresponding Python environment. The package will then be available for import and use. For more details on how to clone a GitHub repository or how to install a python package see `Cloning a repository <https://docs.github.com/es/repositories/creating-and-managing-repositories/cloning-a-repository>`_ and `Setuptools Documentation <https://setuptools.pypa.io/en/latest/index.html>`_.

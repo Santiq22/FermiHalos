@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This package contains the code needed to solve the extended RAR model's equations modeling fermionic dark matter halos.
+
 
 Content
 -------
