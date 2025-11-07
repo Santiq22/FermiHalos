@@ -104,7 +104,8 @@ class Rar:
 
         In addition, there are some instance attributes representing physical quantities, which are:
 
-        DM_mass [:math:`keV/c^{2}`]: Dark matter particle mass.
+        DM_mass: float
+            Dark matter particle mass in :math:`keV/c^{2}`.
         theta_0: Degeneracy parameter :math:`\\theta_{0}` of the system.
         W_0: Cutoff parameter :math:`W_{0}` of the system.
         beta_0: Temperature parameter :math:`\\beta_{0}` of the system.
