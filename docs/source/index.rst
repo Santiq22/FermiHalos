@@ -20,3 +20,5 @@ Visit the GitHub repo here: `FermiHalos <https://github.com/Santiq22/FermiHalos>
    rar_class.rst
    quick_start.rst
    example_of_use.rst
+   contributing.rst
+   license.rst

@@ -4,6 +4,7 @@ Example of use
 There are plenty of aplications where a RAR dark matter halo can play a role (see the main paper for further details). Here we show a classical application of galactic dynamics, the fitting of a rotation curve.
 
 .. code-block:: python
+    
     # =============================== Packages =================================== #
     import numpy as np
     from scipy.optimize import differential_evolution
