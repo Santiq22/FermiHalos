@@ -363,13 +363,15 @@ class Rar:
         Setting:
         
         .. math::
+        
             \begin{equation}
                 M(r) = \int_{0}^{r}4\pi r'^{\ 2}\rho(r')dr',
             \end{equation}
             
-        where :math:`{\rho}(r)` is the density of the distribution, the method is defined as a piecewise function of 2 parts, whose expression is:
+        where :math:`{\\rho}(r)` is the density of the distribution, the method is defined as a piecewise function of 2 parts, whose expression is:
         
         .. math::
+        
             \begin{equation}
                 mass(r)=
                     \begin{cases}
