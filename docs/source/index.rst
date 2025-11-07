@@ -8,7 +8,7 @@ FermiHalos
 
 This package contains the code needed to solve the extended RAR model's equations modeling fermionic dark matter halos.
 
-Visit the GitHub repo here: `<FermiHalos https://github.com/Santiq22/FermiHalos>`_
+Visit the GitHub repo here: `FermiHalos <https://github.com/Santiq22/FermiHalos>`_
 
 .. toctree::
    :numbered:
@@ -18,3 +18,5 @@ Visit the GitHub repo here: `<FermiHalos https://github.com/Santiq22/FermiHalos>
    installation.rst
    intro.rst
    rar_class.rst
+   quick_start.rst
+   example_of_use.rst

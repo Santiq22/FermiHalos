@@ -303,7 +303,7 @@ To use the program, it has to be instantiated a `Rar` object as indicated at the
 >>> from fermihalos import Rar
 ```
 
-Then, by setting up the 4 free parameters of the model and the boolean flags to allow for the computation of different astrophysical quantities, the differential equations are integrated during the instance of the  `Rar` object and the methods are ready to use.
+Then, by setting up the 4 free parameters of the model and the boolean flags to allow for the computation of different astrophysical quantities, the differential equations are integrated during the instance of the `Rar` object and the methods are ready to use.
 
 ```python
 >>> import numpy as np
