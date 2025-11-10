@@ -856,10 +856,11 @@ class Rar:
         
         .. math::
         
-            \\begin{cases}
-                W(r) = \\frac{1 + \\beta_{0}W_{0} - e^{(\\nu(r) - \\nu_{0})/2}}{\\beta_{0}}  & \\text{if } r < R,\\\\
-                0 & \\text{if } r \geq R,
-            \\end{cases}
+            theta(r)=
+                \\begin{cases}
+                    W(r) = \\frac{1 + \\beta_{0}W_{0} - e^{(\\nu(r) - \\nu_{0})/2}}{\\beta_{0}}  & \\text{if } r < R,\\\\
+                    0 & \\text{if } r \geq R,
+                \\end{cases}
         
         where :math:`\\nu(r)` is the :ref:`metric potential <metric-potential-function>`, :math:`W_{0}` is the cut-off
         parameter, :math:`\\beta_{0}` is the temperature parameter, and :math:`\\nu_{0}` is the value of the metric 
