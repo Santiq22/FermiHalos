@@ -164,8 +164,8 @@ class Rar:
         Array of values of the temperature function at the radius given in ``r``. The units are :math:`K`.
         it is only available if ``chemical_func``, ``cutoff_func`` or ``temperature_func`` is ``True``.
         
-    See also
-    --------
+    Notes
+    -----
     For more details see `README <https://github.com/Santiq22/FermiHalos/README.md>`_.
     """
     
