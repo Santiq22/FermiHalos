@@ -386,7 +386,7 @@ class Rar:
         
         This function computes the enclosed mass profile of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. For 
-        :math:`r >= R`, being :math:`R` the radial size of the halo, this function takes a constant value that is the mass 
+        :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is the mass 
         of the self-gravtiating system.
         
         Parameters
@@ -429,7 +429,7 @@ class Rar:
         
         This function computes the density profile of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
-        For :math:`r >= R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0.
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0.
         
         Parameters
         ----------
@@ -444,7 +444,7 @@ class Rar:
         Raises
         ------
         NameError
-            If self.dens_func is False
+            If ``self.dens_func`` is False
             
         Notes
         -----
@@ -452,7 +452,7 @@ class Rar:
         
         .. math::
             
-            \\rho(r) = \\frac{2m}{h^{3}}\int f_{\mathrm{RAR}}\left(\epsilon(\vec{p}),r\right) \left(1+\frac{\epsilon(\vec{p})}{mc^{2}} \right) d^{3}p,
+            \\rho(r) = \\frac{2m}{h^{3}}\int f_{\mathrm{RAR}}\\left(\epsilon(\\vec{p}),r\\right) \\left(1+\\frac{\epsilon(\\vec{p})}{mc^{2}} \\right) d^{3}p,
         
         where :math:`c` is the speed of light, :math:`h` is the Planck's constant, :math:`m` is the dark matter particle mass, 
         :math:`f_{\mathrm{RAR}}` is the coarse-grained distribution function characterising the fermionic model (see references below), 
