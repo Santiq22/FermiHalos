@@ -65,7 +65,7 @@ In addition, there are some instance attributes representing physical quantities
 - `r` [$`kpc`$]: Array of the radius where the solution was computed. It is a numpy ndarray of shape (n,). Available by default.
 - `m` [$`M_{\odot}`$]: Array of enclosed masses at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
 - `nu`: Array of metric potentials (dimensionless) at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default.
-- `N`: Array of enclosed particle numbers at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default. 
+- `N`: Array of enclosed particles number at the radius given in `r`. It is a numpy ndarray of shape (n,). Available by default. 
 - `nu_0`: Value of the metric potential at the center of the distribution, $\nu_{0}$. Available by default.
 - `P` [$`M_{\odot}/(kpc\ s^{2})`$]: Array of pressures at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `press_func` is `True`.
 - `n` [$`kpc^{-3}`$]: Array of particle number densities at the radius given in `r`. It is a numpy ndarray of shape (n,). Only available if `n_func` is `True`.
