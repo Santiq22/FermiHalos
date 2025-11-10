@@ -415,8 +415,8 @@ class Rar:
         
             mass(r)=
                 \\begin{cases}
-                    M(r) & \\text{if } r < r_{\mathrm{max}},\\\\
-                    M(r_{\mathrm{max}}) & \\text{if } r \geq r_{\mathrm{max}}.
+                    M(r) & \\text{if } r < R,\\\\
+                    M(r_{\mathrm{max}}) & \\text{if } r \geq R.
                 \\end{cases}
         """
         
@@ -468,8 +468,8 @@ class Rar:
         
             density(r)=
                 \\begin{cases}
-                    \\rho(r) & \\text{if } r < r_{\mathrm{max}},\\\\
-                    0 & \\text{if } r \geq r_{\mathrm{max}}.
+                    \\rho(r) & \\text{if } r < R,\\\\
+                    0 & \\text{if } r \geq R.
                 \\end{cases}
         """
         
@@ -566,8 +566,8 @@ class Rar:
         
             particle\_number(r)=
                 \\begin{cases}
-                    N(r) & \\text{if } r < r_{\mathrm{max}},\\\\
-                    N(r_{\mathrm{max}}) & \\text{if } r \geq r_{\mathrm{max}}.
+                    N(r) & \\text{if } r < R,\\\\
+                    N(r_{\mathrm{max}}) & \\text{if } r \geq R.
                 \end{cases}
         """
         
@@ -612,8 +612,8 @@ class Rar:
         
             lambda\_potential(r)=
                 \\begin{cases}
-                    -\mathrm{ln}\\left[1 - \\frac{2GM(r)}{c^{2}r}\\right] & \\text{if } r < r_{\mathrm{max}},\\\\
-                    -\mathrm{ln}\\left[1 - \\frac{2GM(r_{\\textrm{max}})}{c^{2}r}\\right] & \\text{if } r \geq r_{\mathrm{max}},
+                    -\mathrm{ln}\\left[1 - \\frac{2GM(r)}{c^{2}r}\\right] & \\text{if } r < R,\\\\
+                    -\mathrm{ln}\\left[1 - \\frac{2GM(r_{\\textrm{max}})}{c^{2}r}\\right] & \\text{if } r \geq R,
                 \\end{cases}
                 
         where :math:`M(r)` is the :ref:`enclosed mass <mass-function>` and :math:`P(r)` is the :ref:`pressure <pressure-function>`
@@ -669,8 +669,8 @@ class Rar:
         
             pressure(r)=
                 \\begin{cases}
-                    P(r) & \\text{if } r < r_{\mathrm{max}},\\\\
-                    0 & \\text{if } r \geq r_{\mathrm{max}}.
+                    P(r) & \\text{if } r < R,\\\\
+                    0 & \\text{if } r \geq R.
                 \end{cases}
         """
         
@@ -716,8 +716,8 @@ class Rar:
         
             n(r)=
                 \\begin{cases}
-                    \\frac{1}{h^{3}}\int f_{\mathrm{RAR}}(\epsilon(\\vec{p}), r)d^{3}p & \\text{if } r < r_{\mathrm{max}},\\\\
-                    0 & \\text{if } r \geq r_{\mathrm{max}},
+                    \\frac{1}{h^{3}}\int f_{\mathrm{RAR}}(\epsilon(\\vec{p}), r)d^{3}p & \\text{if } r < R,\\\\
+                    0 & \\text{if } r \geq R,
                 \\end{cases}
 
         where :math:`h` is the Planck's constant, :math:`f_{\mathrm{RAR}}` is the coarse-grained distribution function that characterizes 
@@ -761,8 +761,8 @@ class Rar:
         
             circular\_velocity(r)=
                 \\begin{cases}
-                    \sqrt{\\frac{1}{2}c^{2}\\left[\\left(\\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\\right)\\left(1 - \\frac{2GM(r)}{c^{2}r}\\right)^{-1} - 1\\right]} & \\text{if } r < r_{\mathrm{max}},\\\\
-                    \sqrt{\\frac{1}{2}c^{2}\\left[\\left(\\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\\right)\\left(1 - \\frac{2GM(r_{\mathrm{max}})}{c^{2}r}\\right)^{-1} - 1\\right]} & \\text{if } r \geq r_{\mathrm{max}},
+                    \sqrt{\\frac{1}{2}c^{2}\\left[\\left(\\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\\right)\\left(1 - \\frac{2GM(r)}{c^{2}r}\\right)^{-1} - 1\\right]} & \\text{if } r < R,\\\\
+                    \sqrt{\\frac{1}{2}c^{2}\\left[\\left(\\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\\right)\\left(1 - \\frac{2GM(r_{\mathrm{max}})}{c^{2}r}\\right)^{-1} - 1\\right]} & \\text{if } r \geq R,
                 \end{cases}
                 
         where :math:`c` is the speed of light, :math:`G` is the Newtonian gravitational constant, :math:`P(r)` is the 
@@ -809,12 +809,11 @@ class Rar:
         The expression defining the gravitational field is:
         
         .. math::
-        
 
             acceleration(x, y, z)=
                 \\begin{cases}
-                    -\\frac{GM(r)}{r^{3}}\\vec{r} & \\text{if } r < r_{\mathrm{max}},\\\\
-                    -\\frac{GM(r_{\mathrm{max}})}{r^{3}}\\vec{r} & \\text{if } r \geq r_{\mathrm{max}},
+                    -\\frac{GM(r)}{r^{3}}\\vec{r} & \\text{if } r < R,\\\\
+                    -\\frac{GM(r_{\mathrm{max}})}{r^{3}}\\vec{r} & \\text{if } r \geq R,
                 \end{cases}
                 
         where :math:`\\vec{r} = (x, y, z)`, :math:`r = ||\\vec{r}||`, :math:`G` is the Newtonian gravitational constant, and
@@ -857,7 +856,10 @@ class Rar:
         
         .. math::
         
-            W(r) = \\frac{1 + \\beta_{0}W_{0} - e^{(\\nu(r) - \\nu_{0})/2}}{\\beta_{0}}.
+            \\begin{cases}
+                W(r) = \\frac{1 + \\beta_{0}W_{0} - e^{(\\nu(r) - \\nu_{0})/2}}{\\beta_{0}}  & \\text{if } r < R,\\\\
+                0 & \\text{if } r \geq R,
+            \\end{cases}
         
         where :math:`\\nu(r)` is the :ref:`metric potential <metric-potential-function>`, :math:`W_{0}` is the cut-off
         parameter, :math:`\\beta_{0}` is the temperature parameter, and :math:`\\nu_{0}` is the value of the metric 
