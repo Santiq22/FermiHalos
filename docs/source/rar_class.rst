@@ -8,3 +8,5 @@ Rar class
 .. automethod:: fermihalos.Rar.mass
 
 .. automethod:: fermihalos.Rar.density
+
+.. automethod:: fermihalos.Rar.metric_potential

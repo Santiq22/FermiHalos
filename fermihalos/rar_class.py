@@ -407,7 +407,7 @@ class Rar:
         
             M(r) = \int_{0}^{r}4\pi r'^{\ 2}\\rho(r')dr',
             
-        where :math:`\\rho(r)` is the density of the distribution, the method is defined as a piecewise function of 2 parts, whose expression is:
+        where :math:`\\rho(r)` is the :ref:`density of the distribution <density-function>`, the method is defined as a piecewise function of 2 parts, whose expression is:
         
         .. math::
         
@@ -425,11 +425,14 @@ class Rar:
     def density(self, 
                 r: float | np.ndarray) -> np.ndarray:
         """
+        .. _density-function:
+        
         Density profile in :math:`M_{\odot}/kpc^{3}`.
         
         This function computes the density profile of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`.
         For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0.
+        This is due to the cut-off behaviour that naturaly has the model at the edge of the system.
         
         Parameters
         ----------
@@ -444,7 +447,7 @@ class Rar:
         Raises
         ------
         NameError
-            If ``self.dens_func`` is False
+            If ``self.dens_func`` is ``False``
             
         Notes
         -----
@@ -455,7 +458,7 @@ class Rar:
             \\rho(r) = \\frac{2m}{h^{3}}\int f_{\mathrm{RAR}}\\left(\epsilon(\\vec{p}),r\\right) \\left(1+\\frac{\epsilon(\\vec{p})}{mc^{2}} \\right) d^{3}p,
         
         where :math:`c` is the speed of light, :math:`h` is the Planck's constant, :math:`m` is the dark matter particle mass, 
-        :math:`f_{\mathrm{RAR}}` is the coarse-grained distribution function characterising the fermionic model (see references below), 
+        :math:`f_{\mathrm{RAR}}` is the coarse-grained distribution function characterising the fermionic model, 
         and :math:`\epsilon` is the relativistic energy of a dark matter particle without its rest mass, the method is defined as a 
         piecewise function of 2 parts, whose expression is:
         
@@ -477,12 +480,12 @@ class Rar:
     def metric_potential(self, 
                          r: float | np.ndarray) -> np.ndarray:
         """
-        Metric potential. 
+        Metric potential (dimensionless). 
         
         This function computes the metric potential of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes the form of -lambda_potential(r), as imposed by the 
-        continuity condition of the metric potential.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes the form of 
+        ``-lambda_potential(r)``, as imposed by the continuity condition of the metric potential.
         
         Parameters
         ----------
@@ -497,7 +500,17 @@ class Rar:
         Raises
         ------
         NameError
-            If self.nu_func is False
+            If ``self.nu_func`` is ``False``
+            
+        Notes
+        -----
+        This function has no analytical expresion. Instead, it is the solution of the differential equation:
+        
+        .. math::
+        
+            \\frac{d\\nu(r)}{dr} = \\frac{1}{r}\\left[\\left(1-\\frac{2GM(r)}{c^{2}r}\\right)^{-1}\\left(\\frac{8\pi G}{c^{4}}P(r)r^{2}+1\\right)-1\\right],
+        
+        where :math:`P(r)` is the pressure of the system.
         """
         
         if not self.nu_func:
