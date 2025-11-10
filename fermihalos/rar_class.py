@@ -628,7 +628,7 @@ class Rar:
         """
         .. _pressure-function:
         
-        Pressure profile in :math:`M_{\odot}/(kpc\ s^{2})`
+        Pressure profile in :math:`M_{\odot}/(kpc\ s^{2})`.
         
         This function computes the pressure profile of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
@@ -683,11 +683,13 @@ class Rar:
         """
         .. _particle-number-density-function:
         
-        Particle number density. 
+        Particle number density in :math:`kpc^{-3}`.
         
-        This function computes the particle number density of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0.
+        This function computes the particle number density of the fermionic dark matter distribution which 
+        is the solution of the differential equations for the given free parameters of the model. It is 
+        defined for every :math:`r > 0`. For :math:`r \geq R`, being :math:`R` the radial size of the halo, 
+        this function takes a constant value that is 0, as expected outside the system where there are no
+        presence of particles.
         
         Parameters
         ----------
@@ -696,13 +698,28 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Particle number density at r
             
         Raises
         ------
         NameError
-            If self.n_func is False
+            If ``self.n_func`` is ``False``
+            
+        Notes
+        -----
+        The expression defining this quantity is:
+        
+        .. math::
+        
+            n(r)=
+                \\begin{cases}
+                    \\frac{1}{h^{3}}\int f_{\mathrm{RAR}}(\epsilon(\\vec{p}), r)d^{3}p & \\text{if } r < r_{\mathrm{max}},\\\\
+                    0 & \\text{if } r \geq r_{\mathrm{max}},
+                \\end{cases}
+
+        where :math:`h` is the Planck's constant, :math:`f_{\mathrm{RAR}}` is the coarse-grained distribution function that characterizes 
+        the fermionic model, and :math:`\epsilon` is the relativistic energy of a dark matter particle without its rest mass.
         """
         
         if not self.n_func:

@@ -15,4 +15,6 @@ Rar class
 
 .. automethod:: fermihalos.Rar.lambda_potential
 
-.. automethod:: fermihalos.Rar.pressure    
+.. automethod:: fermihalos.Rar.pressure
+
+.. automethod:: fermihalos.Rar.n    
