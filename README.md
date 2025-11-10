@@ -103,7 +103,7 @@ It takes a number or a numpy ndarray of shape (n,) as input (spherical radius) a
     \rho(r) = \frac{2m}{h^{3}}\int f_{\mathrm{RAR}}\left(\epsilon(\vec{p}),r\right) \left(1+\frac{\epsilon(\vec{p})}{mc^{2}} \right) d^{3}p,
 \end{equation*}
 ```
-where $c$ is the speed of light, $h$ is the Planck's constant, $m$ is the dark matter particle mass $f_{\mathrm{RAR}}$ is the coarse-grained distribution function characterising the fermionic model (see references below), and $\epsilon$ is the relativistic energy of a dark matter particle without its rest mass, the method is defined as a piecewise function of 2 parts, whose expression is:
+where $c$ is the speed of light, $h$ is the Planck's constant, $m$ is the dark matter particle mass, $f_{\mathrm{RAR}}$ is the coarse-grained distribution function characterising the fermionic model (see references below), and $\epsilon$ is the relativistic energy of a dark matter particle without its rest mass, the method is defined as a piecewise function of 2 parts, whose expression is:
 ```math
 \begin{equation*}
   density(r)=

@@ -6,3 +6,5 @@ Rar class
 .. autoclass:: fermihalos.Rar
 
 .. automethod:: fermihalos.Rar.mass
+
+.. automethod:: fermihalos.Rar.density

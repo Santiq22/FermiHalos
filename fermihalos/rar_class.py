@@ -425,11 +425,11 @@ class Rar:
     def density(self, 
                 r: float | np.ndarray) -> np.ndarray:
         """
-        Density profile. 
+        Density profile in :math:`M_{\odot}/kpc^{3}`.
         
         This function computes the density profile of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r >= R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0.
         
         Parameters
         ----------
@@ -445,6 +445,27 @@ class Rar:
         ------
         NameError
             If self.dens_func is False
+            
+        Notes
+        -----
+        Setting:
+        
+        .. math::
+            
+            \\rho(r) = \\frac{2m}{h^{3}}\int f_{\mathrm{RAR}}\left(\epsilon(\vec{p}),r\right) \left(1+\frac{\epsilon(\vec{p})}{mc^{2}} \right) d^{3}p,
+        
+        where :math:`c` is the speed of light, :math:`h` is the Planck's constant, :math:`m` is the dark matter particle mass, 
+        :math:`f_{\mathrm{RAR}}` is the coarse-grained distribution function characterising the fermionic model (see references below), 
+        and :math:`\epsilon` is the relativistic energy of a dark matter particle without its rest mass, the method is defined as a 
+        piecewise function of 2 parts, whose expression is:
+        
+        .. math::
+        
+            density(r)=
+                \\begin{cases}
+                    \\rho(r) & \\text{if } r < r_{\mathrm{max}},\\\\
+                    0 & \\text{if } r \geq r_{\mathrm{max}}.
+                \\end{cases}
         """
         
         if not self.dens_func:
