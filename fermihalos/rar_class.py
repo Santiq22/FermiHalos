@@ -382,6 +382,8 @@ class Rar:
     def mass(self, 
              r: float | np.ndarray) -> np.ndarray:
         """
+        .. _mass-function:
+        
         Enclosed mass profile in :math:`M_{\odot}`.
         
         This function computes the enclosed mass profile of the fermionic dark matter distribution which is the solution 
@@ -407,7 +409,7 @@ class Rar:
         
             M(r) = \int_{0}^{r}4\pi r'^{\ 2}\\rho(r')dr',
             
-        where :math:`\\rho(r)` is the :ref:`density <density-function>` of the distribution, the method is defined as a piecewise function of 2 parts, whose expression is:
+        where :math:`\\rho(r)` is the :ref:`density <density-function>`_ of the distribution, the method is defined as a piecewise function of 2 parts, whose expression is:
         
         .. math::
         
@@ -485,7 +487,7 @@ class Rar:
         This function computes the metric potential of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
         For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes the form of 
-        ```-lambda_potential(r)`` <lambda-potential-function>`, as imposed by the continuity condition of the metric potential.
+        :ref:` ``-lambda_potential(r)`` <lambda-potential-function>`_, as imposed by the continuity condition of the metric potential.
         
         Parameters
         ----------
@@ -510,7 +512,8 @@ class Rar:
         
             \\frac{d\\nu(r)}{dr} = \\frac{1}{r}\\left[\\left(1-\\frac{2GM(r)}{c^{2}r}\\right)^{-1}\\left(\\frac{8\pi G}{c^{4}}P(r)r^{2}+1\\right)-1\\right],
         
-        where :math:`P(r)` is the `pressure <pressure-function>` of the system.
+        where :math:`M(r)` is the :ref:`enclosed mass <mass-function>`_ and :math:`P(r)` is the :ref:`pressure <pressure-function>`_ 
+        of the system.
         """
         
         if not self.nu_func:
@@ -552,8 +555,9 @@ class Rar:
         
             N(r) = \int_{0}^{r}4\pi r'^{\ 2}e^{\\lambda(r')/2}n(r')dr',
          
-        being :math:`n(r)` de `particle number density <particle-number-density-function>`, then the expresion 
-        for the particle number method is:
+        being :math:`\\lambda(r)` the :ref:`lambda potential <lambda-potential-function>`_ and :math:`n(r)` the 
+        :ref:`particle number density <particle-number-density-function>`_, then the expresion for the particle 
+        number method is:
         
         .. math::
         
@@ -576,11 +580,12 @@ class Rar:
         """
         .. _lambda-potential-function:
         
-        Lambda potential. 
+        Lambda potential (dimensionless). 
         
         This function computes the lambda potential of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function depending on the enclosed mass declines as ∝ 1/r.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function depending on the enclosed mass 
+        declines as :math:`\propto 1/r`.
         
         Parameters
         ----------
@@ -589,13 +594,27 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Lambda potential at r
             
         Raises
         ------
         NameError
-            If self.lambda_func is False
+            If ``self.lambda_func`` is ``False``
+            
+        Notes
+        -----
+        The expression defining this function is:
+        .. math::
+        
+            lambda\_potential(r)=
+                \\begin{cases}
+                    -\mathrm{ln}\\left[1 - \\frac{2GM(r)}{c^{2}r}\\right] & \\text{if } r < r_{\mathrm{max}},\\\\
+                    -\mathrm{ln}\\left[1 - \\frac{2GM(r_{\\textrm{max}})}{c^{2}r}\\right] & \\text{if } r \geq r_{\mathrm{max}},
+                \\end{cases}
+                
+        where :math:`M(r)` is the :ref:`enclosed mass <mass-function>`_ and :math:`P(r)` is the :ref:`pressure <pressure-function>`_
+        of the fermionic distribution.
         """
         
         if not self.lambda_func:

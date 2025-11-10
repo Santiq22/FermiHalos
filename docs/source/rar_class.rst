@@ -11,4 +11,6 @@ Rar class
 
 .. automethod:: fermihalos.Rar.metric_potential
 
-.. automethod:: fermihalos.Rar.particle_number    
+.. automethod:: fermihalos.Rar.particle_number
+
+.. automethod:: fermihalos.Rar.lambda_potential    
