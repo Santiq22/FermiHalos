@@ -396,7 +396,7 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Enclosed mass at r
             
         Notes
@@ -407,7 +407,7 @@ class Rar:
         
             M(r) = \int_{0}^{r}4\pi r'^{\ 2}\\rho(r')dr',
             
-        where :math:`\\rho(r)` is the :ref:`density of the distribution <density-function>`, the method is defined as a piecewise function of 2 parts, whose expression is:
+        where :math:`\\rho(r)` is the :ref:`density <density-function>` of the distribution, the method is defined as a piecewise function of 2 parts, whose expression is:
         
         .. math::
         
@@ -441,7 +441,7 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Density at r
             
         Raises
@@ -485,7 +485,7 @@ class Rar:
         This function computes the metric potential of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
         For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes the form of 
-        ``-lambda_potential(r)``, as imposed by the continuity condition of the metric potential.
+        ```-lambda_potential(r)`` <lambda-potential-function>`, as imposed by the continuity condition of the metric potential.
         
         Parameters
         ----------
@@ -494,7 +494,7 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Metric potential at r
             
         Raises
@@ -510,7 +510,7 @@ class Rar:
         
             \\frac{d\\nu(r)}{dr} = \\frac{1}{r}\\left[\\left(1-\\frac{2GM(r)}{c^{2}r}\\right)^{-1}\\left(\\frac{8\pi G}{c^{4}}P(r)r^{2}+1\\right)-1\\right],
         
-        where :math:`P(r)` is the pressure of the system.
+        where :math:`P(r)` is the `pressure <pressure-function>` of the system.
         """
         
         if not self.nu_func:
@@ -522,12 +522,12 @@ class Rar:
     def particle_number(self, 
                         r: float | np.ndarray) -> np.ndarray:
         """
-        Enclosed particle number. 
+        Enclosed particle number (dimensionless).
         
         This function computes the enclosed particle number of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is the number of particles composing
-        the system.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is the 
+        number of particles composing the system.
         
         Parameters
         ----------
@@ -536,13 +536,33 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Enclosed particle number at r
             
         Raises
         ------
         NameError
-            If self.particles_func is False
+            If ``self.particles_func`` is ``False``
+            
+        Notes
+        -----
+        Defining:
+        
+        .. math::
+        
+            N(r) = \int_{0}^{r}4\pi r'^{\ 2}e^{\\lambda(r')/2}n(r')dr',
+         
+        being :math:`n(r)` de `particle number density <particle-number-density-function>`, then the expresion 
+        for the particle number method is:
+        
+        .. math::
+        
+        
+            particle\_number(r)=
+                \\begin{cases}
+                    N(r) & \\text{if } r < r_{\mathrm{max}},\\\\
+                    N(r_{\mathrm{max}}) & \\text{if } r \geq r_{\mathrm{max}}.
+                \end{cases}
         """
         
         if not self.particles_func:
@@ -554,6 +574,8 @@ class Rar:
     def lambda_potential(self, 
                          r: float | np.ndarray) -> np.ndarray:
         """
+        .. _lambda-potential-function:
+        
         Lambda potential. 
         
         This function computes the lambda potential of the fermionic dark matter distribution which is the solution 
@@ -584,6 +606,8 @@ class Rar:
     def pressure(self, 
                  r: float | np.ndarray) -> np.ndarray:
         """
+        .. _pressure-function:
+        
         Pressure profile. 
         
         This function computes the pressure profile of the fermionic dark matter distribution which is the solution 
@@ -615,6 +639,8 @@ class Rar:
     def n(self, 
           r: float | np.ndarray) -> np.ndarray:
         """
+        .. _particle-number-density-function:
+        
         Particle number density. 
         
         This function computes the particle number density of the fermionic dark matter distribution which is the solution 

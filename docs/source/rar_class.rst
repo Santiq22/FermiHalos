@@ -10,3 +10,5 @@ Rar class
 .. automethod:: fermihalos.Rar.density
 
 .. automethod:: fermihalos.Rar.metric_potential
+
+.. automethod:: fermihalos.Rar.particle_number    
