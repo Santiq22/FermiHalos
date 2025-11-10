@@ -487,7 +487,8 @@ class Rar:
         This function computes the metric potential of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
         For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes the form of 
-        :ref:` *-lambda_potential(r)* <lambda-potential-function>`, as imposed by the continuity condition of the metric potential.
+        :math:`-\lambda(r)` the :ref:`lambda potential <lambda-potential-function>`, as imposed by the continuity 
+        condition of the metric potential.
         
         Parameters
         ----------
