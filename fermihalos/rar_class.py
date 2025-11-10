@@ -482,6 +482,8 @@ class Rar:
     def metric_potential(self, 
                          r: float | np.ndarray) -> np.ndarray:
         """
+        .. _metric-potential-function:
+        
         Metric potential (dimensionless). 
         
         This function computes the metric potential of the fermionic dark matter distribution which is the solution 
@@ -781,7 +783,7 @@ class Rar:
         
         This function computes the acceleration field of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for a given position 
-        vector (x, y, z), supposing the origin of the reference system is in the center of the distribution.
+        vector :math:`(x, y, z)`, supposing the origin of the reference system is in the center of the distribution.
         
         Parameters
         ----------
@@ -795,7 +797,7 @@ class Rar:
         Returns
         -------
         out: ndarray of shape (3,)
-            Acceleration field for a given position vector (x, y, z)
+            Acceleration field for a given position vector :math:`(x, y, z)`
             
         Raises
         ------
@@ -816,7 +818,7 @@ class Rar:
                 \end{cases}
                 
         where :math:`\\vec{r} = (x, y, z)`, :math:`r = ||\\vec{r}||`, :math:`G` is the Newtonian gravitational constant, and
-        :math:`M(r)` is the `enclosed mass <mass-function>` of the system.
+        :math:`M(r)` is the :ref:`enclosed mass <mass-function>` of the system.
         """
         
         if not self.accel_func:
@@ -828,11 +830,11 @@ class Rar:
     def theta(self, 
               r: float | np.ndarray) -> np.ndarray:
         """
-        Degeneracy variable. 
+        Degeneracy variable (dimensionless).
         
         This function computes the degeneracy variable of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0.
         
         Parameters
         ----------
@@ -841,13 +843,25 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Degeneracy variable at r
             
         Raises
         ------
         NameError
-            If self.deg_var is False
+            If ``self.deg_var`` is ``False``
+            
+        Notes
+        -----
+        This function has the form:
+        
+        .. math::
+        
+            W(r) = \\frac{1 + \\beta_{0}W_{0} - e^{(\\nu(r) - \\nu_{0})/2}}{\\beta_{0}}.
+        
+        where :math:`\\nu(r)` is the :ref:`metric potential <metric-potential-function>`, :math:`W_{0}` is the cut-off
+        parameter, :math:`\\beta_{0}` is the temperature parameter, and :math:`\\nu_{0}` is the value of the metric 
+        potential at the origin of the distribution fulfilling the continuity condition with the Schwarzschild metric. 
         """
         
         if not self.deg_var:
