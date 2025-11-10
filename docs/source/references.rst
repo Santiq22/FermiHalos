@@ -1,5 +1,5 @@
-Papers of the model
-===================
+List of publications
+====================
 
 2025
 ----

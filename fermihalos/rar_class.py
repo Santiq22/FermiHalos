@@ -628,11 +628,12 @@ class Rar:
         """
         .. _pressure-function:
         
-        Pressure profile. 
+        Pressure profile in :math:`M_{\odot}/(kpc\ s^{2})`
         
         This function computes the pressure profile of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r \geq R`, being R the radial size of the halo, this function takes a constant value that is 0, as 
+        expected outside a distribution, since there is no presence of matter exerting pressure.
         
         Parameters
         ----------
@@ -641,13 +642,34 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Pressure profile at r
             
         Raises
         ------
         NameError
-            If self.press_func is False
+            If ``self.press_func`` is ``False``
+            
+        Notes
+        -----
+        Setting:
+        
+        .. math::
+        
+            P(r) = \\frac{2}{3h^{3}}\int f_{\mathrm{RAR}}\\left(\epsilon(\\vec{p}),r\\right)\epsilon(\\vec{p}) \\frac{1+\epsilon(\\vec{p})/2mc^{2}}{1+\epsilon(\\vec{p})/mc^{2}}\ d^{3}p,
+        
+        where :math:`c` is the speed of light, :math:`h` is the Planck's constant, :math:`m` is the dark matter particle mass, 
+        :math:`f_{\mathrm{RAR}}` is the coarse-grained distribution function characterising the fermionic model, 
+        and :math:`\epsilon` is the relativistic energy of a dark matter particle without its rest mass, the 
+        method is defined as a piecewise function of 2 parts whose expresion is:
+        
+        .. math::
+        
+            pressure(r)=
+                \\begin{cases}
+                    P(r) & \\text{if } r < r_{\mathrm{max}},\\\\
+                    0 & \\text{if } r \geq r_{\mathrm{max}}.
+                \end{cases}
         """
         
         if not self.press_func:
