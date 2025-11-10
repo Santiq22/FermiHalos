@@ -17,4 +17,6 @@ Rar class
 
 .. automethod:: fermihalos.Rar.pressure
 
-.. automethod:: fermihalos.Rar.n    
+.. automethod:: fermihalos.Rar.n
+
+.. automethod:: fermihalos.Rar.circular_velocity    

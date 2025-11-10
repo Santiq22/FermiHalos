@@ -731,10 +731,10 @@ class Rar:
     def circular_velocity(self, 
                           r: float | np.ndarray) -> np.ndarray:
         """
-        Circular velocity profile. 
+        General relativistic expression of the circular velocity profile in :math:`km/s`.
         
         This function computes the circular velocity profile of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`.
         
         Parameters
         ----------
@@ -749,7 +749,22 @@ class Rar:
         Raises
         ------
         NameError
-            If self.circ_vel_func is False
+            If ``self.circ_vel_func`` is ``False``
+            
+        Notes
+        -----
+        The expression defining this function is:
+        
+        .. math::
+        
+            circular\_velocity(r)=
+                \\begin{cases}
+                    \sqrt{\\frac{1}{2}c^{2}\\left[\\left(\\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\\right)\\left(1 - \\frac{2GM(r)}{c^{2}r}\\right)^{-1} - 1\\right]} & \\text{if } r < r_{\mathrm{max}},\\\\
+                    \sqrt{\\frac{1}{2}c^{2}\\left[\\left(\\frac{8\pi G}{c^{4}}P(r)r^{2} + 1\\right)\\left(1 - \\frac{2GM(r_{\mathrm{max}})}{c^{2}r}\\right)^{-1} - 1\\right]} & \\text{if } r \geq r_{\mathrm{max}},
+                \end{cases}
+                
+        where :math:`c` is the speed of light, :math:`G` is the Newtonian gravitational constant, :math:`P(r)` is the 
+        :ref:`pressure <pressure-function>` of the system, and :math:`M(r)` its :ref:`enclosed mass <mass-function>`.
         """
         
         if not self.circ_vel_func:
