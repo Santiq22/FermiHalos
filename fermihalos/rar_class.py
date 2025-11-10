@@ -743,7 +743,7 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Circular velocity profile density at r
             
         Raises
@@ -777,11 +777,11 @@ class Rar:
                      y: float, 
                      z: float) -> np.ndarray:
         """
-        Acceleration field. 
+        Newtonian gravitational field in :math:`(km/s)^{2}\ kpc^{-1}`. 
         
         This function computes the acceleration field of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for a given position 
-        vector (x, y, z).
+        vector (x, y, z), supposing the origin of the reference system is in the center of the distribution.
         
         Parameters
         ----------
@@ -794,13 +794,29 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray of shape (3,)
             Acceleration field for a given position vector (x, y, z)
             
         Raises
         ------
         NameError
-            If self.accel_func is False
+            If ``self.accel_func`` is ``False``
+            
+        Notes
+        -----
+        The expression defining the gravitational field is:
+        
+        .. math::
+        
+
+            acceleration(x, y, z)=
+                \\begin{cases}
+                    -\\frac{GM(r)}{r^{3}}\\vec{r} & \\text{if } r < r_{\mathrm{max}},\\\\
+                    -\\frac{GM(r_{\mathrm{max}})}{r^{3}}\\vec{r} & \\text{if } r \geq r_{\mathrm{max}},
+                \end{cases}
+                
+        where :math:`\\vec{r} = (x, y, z)`, :math:`r = ||\\vec{r}||`, :math:`G` is the Newtonian gravitational constant, and
+        :math:`M(r)` is the `enclosed mass <mass-function>` of the system.
         """
         
         if not self.accel_func:

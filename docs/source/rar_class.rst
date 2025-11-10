@@ -19,4 +19,6 @@ Rar class
 
 .. automethod:: fermihalos.Rar.n
 
-.. automethod:: fermihalos.Rar.circular_velocity    
+.. automethod:: fermihalos.Rar.circular_velocity
+
+.. automethod:: fermihalos.Rar.acceleration    
