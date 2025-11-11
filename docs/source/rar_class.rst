@@ -33,4 +33,6 @@ Rar class
 
 .. automethod:: fermihalos.Rar.e_c
 
-.. automethod:: fermihalos.Rar.T    
+.. automethod:: fermihalos.Rar.T
+
+.. automethod:: fermihalos.Rar.logarithmic_density_slope

@@ -1122,11 +1122,11 @@ class Rar:
     def logarithmic_density_slope(self, 
                                   r: float | np.ndarray) -> np.ndarray:
         """
-        Logarithmic density slope function. 
+        Logarithmic density slope function (dimensionless).
         
         This function computes the logarithmic density slope function of the fermionic dark matter distribution which is the 
-        solution of the differential equations for the given free parameters of the model. It is defined for every r > 0. 
-        Warning: for r >= R, being R the radial size of the halo, this function takes value arbitrarily large.
+        solution of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        **Warning**: for :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes values arbitrarily large.
         
         Parameters
         ----------
@@ -1135,13 +1135,24 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Logarithmic density slope function at r
             
         Raises
         ------
         NameError
-            If self.log_dens_slope_func is False
+            If ``self.log_dens_slope_func`` is ``False``
+            
+        Notes
+        -----
+        This function has the form:
+        
+        .. math::
+        
+            logarithmic\_density\_slope(r) = -\\frac{d\mathrm{ln}\\rho(r)}{d\mathrm{ln}r} = 2 - \\frac{1}{4\pi r\\rho(r)}\\frac{d^{2}M(r)}{dr^{2}}.
+            
+        where :math:`\\rho(r)` is the :ref:`density <density-function>` profile of the distribution and :math:`M(r)` is its 
+        :ref:`enclosed mass <mass-function>`.
         """
         
         if not self.log_dens_slope_func:
