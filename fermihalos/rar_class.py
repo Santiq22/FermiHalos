@@ -1175,13 +1175,24 @@ class Rar:
             
         Returns
         -------
-        tuple(ndarray, ndarray)
-            Core radius and core mass, respectively
+        out: tuple(ndarray, ndarray)
+            Core radius in :math:`kpc` and core mass in :math:`M_{\odot}`, respectively
             
         Raises
         ------
         NameError
-            If self.core_func is False
+            If ``self.core_func`` is ``False``
+            
+        Notes
+        -----
+        The core radius :math:`r_{\mathrm{core}}` is defined as the radius of the first maximum of the circular velocity profile, while the mass
+        of the core is given by the expression:
+        
+        .. math::
+        
+            M_{\mathrm{core}} = M(r_{\mathrm{core}}),
+            
+        where :math:`M(r)` is the `enclosed mass <mass-function>` profile of the system.
         """
         
         if not self.core_func:
