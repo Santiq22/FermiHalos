@@ -991,7 +991,7 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Chemical potential function at r
             
         Raises
@@ -1024,11 +1024,12 @@ class Rar:
     def e_c(self, 
             r: float | np.ndarray) -> np.ndarray:
         """
-        Cutoff energy function. 
+        Cutoff energy function in :math:`keV`.
         
         This function computes the cutoff energy function of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0,
+        as expected outside the system where there are no presence of particles.
         
         Parameters
         ----------
@@ -1037,13 +1038,28 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Cutoff energy function at r
             
         Raises
         ------
         NameError
-            If self.cutoff_func is False
+            If ``self.cutoff_func`` is ``False``
+            
+        Notes
+        -----
+        This function has the form:
+        
+        .. math::
+        
+            e\_c(r) = 
+                \\begin{cases}
+                    k\cdot W(r)\cdot T(r) & \\text{if } r < R,\\\\
+                    0 & \\text{if } r \geq R,                    
+                \\end{cases}
+                
+        where :math:`k` is the Boltzmann's constant, :math:`W(r)` is the :ref:`cut-off variable <W-function>`, and 
+        :math:`T(r)` is the :ref:`temperature profile <temperature-function>`.
         """
         
         if not self.cutoff_func:
