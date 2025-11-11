@@ -858,13 +858,12 @@ class Rar:
         
             theta(r)=
                 \\begin{cases}
-                    W(r) = \\frac{1 + \\beta_{0}W_{0} - e^{(\\nu(r) - \\nu_{0})/2}}{\\beta_{0}}  & \\text{if } r < R,\\\\
+                    \\theta_{0} - W_{0} + W(r) & \\text{if } r < R,\\\\
                     0 & \\text{if } r \geq R,
                 \\end{cases}
         
-        where :math:`\\nu(r)` is the :ref:`metric potential <metric-potential-function>`, :math:`W_{0}` is the cut-off
-        parameter, :math:`\\beta_{0}` is the temperature parameter, and :math:`\\nu_{0}` is the value of the metric 
-        potential at the origin of the distribution fulfilling the continuity condition with the Schwarzschild metric. 
+        where, :math:`\\theta_{0}` is the degeneracy parameter, :math:`W_{0}` is the cut-off parameter, and 
+        :math:`W(r)` is the :ref:`cut-off variable <W-function>.
         """
         
         if not self.deg_var:
@@ -876,11 +875,13 @@ class Rar:
     def W(self, 
           r: float | np.ndarray) -> np.ndarray:
         """
-        Cutoff variable. 
+        .. _W-function:
+        
+        Cutoff variable (dimensionless).
         
         This function computes the cutoff variable of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0.
         
         Parameters
         ----------
@@ -889,13 +890,29 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Cutoff variable at r
             
         Raises
         ------
         NameError
-            If self.cutoff_var is False
+            If ``self.cutoff_var`` is ``False``
+            
+        Notes
+        -----
+        This function has the form:
+        
+        .. math::
+        
+            W(r) = 
+                \\begin{cases}
+                    \\frac{1 + \\beta_{0}W_{0} - e^{(\\nu(r) - \\nu_{0})/2}}{\\beta_{0}} & \\text{if } r < R,\\\\
+                    0 & \\text{if } r \geq R,
+                \\end{cases}
+                
+        where :math:`\\nu(r)` is the :ref:`metric potential <metric-potential-function>`, :math:`W_{0}` is the cut-off
+        parameter, :math:`\\beta_{0}` is the temperature parameter, and :math:`\\nu_{0}` is the value of the metric 
+        potential at the origin of the distribution fulfilling the continuity condition with the Schwarzschild metric.
         """
         
         if not self.cutoff_var:

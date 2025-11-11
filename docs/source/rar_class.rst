@@ -23,4 +23,6 @@ Rar class
 
 .. automethod:: fermihalos.Rar.acceleration
 
-.. automethod:: fermihalos.Rar.theta    
+.. automethod:: fermihalos.Rar.theta
+
+.. automethod:: fermihalos.Rar.W    
