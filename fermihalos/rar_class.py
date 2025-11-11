@@ -733,6 +733,8 @@ class Rar:
     def circular_velocity(self, 
                           r: float | np.ndarray) -> np.ndarray:
         """
+        .. _circular-velocity-function:
+        
         General relativistic expression of the circular velocity profile in :math:`km/s`.
         
         This function computes the circular velocity profile of the fermionic dark matter distribution which is the solution 
@@ -1185,14 +1187,14 @@ class Rar:
             
         Notes
         -----
-        The core radius :math:`r_{\mathrm{core}}` is defined as the radius of the first maximum of the circular velocity profile, while the mass
-        of the core is given by the expression:
+        The core radius :math:`r_{\mathrm{core}}` is defined as the radius of the first maximum of the :ref:`circular velocity <circular-velocity-function>` 
+        profile, while the mass of the core is given by the expression:
         
         .. math::
         
             M_{\mathrm{core}} = M(r_{\mathrm{core}}),
             
-        where :math:`M(r)` is the `enclosed mass <mass-function>` profile of the system.
+        where :math:`M(r)` is the :ref:`enclosed mass <mass-function>` profile of the system.
         """
         
         if not self.core_func:
@@ -1217,7 +1219,7 @@ class Rar:
         
     def plateau(self) -> Tuple[np.ndarray, np.ndarray]:
         """
-        Plateau function. 
+        Plateau function.
         
         This function computes the radius and density of the plateau of the fermionic dark matter distribution which is the 
         solution of the differential equations for the given free parameters of the model. It does so by using an 
@@ -1229,13 +1231,24 @@ class Rar:
             
         Returns
         -------
-        tuple(ndarray, ndarray)
-            Radius and density of the plateau, respectively
+        out: tuple(ndarray, ndarray)
+            Radius in :math:`kpc` and density of the plateau in :math:`M_{\odot}/kpc^{3}`, respectively
             
         Raises
         ------
         NameError
-            If self.plateau_func is False
+            If ``self.plateau_func`` is ``False``
+            
+        Notes
+        -----
+        The plateau radius :math:`r_{\mathrm{plateau}}` is defined as the radius of the minimum of the :ref:`circular velocity <circular-velocity-function>` 
+        profile, while the density of the plateau is given by the expression:
+        
+        .. math::
+        
+            \\rho_{\mathrm{plateau}} = \\rho(r_{\mathrm{plateau}}),
+            
+        where :math:`\\rho(r)` is the :ref:`density <density-function>` profile of the system.
         """
         
         if not self.plateau_func:

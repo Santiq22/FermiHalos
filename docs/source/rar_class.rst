@@ -38,3 +38,5 @@ Rar class
 .. automethod:: fermihalos.Rar.logarithmic_density_slope
 
 .. automethod:: fermihalos.Rar.core
+
+.. automethod:: fermihalos.Rar.plateau
