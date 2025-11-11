@@ -833,7 +833,8 @@ class Rar:
         
         This function computes the degeneracy variable of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
-        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0.
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0,
+        as expected outside the system where there are no presence of particles.
         
         Parameters
         ----------
@@ -863,7 +864,7 @@ class Rar:
                 \\end{cases}
         
         where, :math:`\\theta_{0}` is the degeneracy parameter, :math:`W_{0}` is the cut-off parameter, and 
-        :math:`W(r)` is the :ref:`cut-off variable <W-function>.
+        :math:`W(r)` is the :ref:`cut-off variable <W-function>`.
         """
         
         if not self.deg_var:
@@ -881,7 +882,8 @@ class Rar:
         
         This function computes the cutoff variable of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
-        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0.
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0,
+        as expected outside the system where there are no presence of particles.
         
         Parameters
         ----------
@@ -928,7 +930,7 @@ class Rar:
         
         This function computes the temperature variable of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0.
+        being R the radial size of the halo, this function takes a constant value that is 0, as expected outside the system where there are no presence of particles.
         
         Parameters
         ----------
