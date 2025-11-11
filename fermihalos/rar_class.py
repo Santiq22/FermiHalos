@@ -1126,6 +1126,7 @@ class Rar:
         
         This function computes the logarithmic density slope function of the fermionic dark matter distribution which is the 
         solution of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        
         **Warning**: for :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes values arbitrarily large.
         
         Parameters
@@ -1149,7 +1150,7 @@ class Rar:
         
         .. math::
         
-            logarithmic\_density\_slope(r) = -\\frac{d\mathrm{ln}\\rho(r)}{d\mathrm{ln}r} = 2 - \\frac{1}{4\pi r\\rho(r)}\\frac{d^{2}M(r)}{dr^{2}}.
+            logarithmic\_density\_slope(r) = -\\frac{d\mathrm{ln}\\rho(r)}{d\mathrm{ln}r} = 2 - \\frac{1}{4\pi r\\rho(r)}\\frac{d^{2}M(r)}{dr^{2}},
             
         where :math:`\\rho(r)` is the :ref:`density <density-function>` profile of the distribution and :math:`M(r)` is its 
         :ref:`enclosed mass <mass-function>`.
