@@ -955,9 +955,9 @@ class Rar:
         
         .. math:: 
 
-            \beta(r) = 
+            \\beta(r) = 
                 \\begin{cases}
-                    e^{-(\nu(r) - \nu_{0})/2}\beta_{0} & \\text{if } r < R,\\\\
+                    e^{-(\\nu(r) - \\nu_{0})/2}\\beta_{0} & \\text{if } r < R,\\\\
                     0 & \\text{if } r \geq R,
                 \\end{cases}
                 
