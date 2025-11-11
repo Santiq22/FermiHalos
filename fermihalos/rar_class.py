@@ -829,7 +829,7 @@ class Rar:
     def theta(self, 
               r: float | np.ndarray) -> np.ndarray:
         """
-        .. _degeneracy-function:
+        .. _theta-function:
         
         Degeneracy variable (dimensionless).
         
@@ -929,6 +929,8 @@ class Rar:
     def beta(self, 
              r: float | np.ndarray) -> np.ndarray:
         """
+        .. _beta-function:
+        
         Temperature variable (dimensionless).
         
         This function computes the temperature variable of the fermionic dark matter distribution which is the solution 
@@ -1011,7 +1013,7 @@ class Rar:
                     0 & \\text{if } r \geq R,
                 \\end{cases}
             
-        where :math:`k` is the Boltzmann's constant, :math:`\\theta(r)` is the :ref:`degeneracy variable <degeneracy-function>`,
+        where :math:`k` is the Boltzmann's constant, :math:`\\theta(r)` is the :ref:`degeneracy variable <theta-function>`,
         and :math:`T(r)` is the :ref:`temperature profile <temperature-function>`.
         """
         
@@ -1073,11 +1075,12 @@ class Rar:
         """
         .. _temperature-function:
         
-        Temperature function. 
+        Temperature function in :math:`K`.
         
         This function computes the temperature function of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0, as 
+        expected outside the system where there are no presence of particles.
         
         Parameters
         ----------
@@ -1086,13 +1089,28 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Temperature function at r
             
         Raises
         ------
         NameError
-            If self.temperature_func is False
+            If ``self.temperature_func`` is ``False``
+            
+        Notes
+        -----
+        This function has the form:
+        
+        .. math::
+            
+            T(r) = 
+                \\begin{cases}
+                    \\frac{m c^{2}\\beta(r)}{k} & \\text{if } r < R,\\\\
+                    0 & \\text{if } r \geq R,
+                \\end{cases}
+                
+        where :math:`m` is the dark matter particle mass, :math:`c` is the speed of light, :math:`k` is the Boltzmann's constant, 
+        and :math:`\\beta(r)` is the :ref:`temperature variable <beta-function>`.
         """
         
         if not self.temperature_func:

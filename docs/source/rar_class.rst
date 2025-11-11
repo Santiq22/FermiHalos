@@ -31,4 +31,6 @@ Rar class
 
 .. automethod:: fermihalos.Rar.mu
 
-.. automethod:: fermihalos.Rar.e_c    
+.. automethod:: fermihalos.Rar.e_c
+
+.. automethod:: fermihalos.Rar.T    
