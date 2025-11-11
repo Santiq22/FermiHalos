@@ -829,6 +829,8 @@ class Rar:
     def theta(self, 
               r: float | np.ndarray) -> np.ndarray:
         """
+        .. _degeneracy-function:
+        
         Degeneracy variable (dimensionless).
         
         This function computes the degeneracy variable of the fermionic dark matter distribution which is the solution 
@@ -914,7 +916,7 @@ class Rar:
                 
         where :math:`\\nu(r)` is the :ref:`metric potential <metric-potential-function>`, :math:`W_{0}` is the cut-off
         parameter, :math:`\\beta_{0}` is the temperature parameter, and :math:`\\nu_{0}` is the value of the metric 
-        potential at the origin of the distribution fulfilling the continuity condition with the Schwarzschild metric. 
+        potential at the origin of the distribution fulfilling the continuity condition with the Schwarzschild metric 
         at :math:`R`.
         """
         
@@ -931,7 +933,7 @@ class Rar:
         
         This function computes the temperature variable of the fermionic dark matter distribution which is the solution 
         of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
-        For :math:`r >= R`, being R the radial size of the halo, this function takes a constant value that is 0, as 
+        For :math:`r \geq R`, being R the radial size of the halo, this function takes a constant value that is 0, as 
         expected outside the system where there are no presence of particles.
         
         Parameters
@@ -955,7 +957,7 @@ class Rar:
         
         .. math:: 
 
-            \\beta(r) = 
+            beta(r) = 
                 \\begin{cases}
                     e^{-(\\nu(r) - \\nu_{0})/2}\\beta_{0} & \\text{if } r < R,\\\\
                     0 & \\text{if } r \geq R,
@@ -975,11 +977,12 @@ class Rar:
     def mu(self, 
            r: float | np.ndarray) -> np.ndarray:
         """
-        Chemical potential function. 
+        Chemical potential function in :math:`keV`.
         
         This function computes the chemical potential function of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r \geq R`, being :math:`R` the radial size of the halo, this function takes a constant value that is 0, 
+        as expected outside the system where there are no presence of particles.
         
         Parameters
         ----------
@@ -994,7 +997,22 @@ class Rar:
         Raises
         ------
         NameError
-            If self.chemical_func is False
+            If ``self.chemical_func`` is ``False``
+            
+        Notes
+        -----
+        This function has the form:
+        
+        .. math::
+
+            mu(r) = 
+                \\begin{cases}
+                    k\cdot \\theta(r)\cdot T(r) & \\text{if } r < R,\\\\
+                    0 & \\text{if } r \geq R,
+                \\end{cases}
+            
+        where :math:`k` is the Boltzmann's constant, :math:`\\theta(r)` is the :ref:`degeneracy variable <degeneracy-function>`,
+        and :math:`T(r)` is the :ref:`temperature profile <temperature-function>`.
         """
         
         if not self.chemical_func:
@@ -1037,6 +1055,8 @@ class Rar:
     def T(self, 
           r: float | np.ndarray) -> np.ndarray:
         """
+        .. _temperature-function:
+        
         Temperature function. 
         
         This function computes the temperature function of the fermionic dark matter distribution which is the solution 
