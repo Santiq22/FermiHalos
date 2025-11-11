@@ -51,7 +51,8 @@ List of publications
 
 * 2014
 
-    * 
+    * `On the distribution of dark matter in galaxies: Quantum treatments <https://link.springer.com/article/10.3938/jkps.65.801>`_
+    * `Critical configurations for a system of semidegenerate fermions <https://link.springer.com/article/10.3938/jkps.65.809>`_
 
 * 2013
 
