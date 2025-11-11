@@ -914,7 +914,8 @@ class Rar:
                 
         where :math:`\\nu(r)` is the :ref:`metric potential <metric-potential-function>`, :math:`W_{0}` is the cut-off
         parameter, :math:`\\beta_{0}` is the temperature parameter, and :math:`\\nu_{0}` is the value of the metric 
-        potential at the origin of the distribution fulfilling the continuity condition with the Schwarzschild metric.
+        potential at the origin of the distribution fulfilling the continuity condition with the Schwarzschild metric. 
+        at :math:`R`.
         """
         
         if not self.cutoff_var:
@@ -926,11 +927,12 @@ class Rar:
     def beta(self, 
              r: float | np.ndarray) -> np.ndarray:
         """
-        Temperature variable. 
+        Temperature variable (dimensionless).
         
         This function computes the temperature variable of the fermionic dark matter distribution which is the solution 
-        of the differential equations for the given free parameters of the model. It is defined for every r > 0. For r >= R, 
-        being R the radial size of the halo, this function takes a constant value that is 0, as expected outside the system where there are no presence of particles.
+        of the differential equations for the given free parameters of the model. It is defined for every :math:`r > 0`. 
+        For :math:`r >= R`, being R the radial size of the halo, this function takes a constant value that is 0, as 
+        expected outside the system where there are no presence of particles.
         
         Parameters
         ----------
@@ -939,13 +941,29 @@ class Rar:
             
         Returns
         -------
-        ndarray
+        out: ndarray
             Temperature variable at r
             
         Raises
         ------
         NameError
-            If self.temp_var is False
+            If ``self.temp_var`` is ``False``
+            
+        Notes
+        -----
+        This function has the form:
+        
+        .. math:: 
+
+            \beta(r) = 
+                \\begin{cases}
+                    e^{-(\nu(r) - \nu_{0})/2}\beta_{0} & \\text{if } r < R,\\\\
+                    0 & \\text{if } r \geq R,
+                \\end{cases}
+                
+        where :math:`\\beta_{0}` is the temperature parameter, :math:`\\nu(r)` is the :ref:`metric potential <metric-potential-function>`,
+        and :math:`\\nu_{0}` is the value of the metric potential at the origin of the distribution fulfilling the continuity condition 
+        with the Schwarzschild metric at :math:`R`.
         """
         
         if not self.temp_var:
