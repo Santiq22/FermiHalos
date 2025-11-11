@@ -23,28 +23,29 @@ List of publications
 
 * 2020
 
-    *
+    * `Galactic center constraints on self-interacting sterile neutrinos from fermionic dark matter (“ino”) models <https://doi.org/10.1016/j.dark.2020.100699>`_
+    * `Thermodynamic instabilities in holographic neutron stars at finite temperature <https://iopscience.iop.org/article/10.1088/1361-6382/abb1f5/meta>`_
+    * `Geodesic motion of S2 and G2 as a test of the fermionic dark matter nature of our Galactic core <https://doi.org/10.1051/0004-6361/201935990>`_
+    * `Testing dark matter distributions by neutrino-dark matter interactions <https://link.springer.com/article/10.1140/epjc/s10052-020-7744-x>`_
 
 * 2019
 
-    *
+    * `Can fermionic dark matter mimic supermassive black holes? <https://doi.org/10.1142/S021827181943003X>`_
+    * `Novel constraints on fermionic dark matter from galactic observables II: Galaxy scaling relations <https://doi.org/10.1016/j.dark.2019.100278>`_
 
 * 2018
 
-    *
-
-* 2017
-
-    *
-
-* 2016
-
-    *
+    * `Galactic Constraints on Fermionic Dark Matter <https://link.springer.com/article/10.1134/S1063772918120247>`_
+    * `New constraints on sterile neutrino dark matter from the Galactic Center <https://arxiv.org/abs/1810.05756>`_
+    * `Novel constraints on fermionic dark matter from galactic observables I: The Milky Way <https://doi.org/10.1016/j.dark.2018.07.002>`_
+    * `Fermionic halos at finite temperature in AdS/CFT <https://link.springer.com/article/10.1007/JHEP05(2018)118>`_
+    * `Universal relations with fermionic dark matter <https://doi.org/10.1051/epjconf/201816804015>`_
+    * `Dark matter phase-space density distribution in dwarf spheroidal galaxies <https://doi.org/10.1142/9789813226609_0297>`_
 
 * 2016
 
     * `Strong lensing by fermionic dark matter in galaxies <https://doi.org/10.1103/PhysRevD.94.123004>`_
-    * `The role of self-interacting right-handed neutrinos in galactic structure <https://iopscience.iop.org/article/10.1088/1475-7516/2016/04/038/meta>`
+    * `The role of self-interacting right-handed neutrinos in galactic structure <https://iopscience.iop.org/article/10.1088/1475-7516/2016/04/038/meta>`_
     * `Theoretical evidence of 50 keV fermionic dark matter from galactic observables <https://www.researchgate.net/profile/Carlos-Argueelles-2/publication/304267963_Theoretical_evidence_of_50_keV_fermionic_dark_matter_from_galactic_observables/links/577032ce08ae842225aa45f2/Theoretical-evidence-of-50-keV-fermionic-dark-matter-from-galactic-observables.pdf>`_
 
 * 2015

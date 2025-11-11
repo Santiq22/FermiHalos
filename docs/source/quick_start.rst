@@ -1,7 +1,7 @@
 Quick start
 ===========
 
-To use the program, it has to be instantiated a ``Rar`` object as indicated at the beggining of the documentation. To do so, the ``Rar`` class has to be imported previously as:
+To use the program, it has to be instantiated a ``Rar`` object representing a fermionic dark matter halo. To do so, the ``Rar`` class has to be imported previously as:
 
 .. code-block:: python
 
