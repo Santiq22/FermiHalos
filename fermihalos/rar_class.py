@@ -143,7 +143,7 @@ class Rar:
     P: float ndarray of shape [n,]
         Array of pressures at the radius given in ``r``. The units are :math:`M_{\odot}/(kpc\ s^{2})`. It is 
         only available if ``press_func`` is ``True``.
-    n: float ndarray of shape [n,]
+    density_n: float ndarray of shape [n,]
         Array of particles number densities at the radius given in ``r``. The units are [:math:`kpc^{-3}`]. 
         It is only available if ``n_func`` is ``True``.
     degeneracy_variable: float ndarray of shape [n,]
@@ -233,7 +233,7 @@ class Rar:
         
         # ========================================= Computation of the solutions ======================================== #    
         # Call model to solve the RAR equations. The function model returns ndarrys of shape (n,).
-        self.r, self.m, self.nu, self.N, self.temperature_variable, self.nu_0, self.P, self.n = model(
+        self.r, self.m, self.nu, self.N, self.temperature_variable, self.nu_0, self.P, self.density_n = model(
             param, 
             maximum_r = self.maximum_r, 
             relative_tolerance = self.relative_tolerance, 
@@ -269,7 +269,7 @@ class Rar:
         # --- Particle number density
         if self.n_func:
             # Continous particle number density function. Allows easy computation of derivatives
-            self.__n_spline = InterpolatedUnivariateSpline(self.r, self.n, k = 4)
+            self.__n_spline = InterpolatedUnivariateSpline(self.r, self.density_n, k = 4)
             
         # --- Cutoff variable
         if self.cutoff_var:
