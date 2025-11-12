@@ -3,23 +3,38 @@ List of publications
 
 * 2025
 
-    * 
+    * `The dynamics of S-stars and G-sources orbiting a supermassive compact object made of fermionic dark matter <https://arxiv.org/abs/2510.19087>`_
+    * `Dark Matter Spikes around Schwarzschild Black Holes <https://ui.adsabs.harvard.edu/abs/2025BAAA...66..234C/abstract>`_
+    * `Studying the nature of the relation between the supermassive BH mass and DM halo mass <https://ui.adsabs.harvard.edu/abs/2025BAAA...66..293D/abstract>`_
+    * `Fermionic dark matter spikes: Origin and growth of black hole seeds <https://doi.org/10.1103/9vzr-8yn8>`_
+    * `The Sagittarius stellar stream embedded in a fermionic dark matter halo <https://doi.org/10.1051/0004-6361/202450867>`_
+    * `Thermodynamics of self-gravitating fermions as a robust theory for dark matter halos: Stability analysis applied to the Milky Way <https://arxiv.org/abs/2503.10870>`_
 
 * 2024
 
-    *
+    * `Imaging fermionic dark matter cores at the centre of galaxies <https://doi.org/10.1093/mnras/stae2152>`_
+    * `Modeling the track of the GD-1 stellar stream inside a host with a fermionic dark matter core-halo distribution <https://doi.org/10.1051/0004-6361/202348626>`_
+    * `Accretion discs onto supermassive compact objects: A portal to dark matter physics in active galaxies <https://doi.org/10.1051/0004-6361/202348461>`_
+    * `Baryon-induced Collapse of Dark Matter Cores into Supermassive Black Holes <https://iopscience.iop.org/article/10.3847/2041-8213/ad1490/meta>`_
+    * `La corriente estelar de Sagitario inmersa en un halo de materia oscura fermiónica <https://sedici.unlp.edu.ar/handle/10915/171394>`_
 
 * 2023
 
-    *
+    * `Galaxy Rotation Curve Fitting Using Machine Learning Tools <https://doi.org/10.3390/universe9080372>`_
+    * `On the growth of supermassive black holes formed from the gravitational collapse of fermionic dark matter cores <https://doi.org/10.1093/mnras/stad1380>`_
+    * `Fermionic Dark Matter: Physics, Astrophysics, and Cosmology <https://doi.org/10.3390/universe9040197>`_
+    * `Galaxy Rotation Curves and Universal Scaling Relations: Comparison between Phenomenological and Fermionic Dark Matter Profiles <https://iopscience.iop.org/article/10.3847/1538-4357/acb8bd/meta>`_
+    * `Testing the nature of Sgr A* with the S-2 star orbit data <https://sedici.unlp.edu.ar/handle/10915/164673>`_
 
 * 2022
 
-    *
+    * `What does lie at the Milky Way centre? Insights from the S2-star orbit precession <https://doi.org/10.1093/mnrasl/slab126>`_
+    * `Reshaping our understanding on structure formation with the quantum nature of the dark matter <https://doi.org/10.1142/S0218271822300026>`_
 
 * 2021
 
-    *
+    * `Hinting a dark matter nature of Sgr A* via the S-stars <https://doi.org/10.1093/mnrasl/slab051>`_
+    * `On the formation and stability of fermionic dark matter haloes in a cosmological framework <https://doi.org/10.1093/mnras/staa3986>`_
 
 * 2020
 
