@@ -144,7 +144,7 @@ class Rar:
         Array of pressures at the radius given in ``r``. The units are :math:`M_{\odot}/(kpc\ s^{2})`. It is 
         only available if ``press_func`` is ``True``.
     density_n: float ndarray of shape [n,]
-        Array of particles number densities at the radius given in ``r``. The units are [:math:`kpc^{-3}`]. 
+        Array of particles number densities at the radius given in ``r``. The units are :math:`kpc^{-3}`. 
         It is only available if ``n_func`` is ``True``.
     degeneracy_variable: float ndarray of shape [n,]
         Array of values of the degeneracy variable (dimensionless) at the radius given in ``r``. It is only 
