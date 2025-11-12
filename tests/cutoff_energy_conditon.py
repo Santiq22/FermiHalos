@@ -82,5 +82,5 @@ ax.set_yticklabels([r'-6$\epsilon$', r'-4$\epsilon$', r'-2$\epsilon$', '0',
                     r'2$\epsilon$', r'4$\epsilon$', r'6$\epsilon$'])
 ax.set_xlabel("r [kpc]")
 ax.legend(loc = 'upper left')
-fig.savefig('../figures/cutoff_energy_condition.png', bbox_inches = 'tight')
+#fig.savefig('../figures/cutoff_energy_condition.png', bbox_inches = 'tight')
 # =============================================================================================== #

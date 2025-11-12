@@ -83,5 +83,5 @@ ax.set_yticklabels([r'-8$\epsilon$', r'-6$\epsilon$', r'-4$\epsilon$', r'-2$\eps
                     r'2$\epsilon$', r'4$\epsilon$', r'6$\epsilon$', r'8$\epsilon$'])
 ax.set_xlabel("r [kpc]")
 ax.legend(loc = 'upper left')
-fig.savefig('../figures/tolman_condition.png', bbox_inches = 'tight')
+#fig.savefig('../figures/tolman_condition.png', bbox_inches = 'tight')
 # =============================================================================================== #

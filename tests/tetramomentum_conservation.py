@@ -49,10 +49,6 @@ machine_eps = np.finfo(float).eps                      # Machine epsilon
 # =============================================================================================== #
 
 # ==================================== Solving the RAR model ==================================== #
-"""beta_0 = 1.113903337971913738e-05
-theta_0 = 3.780867927802387385e+01
-W_0 = 6.644915273597560201e+01
-m_DM = 5.480880070125579806e+01                          # keV"""
 theta_0 = 37.765595
 W_0 = 66.34067
 beta_0 = 1.1977342e-05
@@ -98,15 +94,8 @@ ax.axvline(halo.plateau()[0], lw = 3, color = 'violet', ls = '--', label = r'$r_
 ax.axvline(halo.r[-1], lw = 3, color = 'darkblue', ls = '-.', label = r'$r_{\mathrm{max}}$')
 plt.xscale('log')
 ax.set_xlim(1.0e-10, 80.0)
-#ax.set_xlim(1.0e-2, 80.0)
 ax.set_ylim(-2.5e-3, 2.5e-3)
-#ax.set_ylim(-9.0*machine_eps, 9.0*machine_eps)
-#ax.set_yticks([-8.0*machine_eps, -6.0*machine_eps, -4.0*machine_eps, -2.0*machine_eps, 0.0, 
-#               2.0*machine_eps, 4.0*machine_eps, 6.0*machine_eps, 8.0*machine_eps])
-#ax.set_yticklabels([r'-8$\epsilon$', r'-6$\epsilon$', r'-4$\epsilon$', r'-2$\epsilon$', '0', 
-#                    r'2$\epsilon$', r'4$\epsilon$', r'6$\epsilon$', r'8$\epsilon$'])
 ax.set_xlabel("r [kpc]")
-#ax.set_ylabel(r"$\nabla_{\mu} T^{\mu\nu}\ [M_{\odot}\ kpc^{-2}\ s^{-2}]$")
 ax.legend(loc = 'upper left')
-fig.savefig('../figures/tetramomentum_conservation_a_tol_0_100000_points.png', bbox_inches = 'tight')
+#fig.savefig('../figures/tetramomentum_conservation_a_tol_0_100000_points.png', bbox_inches = 'tight')
 # =============================================================================================== #
