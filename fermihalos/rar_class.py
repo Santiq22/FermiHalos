@@ -32,8 +32,8 @@ class Rar:
     Parameters
     ----------
     param: ndarray
-        Array containing the dark matter particle mass, the degeneracy parameter, the cutoff variable and the
-        temperature variable, respectively. 
+        Array containing the dark matter particle mass, the degeneracy parameter, the cutoff parameter and the
+        temperature parameter, respectively. 
     dens_func: bool, optional, default=False
         Flag allowing the computation of the density profile.
     nu_func: bool, optional, default=False
