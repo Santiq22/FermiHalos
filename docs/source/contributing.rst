@@ -7,3 +7,4 @@ In addition, any comment or suggestion to improve the code are welcome to discus
 
 - Santiago Collazo: ``scollazo@fcaglp.unlp.edu.ar``
 - Martín Mestre: ``mmestre@fcaglp.unlp.edu.ar``
+- Carlos Argüelles: ``carguelles@fcaglp.unlp.edu.ar``

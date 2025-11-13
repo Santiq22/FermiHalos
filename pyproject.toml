@@ -14,15 +14,16 @@ authors = [
 license = "MIT"
 license-files = ["LICENSE"]
 keywords = ["astrophysics", "dark matter", "halo", "RAR"]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-  "numpy>=1.22",
+  "numpy>=1.23.5",
   "scipy>=1.15.0"
 ]
 
 [project.urls]
-homepage = "https://github.com/Santiq22/FermiHalos"
-documentation = "https://github.com/Santiq22/FermiHalos/README.md"
+homepage = "https://santiq22.github.io/FermiHalos/"
+documentation = "https://santiq22.github.io/FermiHalos/"
+source = "https://github.com/Santiq22/FermiHalos"
 issues = "https://github.com/Santiq22/FermiHalos/issues"
 
 [tool.setuptools.packages.find]

@@ -5,7 +5,7 @@ with open('README.md', 'r') as file:
 
 setuptools.setup(
     name = "fermihalos",
-    version = "0.1.0.dev",
+    version = "0.1.0",
     author = "RAR collaboration",
     author_email = "scollazo@fcaglp.unlp.edu.ar",
     description = "An extended RAR model for dark matter halo astrophysics.",
@@ -13,8 +13,8 @@ setuptools.setup(
     long_description_content_type = "text/markdown",
     packages = setuptools.find_packages(include = ["fermihalos"]),
     url = "https://github.com/Santiq22/FermiHalos",
-    python_requires = ">=3.9",
-    install_requires = ["numpy", "scipy"],
+    python_requires = ">=3.10",
+    install_requires = ["numpy>=1.23.5", "scipy>=1.15.0"],
     package_data = {"": ["README.md", "LICENSE", "CITATION.bib", "HISTORY.txt", "AUTHORS.txt"]},
     keywords = ["astrophysics", "dark matter", "halo", "RAR"],
     license = "MIT"
