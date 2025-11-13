@@ -1,6 +1,9 @@
 import setuptools
 
-with open('README.md', 'r') as file:
+#with open('README.md', 'r') as file:
+#    long_description = file.read()
+
+with open('pypi-description.md', 'r') as file:
     long_description = file.read()
 
 setuptools.setup(
