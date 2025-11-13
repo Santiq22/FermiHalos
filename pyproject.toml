@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fermihalos"
-version = "0.1.1"
+version = "0.1.2"
 description = "An extended RAR model for dark matter halo astrophysics."
-readme = "README.md"
+readme = "pypi-description.md"
 authors = [
   {name="Santiago Collazo", email="scollazo@fcaglp.unlp.edu.ar"},
   {name="Martín Federico Mestre Citrinovitz", email="mmestre@fcaglp.unlp.edu.ar"}
