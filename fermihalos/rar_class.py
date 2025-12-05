@@ -11,6 +11,7 @@ g_11 = -e^(lambda)
 # ================================================= Packages ==================================================== #
 from fermihalos.model import model
 import numpy as np
+from scipy.integrate import OdeSolver
 from scipy.interpolate import InterpolatedUnivariateSpline
 from scipy.optimize import fminbound
 from typing import Tuple
@@ -76,6 +77,10 @@ class Rar:
         Number of steps used to integrate the density, pressure, and particle number density used to compute the 
         right-hand side of the differential equations. We strongly suggest that the value of `number_of_steps` 
         is greater than the minimum value 2**10 + 1 to ensure precision at the time of computing the solutions.
+    int_method: int or OdeSolver, optional, default='LSODA'
+        Integration method used by the ODE solver. Care has to be taken since the problem is stiff. Recommended 
+        methods are 'LSODA', 'BDF', and 'Radau'. Also, changing the integration method could slow the solution 
+        computation.
         
     Attributes
     ----------
@@ -130,6 +135,8 @@ class Rar:
         number density used to compute the right-hand side of the differential equations. We strongly suggest 
         that the value of ``number_of_steps`` is greater than the minimum value :math:`2^{10} + 1` to ensure 
         precision at the time of computing the solutions.
+    integration_method: int or ``OdeSolver``
+        Variable representing the integration method used by the ODE solver.
     r: float ndarray of shape [n,]
         Array of the radius where the solution was computed in :math:`kpc`.
     m: float ndarray of shape [n,]
@@ -189,7 +196,8 @@ class Rar:
                  plateau_func: bool = False, 
                  maximum_r: float = 1.0e3, 
                  relative_tolerance: float = 5.0e-12, 
-                 number_of_steps: int = 2**10 + 1):
+                 number_of_steps: int = 2**10 + 1,
+                 int_method: str | OdeSolver = 'LSODA'):
         
         # ======================================== Numerical instance attributes ======================================== #
         self.DM_mass = param[0]                              # Dark matter particle mass - keV/c^2
@@ -199,6 +207,7 @@ class Rar:
         self.maximum_r = maximum_r                           # Maximum radii of integration
         self.relative_tolerance = relative_tolerance         # Relative tolerance used to solve the equations
         self.number_of_steps = number_of_steps               # Number of steps of integration used in pressure and density
+        self.int_method = int_method                         # Integration method used by the ODE solver
         # =============================================================================================================== #
         
         # ========================================= Boolean instance attributes ========================================= #
@@ -239,7 +248,8 @@ class Rar:
             relative_tolerance = self.relative_tolerance, 
             number_of_steps = self.number_of_steps, 
             press_func = (self.press_func or self.circ_vel_func or self.core_func or self.plateau_func), 
-            n_func = self.n_func)
+            n_func = self.n_func,
+            int_method=self.int_method)
         
         # Continous mass function. Allows easy computation of derivatives
         self.__mass_spline = InterpolatedUnivariateSpline(self.r, self.m, k = 4)

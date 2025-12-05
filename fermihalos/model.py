@@ -10,7 +10,7 @@ g_11 = -e^(lambda)
 
 # ================================================= Packages ==================================================== #
 import numpy as np
-from scipy.integrate import solve_ivp
+from scipy.integrate import solve_ivp, OdeSolver
 import scipy.integrate as integrate
 from typing import Any, List, Tuple
 # =============================================================================================================== #
@@ -30,7 +30,8 @@ def model(param: np.ndarray,
           relative_tolerance: float, 
           number_of_steps: int, 
           press_func: bool,
-          n_func: bool) -> Tuple[np.ndarray | Any]:
+          n_func: bool,
+          int_method: str | OdeSolver) -> Tuple[np.ndarray | Any]:
     """ 
     Model function. Defines subfunctions needed in the integration of the system of ODEs based
     on the input parameters. The param array is composed by: 
@@ -296,7 +297,7 @@ def model(param: np.ndarray,
     t_f = np.log(max_r/cm2kpc/R)
 
     # Solving the TOV system
-    sol = solve_ivp(tov, [t_0, t_f], u_0, method = 'LSODA', events = (border_density),
+    sol = solve_ivp(tov, [t_0, t_f], u_0, method = int_method, events = (border_density),
                     rtol = relative_tolerance, atol = 0.0)
 
     # Defining physical variables

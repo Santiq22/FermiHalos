@@ -5,7 +5,7 @@ with open('pypi-description.md', 'r') as file:
 
 setuptools.setup(
     name = "fermihalos",
-    version = "0.1.2",
+    version = "0.1.3.dev",
     author = "RAR collaboration",
     author_email = "scollazo@fcaglp.unlp.edu.ar",
     description = "An extended RAR model for dark matter halo astrophysics.",

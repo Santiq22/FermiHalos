@@ -1,6 +1,6 @@
 """
-File: tetramomentum_conservation.py
-Created on 2025-09-10 11:36:21
+File: density_plots.py
+Created on 2025-12-05 12:22:15
 Author: Santiago Collazo
 """
 
@@ -60,47 +60,26 @@ fig, ax = plt.subplots(1, 1, figsize = (6, 6), dpi = 380)
 for method in integration_methods:
     # ==================================== Solving the RAR model ==================================== #
     halo = Rar(np.array([m_DM, theta_0, W_0, beta_0]), 
-            nu_func = True, 
             dens_func = True,
-            press_func = True,
-            core_func = True,
-            plateau_func = True,
             int_method=method)
 
     r = np.logspace(np.log10(halo.r[0]), np.log10(halo.r[-1]), 10**6, endpoint = False)
 
-    # Gradient of metric potential - Accessing using the mangled name
-    dnu_dr = halo._Rar__dnu_dr(r)
-
     # Density and pressure factor
-    rho_P = halo.density(r)*c*c + halo.pressure(r)
+    rho = halo.density(r)
+    # =============================================================================================== #
     
-    # Gradient of pressure - Accessing using the mangled name
-    dP_dr = (halo._Rar__P_spline).derivative(1)
-    dP_dr = dP_dr(r)
-
-    # Definition of left-hand side
-    Q = 0.5*dnu_dr*rho_P/dP_dr + 1.0
-    # =============================================================================================== #
-
-    # =========================================== Prints ============================================ #
-    print(f'r_core_{method} =', halo.core()[0])
-    print(f'm_core_{method} =', halo.core()[1])
-    print(f'r_plat_{method} =', halo.plateau()[0])
-    print(f'rho_plat_{method} =', halo.plateau()[1])
-    # =============================================================================================== #
-
     # ============================================ Plot ============================================= #
-    ax.plot(r, Q, lw = 2, label=method)
+    ax.plot(r, rho, lw = 2, label=method)
     # =============================================================================================== #
-
-ax.axvline(halo.core()[0], lw = 3, color = 'black', label = r'$r_{\mathrm{core}}$')
-ax.axvline(halo.plateau()[0], lw = 3, color = 'violet', ls = '--', label = r'$r_{\mathrm{plateau}}$')
-ax.axvline(halo.r[-1], lw = 3, color = 'darkblue', ls = '-.', label = r'$r_{\mathrm{max}}$')
+    
 plt.xscale('log')
-ax.set_xlim(1.0e-10, 80.0)
-ax.set_ylim(-2.5e-3, 2.5e-3)
+plt.yscale('log')
+#ax.set_xlim(1.0e-10, 80.0)
+ax.set_xlim(1.0e-6, 1.0e-5)
+ax.set_ylim(1.0e12, 1.0e18)
 ax.set_xlabel("r [kpc]")
-ax.legend(loc = 'upper left')
-fig.savefig('../figures/tetramomentum_conservation_diffetent_methods.png', bbox_inches = 'tight')
+ax.set_ylabel(r"$\rho(r)$ $[M_{\odot}/kpc^{3}]$")
+ax.legend(loc = 'upper right')
+fig.savefig('../figures/density_profile_diffetent_methods_zoom_in.png', bbox_inches = 'tight')
 # =============================================================================================== #
