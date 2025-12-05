@@ -15,7 +15,7 @@ halo_object = Rar(parameters, dens_func=False, nu_func=False, particles_func=Fal
                  accel_func=False, deg_var=False, cutoff_var=False, temp_var=False, 
                  chemical_func=False, cutoff_func=False, temperature_func=False, 
                  log_dens_slope_func=False, core_func=False, plateau_func=False, maximum_r=1.0e3, 
-                 relative_tolerance=5.0e-12, number_of_steps=2**10 + 1)
+                 relative_tolerance=5.0e-12, number_of_steps=2**10 + 1, int_method='LSODA')
 ```
 
 where the `parameters` variable is a numpy array object of shape (4,), whose components are (in this order): the dark matter particle mass in $`keV/c^{2}`$, the degeneracy parameter, the cutoff parameter, and the temperature parameter (the last three are dimensionless). The boolean variables are used as flags to compute astrophysical and statistical mechanical variables. To do so, change `False` to `True`. See Rar's attributes section to further details on the variables passed to the Rar class.
@@ -55,6 +55,7 @@ All the following attributes are *boolean instance attributes* and *set up insta
 - `maximum_r`: _(float)_ Maximum radius of integration in $kpc$.
 - `relative_tolerance`: _(float)_ Relative tolerance used by the integrator to solve the equations.
 - `number_of_steps`: _(int)_ Number of steps used to integrate the density and pressure used to compute the right-hand side of the differential equations. We strongly suggest that the value of `number_of_steps` is greater than the minimum value $`2^{10} + 1`$ to ensure precision at the time of computing the solutions.
+- `int_method`: _(str or OdeSolver)_ Integration method used by the ODE solver.
 
 In addition, there are some instance attributes representing physical quantities, which are:
 
