@@ -1284,3 +1284,4 @@ class Rar:
 if __name__ == '__main__':
     p = np.array([200.0, 35.0, 69.0, 1.0e-4])
     halo = Rar(p)
+    print('M(10) = ', halo.mass(10.0))
